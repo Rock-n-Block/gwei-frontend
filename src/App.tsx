@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Header, RouterManager } from 'containers';
+import { Footer, Header, RouterManager } from 'containers';
 
 import WalletConnect from './services/WalletConnect';
 
@@ -11,6 +11,7 @@ const App: FC = () => {
         <div className="page_wrapper">
           <Header />
           <RouterManager />
+          <Footer />
         </div>
       </div>
     </WalletConnect>

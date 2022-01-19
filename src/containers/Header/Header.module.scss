@@ -52,8 +52,14 @@
         }
       }
     }
-  }
 
-  &__control {
+    &_control {
+      button {
+        color: rgba(255, 255, 255, 0.4) !important;
+        &:hover {
+          color: $color-white !important;
+        }
+      }
+    }
   }
 }

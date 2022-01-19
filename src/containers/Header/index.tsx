@@ -76,7 +76,7 @@ const Header: FC = observer(() => {
 
         {showSocials}
 
-        <div className={s.header__control}>
+        <div className={s.header__navbar_control}>
           <Button onClick={connectToWallet} size="sm" color="default">
             ENTER APP
           </Button>

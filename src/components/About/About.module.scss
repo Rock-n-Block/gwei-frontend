@@ -1,0 +1,23 @@
+@import 'src/styles';
+
+.about {
+  @include flex(column, center, center);
+  h1 {
+    font-size: 120px;
+    margin: 140px 0 40px 0;
+    text-align: center;
+  }
+
+  .text {
+    text-align: center;
+  }
+
+  &__buttons {
+    @include flex(center, center);
+    max-width: 60%;
+    margin: 110px auto 0 auto;
+    a {
+      margin-left: 24px;
+    }
+  }
+}

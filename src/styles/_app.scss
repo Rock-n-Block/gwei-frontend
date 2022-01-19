@@ -34,9 +34,11 @@ p {
 
 a {
   text-decoration: none;
-  transition: 0.35s;
 
   color: $color-link;
+
+  transition: 0.35s;
+
   &:hover,
   &:active {
     color: $color-white;
@@ -108,30 +110,33 @@ button {
   }
 }
 
-.section {
+section {
   margin-top: 150px;
 }
 
 .title {
+  margin-bottom: 28px;
+
   font-family: Exodar, sans-serif;
   font-size: 60px;
   font-weight: 400;
   line-height: 1.15;
   text-transform: uppercase;
-  margin-bottom: 28px;
-  color: #32cdef;
   text-shadow: 0 5px 3px rgb(0 0 0 / 95%), 0 4px 54px rgb(34 183 216 / 90%),
     -4px -4px 45px rgb(27 137 235 / 95%), 4px 4px 30px rgb(50 205 239 / 95%);
+
+  color: #32cdef;
 
   span {
     text-shadow: 0 5px 3px rgb(0 0 0 / 95%), 0 4px 54px rgb(216 34 78 / 90%),
       -4px -4px 45px rgb(235 27 39 / 95%), 4px 4px 30px rgb(239 50 73 / 95%);
+
     color: #ef328d;
   }
 }
 
 .text {
-  text-shadow: 0 1px 13px rgba(255, 255, 255, 0.55), 0 4px 44px rgba(255, 255, 255, 0.25);
+  text-shadow: 0 1px 13px rgb(255 255 255 / 55%), 0 4px 44px rgb(255 255 255 / 25%);
 }
 
 .sm {

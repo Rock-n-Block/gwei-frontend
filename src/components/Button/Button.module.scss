@@ -8,8 +8,8 @@ $border-default: gray;
 .button {
   box-sizing: border-box;
   width: fit-content;
+
   font-family: Montserrat, sans-serif;
-  transition: 0.35s;
 
   white-space: nowrap;
   text-decoration: none;
@@ -18,28 +18,29 @@ $border-default: gray;
 
   background-color: transparent;
   border: none;
+
+  transition: 0.35s;
   @include flex(row, center, center, nowrap);
 
   &.default {
-    color: $color-white;
-    background: rgba(255, 255, 255, 0.12);
-    height: 59px;
     width: 180px;
-    filter: drop-shadow(0px 5px 8px rgba(0, 0, 0, 0.28))
-      drop-shadow(0px 20px 64px rgba(255, 72, 72, 0.16));
+    height: 59px;
+
+    color: $color-white;
+    background: rgb(255 255 255 / 12%);
     border-radius: 12px;
+    filter: drop-shadow(0 5px 8px rgb(0 0 0 / 28%)) drop-shadow(0 20px 64px rgb(255 72 72 / 16%));
 
     &:hover,
     &:focus {
       background: $color-pink-gradient;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0px 9px 37px rgba(236, 13, 147, 0.53),
-        0px 1px 0px #a20c5d;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(236 13 147 / 53%), 0 1px 0 #a20c5d;
     }
   }
 
   &.sm {
-    height: 44px;
     width: 124px;
+    height: 44px;
   }
 
   &.md {
@@ -49,18 +50,19 @@ $border-default: gray;
   }
 
   &.filled {
-    color: $color-white;
-    height: 59px;
     width: 180px;
+    height: 59px;
+
+    color: $color-white;
     background: $color-blue-gradient;
     background: linear-gradient(100.26deg, #32cdef 18.91%, #0964ec 136.75%);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0 9px 37px rgba(13, 105, 236, 0.53), 0 1px 0 #0c4ba2;
     border-radius: 12px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(13 105 236 / 53%), 0 1px 0 #0c4ba2;
+
     &:hover,
     &:focus {
       background: linear-gradient(100.26deg, #ef328d 18.91%, #ec0909 136.75%);
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25), 0px 9px 37px rgba(236, 13, 147, 0.53),
-        0px 1px 0px #a20c5d;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(236 13 147 / 53%), 0 1px 0 #a20c5d;
     }
   }
 

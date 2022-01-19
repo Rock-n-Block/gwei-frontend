@@ -4,11 +4,13 @@
   @include flex(row, center, center, nowrap);
 
   &__inner {
-    @include flex(row, space-between, center, nowrap);
+    @include flex(row, center, space-between, nowrap);
+    width: 100%;
 
     &_info {
-      max-width: 500px;
       margin: auto;
+
+      max-width: 500px;
 
       button {
         margin-top: 60px;

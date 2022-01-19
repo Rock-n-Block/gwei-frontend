@@ -1,6 +1,6 @@
-import { About } from 'components';
-import SubmitWallet from 'components/SubmitWallet';
 import { FC } from 'react';
+
+import { About, AboutUs, SubmitWallet } from 'components';
 
 import s from './Home.module.scss';
 
@@ -9,6 +9,7 @@ const Home: FC = () => {
     <div className={s.home_wrapper}>
       <About />
       <SubmitWallet />
+      <AboutUs />
     </div>
   );
 };

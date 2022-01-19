@@ -2,9 +2,11 @@
 
 .about {
   @include flex(column, center, center);
+
   h1 {
+    margin: 140px 0 40px;
+
     font-size: 120px;
-    margin: 140px 0 40px 0;
     text-align: center;
   }
 
@@ -14,8 +16,10 @@
 
   &__buttons {
     @include flex(center, center);
+    margin: 110px auto 0;
+
     max-width: 60%;
-    margin: 110px auto 0 auto;
+
     a {
       margin-left: 24px;
     }

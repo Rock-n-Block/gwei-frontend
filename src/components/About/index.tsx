@@ -1,6 +1,9 @@
-import classnames from 'classnames';
-import { Button } from 'components';
 import { FC } from 'react';
+
+import classnames from 'classnames';
+
+import { Button } from 'components';
+
 import s from './About.module.scss';
 
 const About: FC = () => {

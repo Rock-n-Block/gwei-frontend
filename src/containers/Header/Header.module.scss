@@ -4,6 +4,7 @@
 
 .header {
   margin-top: 41px;
+
   width: 100%;
   @include flex(row, center, space-between, nowrap);
 
@@ -18,6 +19,7 @@
 
       a {
         padding: 5px;
+
         font-size: 20px;
 
         &:hover,
@@ -33,10 +35,11 @@
       &_item {
         width: 36px;
         height: 36px;
-        transition: 0.35s;
 
         background: rgb(255 255 255 / 12%);
         border-radius: 12px;
+
+        transition: 0.35s;
         backdrop-filter: blur(4px);
         @include flex(row, center, center);
 
@@ -56,7 +59,8 @@
 
     &_control {
       button {
-        color: rgba(255, 255, 255, 0.4) !important;
+        color: rgb(255 255 255 / 40%) !important;
+
         &:hover {
           color: $color-white !important;
         }

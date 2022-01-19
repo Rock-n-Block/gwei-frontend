@@ -1,8 +1,12 @@
-import classnames from 'classnames';
-import { Button } from 'components';
 import { FC } from 'react';
-import s from './SubmitWallet.module.scss';
+
+import classnames from 'classnames';
+
+import { Button } from 'components';
+
 import LuckyImg from '../../assets/img/lucky.png';
+
+import s from './SubmitWallet.module.scss';
 
 const SubmitWallet: FC = () => {
   return (

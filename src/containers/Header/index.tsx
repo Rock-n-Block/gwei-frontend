@@ -1,22 +1,37 @@
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 
 import { observer } from 'mobx-react-lite';
 
-import { Button } from 'components';
+import { LogoIcon } from 'components/Icons';
 
-import { useWalletConnectorContext } from 'services';
-import { chainsEnum } from 'types';
+import { socials } from './Header.mock';
 
 import s from './Header.module.scss';
 
 const Header: FC = observer(() => {
-  const { connect } = useWalletConnectorContext();
-  const connectToWallet = useCallback(() => {
-    connect(chainsEnum['Binance-Smart-Chain'], 'MetaMask').catch(() => {});
-  }, [connect]);
   return (
-    <div className={s.header_wrapper}>
-      <Button onClick={connectToWallet}>Connect Wallet</Button>
+    <div className={s.header}>
+      <div className={s.header__navbar}>
+        <a href="/" className={s.header__navbar_logo}>
+          <LogoIcon />
+        </a>
+
+        <nav className={s.header__navbar_nav}>
+          <a href="#home">Home</a>
+          <a href="#calc">Calculate</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#faq">Faq</a>
+          <a href="http://docs.gwei.fi/">Docs</a>
+        </nav>
+
+        <div className={s.header__navbar_socials}>
+          {socials.map(({ href, icon, alt }) => (
+            <a key={alt} href={href} className={s.header__navbar_socials_item}>
+              {icon}
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 });

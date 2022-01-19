@@ -1,3 +1,6 @@
+@import 'theme';
+@import 'fonts';
+
 * {
   box-sizing: border-box;
 }
@@ -11,6 +14,7 @@ body {
   line-height: $line-height-default;
 
   color: black;
+  background: $color-bg;
 
   span,
   div {
@@ -30,6 +34,8 @@ p {
 
 a {
   text-decoration: none;
+
+  color: $color-link;
 }
 
 img {

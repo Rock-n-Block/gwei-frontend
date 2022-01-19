@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@amfi/connect-wallet@^1.1.20":
-  version "1.1.20"
-  resolved "https://registry.yarnpkg.com/@amfi/connect-wallet/-/connect-wallet-1.1.20.tgz#9c929ca62448589c4392b16b227a6eb697ea8e9e"
-  integrity sha512-8KrEFo2TP3+FguHgqc+Pv5+mPEoedmEaXRRhnjN3cyWs+9v2v1Vwh4kjMXRXz+e/jbtbWf1g9ENNvdax23yGQw==
+"@amfi/connect-wallet@^1.1.21":
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/@amfi/connect-wallet/-/connect-wallet-1.1.21.tgz#47e1954302b42de1a1ffa8a7aec3feefd80efb65"
+  integrity sha512-jZUIICHu2B3osGrLooYkxVP0TZXFQWnB3g3Jx4IUIHTXrzmR8TsJU8etdIFrmxKoElNGu3PH/3HBn3EUYH7vHQ==
   dependencies:
     "@walletconnect/web3-provider" "^1.6.6"
     rxjs "~6.6.0"
@@ -5003,6 +5003,11 @@ mkdirp@^0.5.5:
   dependencies:
     minimist "^1.2.5"
 
+mobx-devtools-mst@^0.9.30:
+  version "0.9.30"
+  resolved "https://registry.yarnpkg.com/mobx-devtools-mst/-/mobx-devtools-mst-0.9.30.tgz#0d1cad8b3d97e1f3f94bb9afb701cd9c8b5b164d"
+  integrity sha512-6fIYeFG4xT4syIeKddmK55zQbc3ZZZr/272/cCbfaAAM5YiuFdteGZGUgdsz8wxf/mGxWZbFOM3WmASAnpwrbw==
+
 mobx-react-lite@^3.2.0, mobx-react-lite@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.2.3.tgz#83d2b32ebf4383cd0dc0d397acbf53a8e9c66765"
@@ -7515,7 +7520,7 @@ web3-shh@1.7.0:
     web3-core-subscriptions "1.7.0"
     web3-net "1.7.0"
 
-web3-utils@1.7.0:
+web3-utils@1.7.0, web3-utils@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.7.0.tgz#c59f0fd43b2449357296eb54541810b99b1c771c"
   integrity sha512-O8Tl4Ky40Sp6pe89Olk2FsaUkgHyb5QAXuaKo38ms3CxZZ4d3rPGfjP9DNKGm5+IUgAZBNpF1VmlSmNCqfDI1w==

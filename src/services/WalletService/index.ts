@@ -2,11 +2,21 @@ import { ConnectWallet } from '@amfi/connect-wallet';
 import { IConnect, IError } from '@amfi/connect-wallet/dist/interface';
 import BigNumber from 'bignumber.js/bignumber';
 import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
 
 import { connectWallet as connectWalletConfig, contracts } from 'config';
-import bep20 from 'config/abi/bep20';
+import { bep20Abi, erc20Abi } from 'config/abi';
 
 import { chainsEnum } from 'types';
+
+type TokenAbiType = {
+  [key in chainsEnum]: Array<AbiItem>;
+};
+
+const tokenAbis: TokenAbiType = {
+  'Binance-Smart-Chain': bep20Abi as Array<AbiItem>,
+  'Ethereum': erc20Abi as Array<AbiItem>,
+};
 
 export class WalletService {
   public connectWallet: ConnectWallet;
@@ -15,8 +25,10 @@ export class WalletService {
 
   public contracts: any = {};
 
-  constructor() {
-    this.connectWallet = new ConnectWallet();
+  private currentChain: chainsEnum = chainsEnum.Ethereum;
+
+  constructor(initProvider?: any) {
+    this.connectWallet = new ConnectWallet(initProvider);
   }
 
   public async initWalletConnect(
@@ -29,6 +41,7 @@ export class WalletService {
       const connecting = this.connectWallet
         .connect(provider[providerName], network, settings)
         .then((connected: boolean | {}) => {
+          this.currentChain = chainName;
           return connected;
         })
         .catch((err: any) => {
@@ -49,19 +62,19 @@ export class WalletService {
     return this.connectWallet.currentWeb3();
   }
 
-  public async getTokenBalance(address: string) {
+  public getTokenBalance(address: string): Promise<string> {
     const contract = this.connectWallet.getContract({
       address,
-      abi: bep20 as any[],
+      abi: tokenAbis[this.currentChain],
     });
 
     return contract.methods.balanceOf(this.walletAddress).call();
   }
 
-  public async getTokenDecimals(address: string) {
+  public getTokenDecimals(address: string): Promise<string> {
     const contract = this.connectWallet.getContract({
       address,
-      abi: bep20 as any[],
+      abi: tokenAbis[this.currentChain],
     });
 
     return contract.methods.decimals().call();
@@ -102,7 +115,7 @@ export class WalletService {
   }: {
     method: string;
     data: Array<any>;
-    contract: ''; // ADD CONTRACT NAMES HERE
+    contract: 'BOND';
     tx?: any;
     to?: string;
     walletAddress?: string;
@@ -148,13 +161,11 @@ export class WalletService {
 
   async checkTokenAllowance({
     contractName,
-    tokenDecimals,
     approvedAddress,
     walletAddress,
     amount,
   }: {
     contractName: string;
-    tokenDecimals: number;
     approvedAddress?: string;
     walletAddress?: string;
     amount?: string | number;
@@ -173,11 +184,18 @@ export class WalletService {
         )
         .call();
 
+      const tokenDecimals = await this.getTokenDecimals(
+        contracts.params[contractName][contracts.type].address,
+      );
+
       result =
         result === '0'
           ? null
           : +new BigNumber(result).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
-      return !!(result && new BigNumber(result).minus(amount || 0).isPositive());
+      if (result && new BigNumber(result).minus(amount || 0).isPositive()) {
+        return true;
+      }
+      return false;
     } catch (error) {
       return false;
     }
@@ -185,12 +203,10 @@ export class WalletService {
 
   async approveToken({
     contractName,
-    tokenDecimals,
     approvedAddress,
     walletAddress,
   }: {
     contractName: string;
-    tokenDecimals: number;
     approvedAddress?: string;
     walletAddress?: string;
   }) {
@@ -202,8 +218,7 @@ export class WalletService {
 
       const approveSignature = this.encodeFunctionCall(approveMethod, [
         approvedAddress || walletAddress || this.walletAddress,
-        // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
-        WalletService.calcTransactionAmount(90071992000.5474099, tokenDecimals),
+        '115792089237316195423570985008687907853269984665640564039457584007913129639935',
       ]);
 
       return this.sendTransaction({
@@ -216,12 +231,23 @@ export class WalletService {
     }
   }
 
-  static calcTransactionAmount(amount: number | string, tokenDecimal: number): string {
-    return new BigNumber(amount).times(new BigNumber(10).pow(tokenDecimal)).toString(10);
+  public async calcTransactionAmount(
+    tokenContract: string,
+    amount: number | string,
+  ): Promise<string> {
+    if (amount === '0') {
+      return amount;
+    }
+    const tokenDecimals = await this.getTokenDecimals(tokenContract);
+    return new BigNumber(amount).times(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
-  static weiToEth(amount: number | string, decimals = 18): string {
-    return new BigNumber(amount).dividedBy(new BigNumber(10).pow(decimals)).toString(10);
+  public async weiToEth(tokenContract: string, amount: number | string): Promise<string> {
+    if (amount === '0') {
+      return amount;
+    }
+    const tokenDecimals = await this.getTokenDecimals(tokenContract);
+    return new BigNumber(amount).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
   static ethToWei(amount: number | string, decimals = 18): string {
@@ -245,13 +271,13 @@ export class WalletService {
   async callContractMethod({
     contractName,
     methodName,
-    data,
+    data = [],
     contractAddress,
     contractAbi,
   }: {
     contractName: string;
     methodName: string;
-    data: any[];
+    data?: any[];
     contractAddress: string;
     contractAbi: Array<any>;
   }) {
@@ -261,8 +287,8 @@ export class WalletService {
       }
 
       if (this.contracts[contractName]) {
-        const method = await this.contracts[contractName].methods[methodName];
-        return await method(...data).call();
+        const method = this.contracts[contractName].methods[methodName];
+        return method(...data).call();
       }
     } catch (err: any) {
       throw new Error(err);

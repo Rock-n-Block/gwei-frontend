@@ -1,20 +1,21 @@
 import { createContext, useContext } from 'react';
 
-import { Instance, types } from 'mobx-state-tree';
+import makeInspectable from 'mobx-devtools-mst';
+import { Instance, onSnapshot, types } from 'mobx-state-tree';
 
-import User from './Models/User';
+import { UserModel } from './Models';
 
-const RootModel = types.model({
-  user: User,
+const RootModel = types.model('RootModel', {
+  user: UserModel,
 });
 
-export const Index = RootModel.create({
+export const rootStore = RootModel.create({
   user: {
-    address: '',
+    address: null,
   },
 });
 
-const rootStore = Index;
+makeInspectable(rootStore);
 
 export type RootInstance = Instance<typeof RootModel>;
 
@@ -22,7 +23,11 @@ const RootStoreContext = createContext<RootInstance | null>(null);
 
 export const { Provider } = RootStoreContext;
 
-export function useMst(): any {
+onSnapshot(rootStore, (snapshot) => {
+  console.log(snapshot);
+});
+
+export function useMst() {
   const store = useContext(RootStoreContext);
   if (store === null) {
     throw Error('Store cannot be null, please add a context provider');

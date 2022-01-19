@@ -30,11 +30,12 @@
     ]
   },
   "dependencies": {
-    "@amfi/connect-wallet": "^1.1.20",
+    "@amfi/connect-wallet": "^1.1.21",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.2",
     "classnames": "^2.3.1",
     "mobx": "^6.3.12",
+    "mobx-devtools-mst": "^0.9.30",
     "mobx-react": "^7.2.1",
     "mobx-react-lite": "^3.2.3",
     "mobx-state-tree": "^5.1.0",
@@ -42,7 +43,8 @@
     "rc-dialog": "^8.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "web3-utils": "^1.7.0"
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",

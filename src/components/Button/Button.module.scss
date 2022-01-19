@@ -1,4 +1,5 @@
 @import 'src/styles/mixins';
+@import 'src/styles/theme';
 
 $bg-default: white;
 $color-default: black;
@@ -18,13 +19,18 @@ $border-default: gray;
   @include flex(row, center, center, nowrap);
 
   &.default {
-    color: $color-default;
-    background: $bg-default;
-    border: 1px solid $border-default;
-    border-radius: 18px;
+    color: $color-white;
+    background: rgba(255, 255, 255, 0.12);
+    height: 59px;
+    width: 180px;
+    filter: drop-shadow(0px 5px 8px rgba(0, 0, 0, 0.28))
+      drop-shadow(0px 20px 64px rgba(255, 72, 72, 0.16));
+    border-radius: 12px;
   }
 
   &.sm {
+    height: 44px;
+    width: 124px;
   }
 
   &.md {
@@ -34,6 +40,11 @@ $border-default: gray;
   }
 
   &.filled {
+    color: $color-white;
+    background: $color-blue-gradient;
+    background: linear-gradient(100.26deg, #32cdef 18.91%, #0964ec 136.75%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0 9px 37px rgba(13, 105, 236, 0.53), 0 1px 0 #0c4ba2;
+    border-radius: 12px;
     &:hover,
     &:focus {
     }

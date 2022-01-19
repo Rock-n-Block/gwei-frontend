@@ -2,6 +2,7 @@ import { INetwork, IProvider, ISettings } from '@amfi/connect-wallet/dist/interf
 
 export enum chainsEnum {
   'Binance-Smart-Chain' = 'Binance-Smart-Chain',
+  Ethereum = 'Ethereum',
 }
 
 export interface IConnectWallet {

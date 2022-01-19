@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import rootStore, { Provider } from 'store';
+import { Provider, rootStore } from 'store';
 
 import App from 'App';
 

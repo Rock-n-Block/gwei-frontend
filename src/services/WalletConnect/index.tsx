@@ -1,7 +1,7 @@
-import { createContext, FC, useCallback, useContext, useEffect, useMemo } from 'react';
+import { createContext, FC, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 
-import { observer } from 'mobx-react';
-import rootStore from 'store';
+import { observer } from 'mobx-react-lite';
+import { rootStore } from 'store';
 
 import { chains } from 'config';
 
@@ -15,17 +15,19 @@ declare global {
 }
 
 const WalletConnectContext = createContext<{
-  connect: (chainName: chainsEnum, providerName: 'MetaMask') => Promise<any>;
+  connect: (chainName: chainsEnum, providerName: 'MetaMask') => Promise<string>;
   disconnect: () => void;
   walletService: WalletService;
 }>({
-  connect: async () => {},
+  connect: async (): Promise<string> => '',
   disconnect: (): void => {},
   walletService: new WalletService(),
 });
 
 const Connect: FC = observer(({ children }) => {
-  const provider = useMemo(() => new WalletService(), []);
+  const provider = useRef<WalletService>(
+    new WalletService(chains['Binance-Smart-Chain'].network.rpc as string),
+  );
 
   const disconnect = useCallback(() => {
     // USE THIS: delete localStorage.project_name_logged;
@@ -37,16 +39,19 @@ const Connect: FC = observer(({ children }) => {
     async (chainName: chainsEnum, providerName: 'MetaMask') => {
       if (window.ethereum) {
         try {
-          const isConnected = await provider.initWalletConnect(chainName, providerName as any);
+          const isConnected = await provider.current.initWalletConnect(
+            chainName,
+            providerName as any,
+          );
 
           if (isConnected) {
             try {
-              const { address }: any = await provider.getAccount();
-              provider.setAccountAddress(address);
+              const { address }: any = await provider.current.getAccount();
+              provider.current.setAccountAddress(address);
               rootStore.user.setAddress(address);
               localStorage.project_name_logged = true;
 
-              const eventSubs = provider.connectWallet.eventSubscriber().subscribe(
+              const eventSubs = provider.current.connectWallet.eventSubscriber().subscribe(
                 (res: any) => {
                   if (res.name === 'accountsChanged' && rootStore.user.address !== res.address) {
                     disconnect();
@@ -77,18 +82,17 @@ const Connect: FC = observer(({ children }) => {
     },
     [disconnect, provider],
   );
+
   const walletConnectValue = useMemo(() => {
-    return { connect, disconnect, walletService: provider };
+    return { connect, disconnect, walletService: provider.current };
   }, [connect, disconnect, provider]);
 
   useEffect(() => {
     // USE THIS INSTEAD: if (window.ethereum && localStorage.project_name_logged) {
     if (window.ethereum && localStorage.project_name_logged) {
       connect(chainsEnum['Binance-Smart-Chain'], 'MetaMask').then();
-    } else {
-      provider.connectWallet.initWeb3(chains['Binance-Smart-Chain'].network.rpc);
     }
-  }, [connect, provider.connectWallet]);
+  }, [connect, provider.current.connectWallet]);
 
   return (
     <WalletConnectContext.Provider value={walletConnectValue}>

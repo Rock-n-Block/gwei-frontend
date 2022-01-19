@@ -36,6 +36,10 @@ a {
   text-decoration: none;
 
   color: $color-link;
+  &:hover,
+  &:active {
+    color: $color-white;
+  }
 }
 
 img {

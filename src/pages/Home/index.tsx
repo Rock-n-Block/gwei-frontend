@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { About, AboutUs, SubmitWallet } from 'components';
+import { About, AboutUs, SubmitWallet, WhyGwei } from 'components';
 
 import s from './Home.module.scss';
 
@@ -10,6 +10,7 @@ const Home: FC = () => {
       <About />
       <SubmitWallet />
       <AboutUs />
+      <WhyGwei />
     </div>
   );
 };

@@ -1,0 +1,23 @@
+@import 'src/styles';
+
+.gwei {
+  @include flex(row, center, space-between, nowrap);
+  width: 100%;
+  padding: 0 60px;
+
+  &__image {
+    img {
+      max-width: 420px;
+    }
+  }
+
+  &__info {
+    @include flex(column, flex-start, flex-start, nowrap);
+    width: 100%;
+    max-width: 510px;
+
+    p + p {
+      margin-top: 25px;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import '/src/styles';
+
+.lucky {
+  @include flex(row, center, center, nowrap);
+
+  &__inner {
+    @include flex(row, space-between, center, nowrap);
+
+    &_info {
+      max-width: 500px;
+      margin: auto;
+
+      button {
+        margin-top: 60px;
+      }
+    }
+
+    &_img {
+      img {
+        max-width: 530px;
+      }
+    }
+  }
+}

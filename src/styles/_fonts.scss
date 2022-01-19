@@ -1,4 +1,10 @@
 @import 'mixins/helpers';
 
 // Example
-//@include font-face('Inter', '../../assets/fonts/Inter-Light', 400, normal, 'ttf');
+@include font-face('Exodar Outline', '../../assets/fonts/Exodar-Outline', 400, 'ttf');
+
+@include font-face('Inconsolata', '../../assets/fonts/Inconsolata-Regular', 400, 'ttf');
+@include font-face('Inconsolata', '../../assets/fonts/Inconsolata-Semibold', 600, 'ttf');
+@include font-face('Inconsolata', '../../assets/fonts/Inconsolata-Bold', 700, 'ttf');
+
+@include font-face('Montserrat', '../../assets/fonts/Montserrat-Bold', 700, 'ttf');

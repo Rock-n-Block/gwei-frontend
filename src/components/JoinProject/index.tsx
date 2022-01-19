@@ -1,8 +1,12 @@
-import { Button } from 'components';
 import { FC } from 'react';
-import s from './JoinProject.module.scss';
-import SoldImg from 'assets/img/sold.png';
+
 import classnames from 'classnames';
+
+import { Button } from 'components';
+
+import SoldImg from 'assets/img/sold.png';
+
+import s from './JoinProject.module.scss';
 
 const JoinProject: FC = () => {
   return (

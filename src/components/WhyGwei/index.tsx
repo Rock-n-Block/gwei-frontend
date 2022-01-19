@@ -1,7 +1,10 @@
-import classnames from 'classnames';
 import { FC } from 'react';
-import s from './WhyGwei.module.scss';
+
+import classnames from 'classnames';
+
 import Finance from 'assets/img/finance.png';
+
+import s from './WhyGwei.module.scss';
 
 const WhyGwei: FC = () => {
   return (

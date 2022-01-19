@@ -1,8 +1,12 @@
-import { Button } from 'components';
 import { FC } from 'react';
-import s from './GweiStrategy.module.scss';
-import StrategyImg from 'assets/img/strategy.png';
+
 import classnames from 'classnames';
+
+import { Button } from 'components';
+
+import StrategyImg from 'assets/img/strategy.png';
+
+import s from './GweiStrategy.module.scss';
 
 const GweiStrategy: FC = () => {
   return (

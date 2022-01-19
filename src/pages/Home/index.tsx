@@ -5,6 +5,7 @@ import {
   AboutUs,
   GweiStrategy,
   JoinProject,
+  Roadmap,
   SubmitWallet,
   SubscribeNow,
   WhyGwei,
@@ -22,6 +23,7 @@ const Home: FC = () => {
       <GweiStrategy />
       <JoinProject />
       <SubscribeNow />
+      <Roadmap />
     </div>
   );
 };

@@ -8,3 +8,4 @@ export { default as GweiStrategy } from './GweiStrategy';
 export { default as JoinProject } from './JoinProject';
 export { default as SubscribeNow } from './SubscribeNow';
 export { default as Input } from './Input';
+export { default as Roadmap } from './Roadmap';

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useModal = (initialVisible: boolean): [boolean, () => void, () => void] => {
+export const useModal = (initialVisible: boolean): [boolean, () => void, () => void] => {
   const [isVisibleModal, setVisibleModal] = useState(initialVisible);
 
   const handleOpenModal = useCallback(() => {
@@ -13,5 +13,3 @@ const useModal = (initialVisible: boolean): [boolean, () => void, () => void] =>
 
   return [isVisibleModal, handleOpenModal, handleCloseModal];
 };
-
-export default useModal;

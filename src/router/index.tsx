@@ -1,9 +1,9 @@
-import { Home } from 'pages';
+import { Liquidity } from 'pages';
 
 export const routes = [
   {
-    name: 'Home',
-    path: '/',
-    component: <Home />,
+    name: 'Liquidity',
+    path: '/liquidity',
+    component: <Liquidity />,
   },
 ];

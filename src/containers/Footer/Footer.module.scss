@@ -1,0 +1,56 @@
+@import 'src/styles';
+
+.footer {
+  background: $footer-bg;
+  padding: 32px 0;
+
+  &__inner {
+    @include flex(row, center, space-between, nowrap);
+    max-width: 1230px;
+    margin: 0 auto;
+
+    &_socials {
+      @include flex();
+
+      &_item {
+        width: 36px;
+        height: 36px;
+
+        background: $icon-bg;
+        border-radius: 12px;
+
+        transition: all 0.3s ease-in-out;
+        backdrop-filter: blur(4px);
+        @include flex(row, center, center);
+
+        &:not(:last-child) {
+          margin-right: 16px;
+        }
+
+        &:hover {
+          background: $color-blue-gradient;
+
+          svg > path {
+            fill: $color-white;
+          }
+        }
+      }
+    }
+
+    &_links {
+      a {
+        text-decoration: underline;
+        &:hover {
+          color: $footer-text-color;
+          background: $footer-text-gradient;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-decoration: underline;
+        }
+      }
+      a + a {
+        margin-left: 32px;
+      }
+    }
+  }
+}

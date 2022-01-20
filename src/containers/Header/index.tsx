@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
@@ -9,8 +9,6 @@ import { contracts } from 'config';
 
 import { useWalletConnectorContext } from 'services';
 import { chainsEnum } from 'types';
-
-import { socials } from './Header.mock';
 
 import s from './Header.module.scss';
 
@@ -38,25 +36,6 @@ const Header: FC = observer(() => {
       });
   }, [walletService]);
 
-  const showSocials = useMemo(
-    () => (
-      <div className={s.header__navbar_socials}>
-        {socials.map(({ href, icon, alt }) => (
-          <a
-            target="_blank"
-            key={alt}
-            href={href}
-            className={s.header__navbar_socials_item}
-            rel="noreferrer"
-          >
-            {icon}
-          </a>
-        ))}
-      </div>
-    ),
-    [],
-  );
-
   return (
     <div className={s.header}>
       <div className={s.header__navbar}>
@@ -64,21 +43,9 @@ const Header: FC = observer(() => {
           <LogoIcon />
         </Link>
 
-        <nav className={s.header__navbar_nav}>
-          <Link to="#home">Home</Link>
-          <Link to="#calc">Calculate</Link>
-          <Link to="#roadmap">Roadmap</Link>
-          <Link to="#faq">Faq</Link>
-          <a target="_blank" href="http://docs.gwei.fi/" rel="noreferrer">
-            Docs
-          </a>
-        </nav>
-
-        {showSocials}
-
         <div className={s.header__navbar_control}>
-          <Button onClick={connectToWallet} size="sm" color="default">
-            ENTER APP
+          <Button onClick={connectToWallet} color="default">
+            CONNECT WALLET
           </Button>
         </div>
       </div>

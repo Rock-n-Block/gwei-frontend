@@ -11,8 +11,8 @@ const App: FC = () => {
         <div className="page_wrapper">
           <Header />
           <RouterManager />
-          <Footer />
         </div>
+        <Footer />
       </div>
     </WalletConnect>
   );

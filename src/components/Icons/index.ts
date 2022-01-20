@@ -2,3 +2,8 @@ export { TwitterIcon } from './TwitterIcon';
 export { FacebookIcon } from './FacebookIcon';
 export { LinkedInIcon } from './LinkedInIcon';
 export { LogoIcon } from './LogoIcon';
+export { MediumIcon } from './MediumIcon';
+export { DiscordIcon } from './DiscordIcon';
+export { TelegramIcon } from './TelegramIcon';
+export { InstagramIcon } from './InstagramIcon';
+export { YoutubeIcon } from './YoutubeIcon';

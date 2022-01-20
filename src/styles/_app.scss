@@ -37,7 +37,7 @@ a {
 
   color: $color-link;
 
-  transition: 0.35s;
+  transition: all 0.3s ease-in-out;
 
   &:hover,
   &:active {
@@ -71,7 +71,7 @@ button {
   padding: 0 73px 0 72px;
 
   width: 100%;
-  max-width: 1440px;
+  max-width: 1230px;
   min-height: 100vh;
 }
 

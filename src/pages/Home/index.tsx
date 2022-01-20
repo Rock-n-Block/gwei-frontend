@@ -1,15 +1,14 @@
 import { FC } from 'react';
-
 import {
   About,
+  SubmitWallet,
   AboutUs,
+  WhyGwei,
   GweiStrategy,
   JoinProject,
-  Roadmap,
-  SubmitWallet,
   SubscribeNow,
-  WhyGwei,
-} from 'components';
+  // Roadmap,
+} from './components';
 
 import s from './Home.module.scss';
 
@@ -23,7 +22,7 @@ const Home: FC = () => {
       <GweiStrategy />
       <JoinProject />
       <SubscribeNow />
-      <Roadmap />
+      {/* <Roadmap /> */}
     </div>
   );
 };

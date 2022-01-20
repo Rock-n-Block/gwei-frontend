@@ -64,7 +64,7 @@ const Input: React.FC<IInputProps> = (props) => {
   };
 
   useEffect(() => {
-    onChange(debouncedInputValue);
+    onChange(debouncedInputValue!);
   }, [debouncedInputValue, onChange]);
 
   return (

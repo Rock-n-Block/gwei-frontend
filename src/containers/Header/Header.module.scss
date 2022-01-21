@@ -11,7 +11,8 @@
   @include b(tablet) {
     position: fixed;
     z-index: 9999999;
-
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 15px;
 
     width: 90%;

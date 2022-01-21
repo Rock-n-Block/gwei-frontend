@@ -37,6 +37,7 @@ export class WalletService {
   ): Promise<boolean> {
     return new Promise((resolve) => {
       const { provider, network, settings } = connectWalletConfig(chainName);
+      console.log('chainName: ', chainName);
 
       const connecting = this.connectWallet
         .connect(provider[providerName], network, settings)
@@ -44,9 +45,7 @@ export class WalletService {
           this.currentChain = chainName;
           return connected;
         })
-        .catch((err: any) => {
-          console.error('initWalletConnect providerWallet err: ', err);
-        });
+        .catch(() => {});
 
       Promise.all([connecting]).then((connect: any) => {
         resolve(connect[0]);

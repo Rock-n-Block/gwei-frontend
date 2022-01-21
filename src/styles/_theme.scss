@@ -6,9 +6,20 @@ $color-blue-gradient: linear-gradient(100.26deg, #32cdef 18.91%, #0964ec 136.75%
 $color-pink-gradient: linear-gradient(100.26deg, #ef328d 18.91%, #ec0909 136.75%);
 
 $color-link: rgb(255 255 255 / 60%);
+$color-text: rgb(255 255 255 / 60%);
 
-$footer-bg: rgba(11, 14, 35, 0.8);
+$footer-bg: rgb(11 14 35 / 80%);
 $footer-text-gradient: linear-gradient(90deg, #32cdef 0, #0964ec 100%);
 $footer-text-color: #32cdef;
 
-$icon-bg: rgb(255 255 255 / 12%);
+$header-bg: rgb(11 14 35 / 80%);
+
+$icon-bg: rgb(255 255 255 / 4%);
+
+$card-bg: rgb(16 19 39 / 88%);
+
+$bage-gradient: linear-gradient(
+  100.26deg,
+  rgb(50 205 239 / 36%) 18.91%,
+  rgb(9 100 236 / 36%) 136.75%
+);

@@ -7,3 +7,4 @@ export { DiscordIcon } from './DiscordIcon';
 export { TelegramIcon } from './TelegramIcon';
 export { InstagramIcon } from './InstagramIcon';
 export { YoutubeIcon } from './YoutubeIcon';
+export { Burger } from './Burger';

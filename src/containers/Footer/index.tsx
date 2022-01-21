@@ -1,6 +1,8 @@
 import { FC, useMemo } from 'react';
-import s from './Footer.module.scss';
+
 import { socials } from './Footer.mock';
+
+import s from './Footer.module.scss';
 
 const Footer: FC = () => {
   const showSocials = useMemo(
@@ -25,6 +27,12 @@ const Footer: FC = () => {
   return (
     <footer className={s.footer}>
       <div className={s.footer__inner}>
+        <div className={s.footer__inner_madeby_mobile}>
+          made by{' '}
+          <a rel="noreferrer" target="_blank" href="https://roobinium.io">
+            roobinium.io
+          </a>
+        </div>
         <div className={s.footer__inner_copyright}>
           &copy; 2021 GWEI Finance. All rights reserved
         </div>
@@ -34,7 +42,7 @@ const Footer: FC = () => {
           <a href="/">Terms of Use</a>
         </div>
 
-        <div>
+        <div className={s.footer__inner_madeby}>
           made by{' '}
           <a rel="noreferrer" target="_blank" href="https://roobinium.io">
             roobinium.io

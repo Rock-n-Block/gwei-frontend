@@ -6,6 +6,8 @@ import { stakingAbi } from './abi';
 
 export const is_production = false;
 
+const INFURA_KEY = '579f676938414709905652124fd1be95';
+
 export const chains: {
   [key: string]: {
     name: chainsEnum;
@@ -35,6 +37,26 @@ export const chains: {
       MetaMask: { name: 'MetaMask' },
     },
     explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
+  },
+  [chainsEnum.Ethereum]: {
+    name: chainsEnum.Ethereum,
+    network: {
+      chainID: is_production ? 1 : 4,
+      chainName: is_production ? 'Ethereum' : 'Ethereum Testnet',
+      nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpc: is_production
+        ? `https://mainnet.infura.io/v3/${INFURA_KEY}`
+        : `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
+      blockExplorerUrl: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
+    },
+    provider: {
+      MetaMask: { name: 'MetaMask' },
+    },
+    explorer: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
   },
 };
 

@@ -8,12 +8,30 @@
   width: 100%;
   @include flex(row, center, space-between, nowrap);
 
+  @include b(tablet) {
+    position: fixed;
+    z-index: 9999999;
+
+    margin-top: 15px;
+
+    width: 90%;
+  }
+
   &__navbar {
     @include flex(row, center, space-between);
     width: 100%;
 
+    &_logo {
+      z-index: 101;
+      @include b(tablet) {
+        display: none;
+      }
+    }
+
     &_nav {
       @include flex(row, center, space-between);
+      z-index: 101;
+
       width: 100%;
       max-width: 542px;
 
@@ -31,6 +49,7 @@
 
     &_socials {
       @include flex();
+      z-index: 101;
 
       &_item {
         width: 36px;
@@ -57,14 +76,50 @@
       }
     }
 
-    &_control {
-      button {
-        color: rgb(255 255 255 / 40%) !important;
-        height: 44px !important;
+    @include b(tablet) {
+      position: absolute;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      left: 0;
 
-        &:hover {
-          color: $color-white !important;
-        }
+      padding: 10px 0 30px;
+
+      display: none;
+      justify-content: space-between;
+
+      height: 100vh;
+
+      text-align: center;
+
+      background: #000;
+      border-bottom: 2px solid #32cdef;
+      box-shadow: 0 2px 40px 4px #32cdef;
+      flex-flow: column;
+    }
+  }
+
+  &__burger {
+    z-index: 101;
+
+    display: none;
+    @include b(tablet) {
+      display: block;
+    }
+  }
+
+  &__control {
+    z-index: 101;
+
+    button {
+      height: 44px !important;
+
+      font-size: 14px;
+
+      color: rgb(255 255 255 / 40%) !important;
+
+      &:hover {
+        color: $color-white !important;
       }
     }
   }

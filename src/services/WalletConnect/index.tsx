@@ -25,9 +25,7 @@ const WalletConnectContext = createContext<{
 });
 
 const Connect: FC = observer(({ children }) => {
-  const provider = useRef<WalletService>(
-    new WalletService(chains['Binance-Smart-Chain'].network.rpc as string),
-  );
+  const provider = useRef<WalletService>(new WalletService(chains.Ethereum.network.rpc as string));
 
   const disconnect = useCallback(() => {
     // USE THIS: delete localStorage.project_name_logged;
@@ -90,7 +88,7 @@ const Connect: FC = observer(({ children }) => {
   useEffect(() => {
     // USE THIS INSTEAD: if (window.ethereum && localStorage.project_name_logged) {
     if (window.ethereum && localStorage.project_name_logged) {
-      connect(chainsEnum['Binance-Smart-Chain'], 'MetaMask').then();
+      connect(chainsEnum.Ethereum, 'MetaMask').then();
     }
   }, [connect, provider.current.connectWallet]);
 

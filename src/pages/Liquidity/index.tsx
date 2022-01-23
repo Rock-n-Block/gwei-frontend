@@ -12,7 +12,7 @@ const Liquidity: FC = () => {
     () => (
       <>
         {cardInfo.map((card: CardI, index: number) => (
-          <LiquidityCard key={`${index}_${card}`} {...card} />
+          <LiquidityCard key={`${index}_${card}`} {...card} index={index} />
         ))}
       </>
     ),

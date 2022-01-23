@@ -11,12 +11,13 @@ interface LiquidityCardProps {
   pair: string;
   TVL: string;
   capacity: string;
+  index: number;
 }
 
 const LiquidityCard: FC<LiquidityCardProps> = (props) => {
-  const { status, version, pair, TVL, capacity } = props;
+  const { status, version, pair, TVL, capacity, index } = props;
   return (
-    <Link to="/liquidity/vault" className={s.card}>
+    <Link to={`/vault/${index}`} className={s.card}>
       <div className={s.card__bages}>
         <div className={s.card__bages_bage}>{status}</div>
         <div className={s.card__bages_bage}>{version}</div>

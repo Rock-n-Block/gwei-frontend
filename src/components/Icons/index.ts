@@ -18,3 +18,4 @@ export { TorusIcon } from './TorusIcon';
 export { WalletConnectIcon } from './WalletConnectIcon';
 export { LatticeIcon } from './LatticeIcon';
 export { CloseIcon } from './CloseIcon';
+export { UserIcon } from './UserIcon';

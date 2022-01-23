@@ -125,3 +125,24 @@
     }
   }
 }
+
+.user {
+  @include flex(row, center, space-between, nowrap);
+  cursor: pointer;
+  &__logo {
+    background: rgba(255, 255, 255, 0.12);
+    width: 36px;
+    height: 36px;
+    @include flex(row, center, center);
+    margin-right: 12px;
+    border-radius: 12px;
+  }
+
+  &__info {
+    font-weight: 700;
+
+    &_balance {
+      color: $color-text;
+    }
+  }
+}

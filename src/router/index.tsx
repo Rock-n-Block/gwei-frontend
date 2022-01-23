@@ -3,7 +3,7 @@ import { Liquidity } from 'pages';
 export const routes = [
   {
     name: 'Liquidity',
-    path: '/liquidity',
+    path: '/',
     component: <Liquidity />,
   },
 ];

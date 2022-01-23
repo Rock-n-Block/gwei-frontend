@@ -6,7 +6,6 @@ export enum chainsEnum {
 }
 
 export interface IConnectWallet {
-  wallets: string[];
   network: INetwork;
   provider: {
     [index: string]: IProvider;

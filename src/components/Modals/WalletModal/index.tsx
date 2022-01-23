@@ -1,12 +1,14 @@
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import Modal from 'react-modal';
 
 import cn from 'classnames';
 
-import { CloseIcon } from '../../Icons';
+import { CloseIcon } from 'components/Icons';
 import { wallets } from './WalletModal.mock';
 
 import s from './WalletModal.module.scss';
+import { useWalletConnectorContext } from 'services';
+import { chainsEnum } from 'types';
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -14,11 +16,17 @@ interface WalletModalProps {
 }
 
 const WalletModal: FC<WalletModalProps> = ({ isOpen, closeModal }) => {
+  const { connect } = useWalletConnectorContext();
+
+  const connectToWallet = useCallback((providerName) => {
+    connect(chainsEnum.Ethereum, providerName).catch(() => {});
+  }, [connect]);
+
   const showList = useMemo(
     () => (
       <>
         {wallets.map(({ icon, title }, index) => (
-          <div key={`${title}_${index}`} className={s.modal_wallet__item}>
+          <div onClick={() => connectToWallet(title)} key={`${title}_${index}`} className={s.modal_wallet__item}>
             <div className={s.modal_wallet__item_name}>{title}</div>
             <div className={s.modal_wallet__item_logo}>{icon}</div>
           </div>

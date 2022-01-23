@@ -22,7 +22,7 @@ type WalletsT = WalletsI[];
 export const wallets: WalletsT = [
   {
     icon: <MetamaskIcon />,
-    title: 'Install MetaMask',
+    title: 'MetaMask',
   },
   {
     icon: <WalletConnectIcon />,

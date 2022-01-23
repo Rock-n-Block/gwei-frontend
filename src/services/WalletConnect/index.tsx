@@ -15,7 +15,7 @@ declare global {
 }
 
 const WalletConnectContext = createContext<{
-  connect: (chainName: chainsEnum, providerName: 'MetaMask') => Promise<string>;
+  connect: (chainName: chainsEnum, providerName: 'MetaMask' | 'WalletConnect') => Promise<string>;
   disconnect: () => void;
   walletService: WalletService;
 }>({
@@ -34,7 +34,7 @@ const Connect: FC = observer(({ children }) => {
   }, []);
 
   const connect = useCallback(
-    async (chainName: chainsEnum, providerName: 'MetaMask') => {
+    async (chainName: chainsEnum, providerName: 'MetaMask' | 'WalletConnect') => {
       if (window.ethereum) {
         try {
           const isConnected = await provider.current.initWalletConnect(

@@ -3,6 +3,7 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import { chainsEnum, IConnectWallet, IContracts } from 'types';
 
 import { stakingAbi } from './abi';
+import { ETHEREUM_CHAIN } from './constants';
 
 export const is_production = false;
 
@@ -18,26 +19,6 @@ export const chains: {
     explorer: string;
   };
 } = {
-  [chainsEnum['Binance-Smart-Chain']]: {
-    name: chainsEnum['Binance-Smart-Chain'],
-    network: {
-      chainID: is_production ? 56 : 97,
-      chainName: is_production ? 'Binance Smart Chain' : 'Binance Smart Chain Testnet',
-      nativeCurrency: {
-        name: 'BNB',
-        symbol: 'BNB',
-        decimals: 18,
-      },
-      rpc: is_production
-        ? 'https://bsc-dataseed.binance.org/'
-        : 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-      blockExplorerUrl: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
-    },
-    provider: {
-      MetaMask: { name: 'MetaMask' },
-    },
-    explorer: is_production ? 'https://bscscan.com' : 'https://testnet.bscscan.com',
-  },
   [chainsEnum.Ethereum]: {
     name: chainsEnum.Ethereum,
     network: {
@@ -55,6 +36,19 @@ export const chains: {
     },
     provider: {
       MetaMask: { name: 'MetaMask' },
+      WalletConnect: {
+        img: '',
+        name: 'WalletConnect',
+        useProvider: 'rpc',
+        provider: {
+          rpc: {
+            rpc: {
+              [ETHEREUM_CHAIN.chainId]: ETHEREUM_CHAIN.rpc,
+            },
+            chainId: ETHEREUM_CHAIN.chainId,
+          },
+        },
+      },
     },
     explorer: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
   },
@@ -64,7 +58,6 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
   const chain = chains[chainName];
 
   return {
-    wallets: ['MetaMask'],
     network: chain.network,
     provider: chain.provider,
     settings: { providerType: true },

@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
@@ -6,18 +6,21 @@ import { observer } from 'mobx-react-lite';
 import classnames from 'classnames';
 
 import { Button } from 'components';
-import { Burger, LogoIcon } from 'components/Icons';
+import { Burger, LogoIcon, UserIcon } from 'components/Icons';
 
 import WalletModal from '../../components/Modals/WalletModal';
 
-// import { contracts } from 'config';
-// import { useWalletConnectorContext } from 'services';
-// import { chainsEnum } from 'types';
 import s from './Header.module.scss';
+import { useMst } from 'store';
+import { shortAddress } from 'utils';
 
 const Header: FC = observer(() => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+
+  const { user } = useMst();
+
+  console.log(user);
 
   const handleBurger = useCallback(() => {
     setIsBurgerOpen(!isBurgerOpen);
@@ -31,28 +34,22 @@ const Header: FC = observer(() => {
     setIsOpen(false);
   }, []);
 
-  // const { connect, walletService } = useWalletConnectorContext();
-  // const connectToWallet = useCallback(() => {
-  //   connect(chainsEnum.Ethereum, 'MetaMask').catch(() => {});
-  // }, [connect]);
-
-  // get data without connect
-  // useEffect(() => {
-  //   walletService
-  //     .callContractMethod({
-  //       contractName: 'STAKING',
-  //       methodName: 'fees',
-  //       data: [1],
-  //       contractAddress: contracts.params.STAKING[contracts.type].address,
-  //       contractAbi: contracts.params.STAKING[contracts.type].abi,
-  //     })
-  //     .then((fees) => {
-  //       console.log(fees, 'fees');
-  //     })
-  //     .catch((err) => {
-  //       console.log('err', err);
-  //     });
-  // }, [walletService]);
+  const showConnect = useMemo(() => (
+    <>
+      {!user.address ?<div className={s.header__control}>
+          <Button onClick={openModal} color='default'>
+            CONNECT WALLET
+          </Button>
+        </div> :
+        <div className={s.user}>
+          <div className={s.user__logo}><UserIcon /></div>
+          <div className={s.user__info}>
+            <div className={s.user__info_balance}>0 ETH</div>
+            <div>{shortAddress(user.address)}</div>
+          </div>
+        </div>}
+    </>
+  ), [user.address]);
 
   return (
     <div className={s.header}>
@@ -64,12 +61,7 @@ const Header: FC = observer(() => {
       <div onClick={handleBurger} className={s.header__burger}>
         <Burger />
       </div>
-
-      <div className={s.header__control}>
-        <Button onClick={openModal} color="default">
-          CONNECT WALLET
-        </Button>
-      </div>
+      {showConnect}
       <WalletModal isOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );

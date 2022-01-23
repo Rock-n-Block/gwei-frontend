@@ -16,19 +16,6 @@
     "lint-fix:scss": "stylelint \"src/**/*.scss\" --fix",
     "pre-commit": "lint-staged"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,scss,less}": [
-      "prettier --ignore-path ./.prettierignore --write "
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "eslint"
-    ]
-  },
   "dependencies": {
     "@amfi/connect-wallet": "^1.1.21",
     "@types/react-modal": "^3.13.1",

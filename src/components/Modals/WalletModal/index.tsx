@@ -26,7 +26,7 @@ const WalletModal: FC<WalletModalProps> = observer(({ isOpen, closeModal }) => {
     connect(chainsEnum.Ethereum, providerName).then(() => closeModal());
   };
 
-  const showList = () => (
+  const showList = (
     <>
       {wallets.map(({ icon, title }, index) => (
         <div

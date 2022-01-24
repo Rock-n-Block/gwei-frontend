@@ -3,8 +3,9 @@ export default [
     inputs: [
       { internalType: 'string', name: 'name', type: 'string' },
       { internalType: 'string', name: 'symbol', type: 'string' },
+      { internalType: 'uint256', name: '_initialAmount', type: 'uint256' },
     ],
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',
     type: 'constructor',
   },
   {
@@ -55,23 +56,6 @@ export default [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'uint256', name: 'amount', type: 'uint256' }],
-    name: 'burn',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-    ],
-    name: 'burnFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'decimals',
     outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
@@ -100,7 +84,7 @@ export default [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'who', type: 'address' },
+      { internalType: 'address', name: 'to', type: 'address' },
       { internalType: 'uint256', name: 'amount', type: 'uint256' },
     ],
     name: 'mint',

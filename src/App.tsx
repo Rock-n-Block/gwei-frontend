@@ -1,15 +1,16 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Footer, Header, RouterManager } from 'containers';
 
 import WalletConnect from './services/WalletConnect';
+import { WalletService } from './services';
 
 const App: FC = () => {
-  // const { user } = useMst();
-  //
-  // useEffect(() => {
-  //   user.setAddress(localStorage.project_name_logged)
-  // }, [])
+
+  useEffect(() => {
+    console.log(WalletService.getAddress('MockToken1'));
+  }, [])
+
   return (
     <WalletConnect>
       <div className="main_wrapper">

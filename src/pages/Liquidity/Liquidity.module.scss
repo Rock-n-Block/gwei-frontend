@@ -4,8 +4,12 @@
   position: relative;
 
   margin: auto;
-  padding-top: 150px;
+  padding-top: 57px;
   padding-bottom: 80px;
+
+  @include b(tablet) {
+    padding-top: 150px;
+  }
 
   &__row {
     @include grid(repeat(3, 1fr), 1fr, 32px);

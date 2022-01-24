@@ -22,7 +22,7 @@ export const chains: {
   [chainsEnum.Ethereum]: {
     name: chainsEnum.Ethereum,
     network: {
-      chainID: is_production ? 1 : 4,
+      chainID: is_production ? 1 : 42,
       chainName: is_production ? 'Ethereum' : 'Ethereum Testnet',
       nativeCurrency: {
         name: 'ETH',
@@ -31,8 +31,8 @@ export const chains: {
       },
       rpc: is_production
         ? `https://mainnet.infura.io/v3/${INFURA_KEY}`
-        : `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-      blockExplorerUrl: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
+        : `https://kovan.infura.io/v3/${INFURA_KEY}`,
+      blockExplorerUrl: is_production ? 'https://etherscan.io/' : 'https://kovan.infura.io/v3/',
     },
     provider: {
       MetaMask: { name: 'MetaMask' },
@@ -50,7 +50,7 @@ export const chains: {
         },
       },
     },
-    explorer: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
+    explorer: is_production ? 'https://etherscan.io/' : 'https://kovan.infura.io/v3/',
   },
 };
 

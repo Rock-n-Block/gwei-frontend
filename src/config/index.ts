@@ -2,8 +2,15 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 
 import { chainsEnum, IConnectWallet, IContracts } from 'types';
 
-import { stakingAbi } from './abi';
-import { InvitationNFTAbi, MockToken1Abi, MockToken2Abi, Pool10000Abi, Pool3000Abi, Pool500Abi, VaultAbi } from './abi';
+import {
+  InvitationNFTAbi,
+  MockToken1Abi,
+  MockToken2Abi,
+  Pool500Abi,
+  Pool3000Abi,
+  Pool10000Abi,
+  VaultAbi,
+} from './abi';
 
 export const is_production = false;
 

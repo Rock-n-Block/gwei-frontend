@@ -19,6 +19,7 @@
   "dependencies": {
     "@amfi/connect-wallet": "^1.1.21",
     "@types/react-modal": "^3.13.1",
+    "@walletconnect/web3-provider": "^1.7.1",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.2",
     "classnames": "^2.3.1",
@@ -33,6 +34,7 @@
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.4",
     "react-router-dom": "6",
+    "web3": "^1.7.0",
     "web3-utils": "^1.7.0"
   },
   "devDependencies": {

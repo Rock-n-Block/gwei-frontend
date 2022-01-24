@@ -1,22 +1,24 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
+import { useMst } from 'store';
 
 import cn from 'classnames';
 
 import { Button } from 'components';
 import { Burger, UserIcon } from 'components/Icons';
-
-import Logo from 'assets/img/logo.png';
+import { shortAddress } from 'utils';
 
 import WalletModal from '../../components/Modals/WalletModal';
 
-import s from './Header.module.scss';
-import { useMst } from 'store';
-import { shortAddress } from 'utils';
 import { useBackground } from 'hooks';
+
 import { socials } from './Header.mock';
+
+import Logo from 'assets/img/logo.png';
+
+import s from './Header.module.scss';
 
 const Header: FC = observer(() => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
@@ -25,62 +27,47 @@ const Header: FC = observer(() => {
 
   const { user } = useMst();
 
-  console.log(user);
-
-  const handleBurger = useCallback(() => {
+  const handleBurger = () => {
     setIsBurgerOpen(!isBurgerOpen);
-  }, [isBurgerOpen]);
+  };
 
-  const openModal = useCallback(() => {
+  const openModal = () => {
     setIsOpen(true);
-  }, []);
+  };
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsOpen(false);
-  }, []);
+  };
 
-  const showSocials = useMemo(
-    () => (
-      <div className={s.header__nav_mobile_socials}>
-        {socials.map(({ href, icon, alt }) => (
-          <a
-            target="_blank"
-            key={alt}
-            href={href}
-            rel="noreferrer"
-          >
-            {icon}
-          </a>
-        ))}
+  const showSocials = () => (
+    <div className={s.header__nav_mobile_socials}>
+      {socials.map(({ href, icon, alt }) => (
+        <a target="_blank" key={alt} href={href} rel="noreferrer">
+          {icon}
+        </a>
+      ))}
+    </div>
+  );
+
+  const showConnect = () => {
+    return !user.address ? (
+      <div className={s.header__control}>
+        <Button onClick={openModal} color="default">
+          CONNECT WALLET
+        </Button>
       </div>
-    ),
-    [],
-  );
-
-  const showConnect = useMemo(
-    () => (
-      <>
-        {!user.address ? (
-          <div className={s.header__control}>
-            <Button onClick={openModal} color="default">
-              CONNECT WALLET
-            </Button>
-          </div>
-        ) : (
-          <div className={s.user}>
-            <div className={s.user__logo}>
-              <UserIcon />
-            </div>
-            <div className={s.user__info}>
-              <div className={s.user__info_balance}>0 ETH</div>
-              <div>{shortAddress(user.address)}</div>
-            </div>
-          </div>
-        )}
-      </>
-    ),
-    [user.address],
-  );
+    ) : (
+      <div className={s.user}>
+        <div className={s.user__logo}>
+          <UserIcon />
+        </div>
+        <div className={s.user__info}>
+          <div className={s.user__info_balance}>0 ETH</div>
+          <div>{shortAddress(user.address)}</div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className={cn(s.header, isBackground ? s.header_background : '')}>
@@ -102,9 +89,15 @@ const Header: FC = observer(() => {
           <img src={Logo} alt="logo" />
         </Link>
         <nav className={s.header__nav_mobile_nav}>
-          <a onClick={handleBurger}>Calculator</a>
-          <a onClick={handleBurger}>Why GWEI</a>
-          <a onClick={handleBurger} href="http://docs.gwei.fi/" target="_blank">Docs</a>
+          <div role="button" tabIndex={0} onKeyPress={() => {}} onClick={handleBurger}>
+            Calculator
+          </div>
+          <div role="button" tabIndex={0} onKeyPress={() => {}} onClick={handleBurger}>
+            Why GWEI
+          </div>
+          <a onClick={handleBurger} href="http://docs.gwei.fi/" target="_blank" rel="noreferrer">
+            Docs
+          </a>
         </nav>
         {showSocials}
       </div>

@@ -3,7 +3,6 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 import { chainsEnum, IConnectWallet, IContracts } from 'types';
 
 import { stakingAbi } from './abi';
-import { ETHEREUM_CHAIN } from './constants';
 
 export const is_production = false;
 
@@ -22,8 +21,8 @@ export const chains: {
   [chainsEnum.Ethereum]: {
     name: chainsEnum.Ethereum,
     network: {
-      chainID: is_production ? 1 : 4,
-      chainName: is_production ? 'Ethereum' : 'Ethereum Testnet',
+      chainID: is_production ? 1 : 42,
+      chainName: is_production ? 'Ethereum' : 'Kovan Testnet',
       nativeCurrency: {
         name: 'ETH',
         symbol: 'ETH',
@@ -31,8 +30,8 @@ export const chains: {
       },
       rpc: is_production
         ? `https://mainnet.infura.io/v3/${INFURA_KEY}`
-        : `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-      blockExplorerUrl: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
+        : `https://kovan.infura.io/v3/${INFURA_KEY}`,
+      blockExplorerUrl: is_production ? 'https://etherscan.io/' : 'https://kovan.etherscan.io/',
     },
     provider: {
       MetaMask: { name: 'MetaMask' },
@@ -43,14 +42,16 @@ export const chains: {
         provider: {
           rpc: {
             rpc: {
-              [ETHEREUM_CHAIN.chainId]: ETHEREUM_CHAIN.rpc,
+              [is_production ? 1 : 42]: is_production
+                ? `https://mainnet.infura.io/v3/${INFURA_KEY}`
+                : `https://kovan.infura.io/v3/${INFURA_KEY}`,
             },
-            chainId: ETHEREUM_CHAIN.chainId,
+            chainId: is_production ? 1 : 42,
           },
         },
       },
     },
-    explorer: is_production ? 'https://etherscan.io/' : 'https://rinkeby.etherscan.io/',
+    explorer: is_production ? 'https://etherscan.io/' : 'https://kovan.etherscan.io/',
   },
 };
 

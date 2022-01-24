@@ -39,16 +39,6 @@ const Header: FC = observer(() => {
     setIsOpen(false);
   };
 
-  const showSocials = () => (
-    <div className={s.header__nav_mobile_socials}>
-      {socials.map(({ href, icon, alt }) => (
-        <a target="_blank" key={alt} href={href} rel="noreferrer">
-          {icon}
-        </a>
-      ))}
-    </div>
-  );
-
   const showConnect = () => {
     return !user.address ? (
       <div className={s.header__control}>
@@ -89,19 +79,25 @@ const Header: FC = observer(() => {
           <img src={Logo} alt="logo" />
         </Link>
         <nav className={s.header__nav_mobile_nav}>
-          <div role="button" tabIndex={0} onKeyPress={() => {}} onClick={handleBurger}>
+          <a href="#calc" onClick={handleBurger}>
             Calculator
-          </div>
-          <div role="button" tabIndex={0} onKeyPress={() => {}} onClick={handleBurger}>
+          </a>
+          <a href="#finance" onClick={handleBurger}>
             Why GWEI
-          </div>
+          </a>
           <a onClick={handleBurger} href="http://docs.gwei.fi/" target="_blank" rel="noreferrer">
             Docs
           </a>
         </nav>
-        {showSocials}
+        <div className={s.header__nav_mobile_socials}>
+          {socials.map(({ href, icon, alt }) => (
+            <a target="_blank" key={alt} href={href} rel="noreferrer">
+              {icon}
+            </a>
+          ))}
+        </div>
       </div>
-      {showConnect}
+      {showConnect()}
       <WalletModal isOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );

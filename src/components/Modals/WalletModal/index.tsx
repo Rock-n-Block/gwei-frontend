@@ -55,7 +55,7 @@ const WalletModal: FC<WalletModalProps> = observer(({ isOpen, closeModal }) => {
       </div>
       <div className={cn(s.modal_wallet__title, 'text', 'sm')}>Select a wallet</div>
 
-      <div className={s.modal_wallet__list}>{showList()}</div>
+      <div className={s.modal_wallet__list}>{showList}</div>
 
       <div className={s.modal_wallet__footer}>
         <div className={s.modal_wallet__new}>New to Ethereum?</div>

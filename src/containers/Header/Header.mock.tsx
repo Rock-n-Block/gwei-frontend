@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { FacebookIcon, LinkedInIcon, TwitterIcon } from 'components/Icons';
+import { DiscordIcon, MediumIcon, TelegramIcon, TwitterIcon } from 'components/Icons';
 
 interface SocialsI {
   href: string;
@@ -12,18 +12,23 @@ type SocialT = SocialsI[];
 
 export const socials: SocialT = [
   {
-    href: 'https://twitter.com/gweifinance',
-    icon: <LinkedInIcon />,
-    alt: 'linkedIn',
-  },
-  {
-    href: 'https://twitter.com/gweifinance',
-    icon: <FacebookIcon />,
-    alt: 'facebook',
+    href: 'https://medium.com/@GweiFinance',
+    icon: <MediumIcon />,
+    alt: 'medium',
   },
   {
     href: 'https://twitter.com/gweifinance',
     icon: <TwitterIcon />,
     alt: 'twitter',
+  },
+  {
+    href: 'https://discord.com/invite/qKCBSGJk82',
+    icon: <DiscordIcon />,
+    alt: 'discord',
+  },
+  {
+    href: 'https://t.me/gweifinance',
+    icon: <TelegramIcon />,
+    alt: 'telegram',
   },
 ];

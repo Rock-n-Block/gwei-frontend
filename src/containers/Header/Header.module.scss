@@ -2,101 +2,128 @@
 @import 'src/styles/mixins';
 @import '/src/styles/theme';
 
-.header {
-  margin-top: 41px;
+@keyframes goDown {
+  from {
+    transform: translateY(-1000px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
 
+.header {
+  padding: 16px 0;
   width: 100%;
+  background: transparent;
+  transition: .35s;
   @include flex(row, center, space-between, nowrap);
 
   @include b(tablet) {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
     position: fixed;
     z-index: 9999999;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 15px;
 
-    width: 90%;
+    &_background {
+      background: rgba(16, 19, 39, 1) !important;
+    }
   }
 
-  &__navbar {
-    @include flex(row, center, space-between);
+  &__nav {
+    @include flex(row, center, center, nowrap);
     width: 100%;
+    a + a {
+      margin-left: 50px;
+    }
 
-    &_logo {
-      z-index: 101;
-      @include b(tablet) {
+    &_mobile {
+      &_logo {
         display: none;
-      }
-    }
-
-    &_nav {
-      @include flex(row, center, space-between);
-      z-index: 101;
-
-      width: 100%;
-      max-width: 542px;
-
-      a {
-        padding: 5px;
-
-        font-size: 20px;
-
-        &:hover,
-        &:active {
-          color: $color-white;
+        @include b(tablet) {
+          display: block;
         }
       }
-    }
+      @include b(tablet) {
+        position: absolute;
+        animation: goDown .8s ease-in-out;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        left: 0;
 
-    &_socials {
-      @include flex();
-      z-index: 101;
+        padding: 10px 0 30px;
 
-      &_item {
-        width: 36px;
-        height: 36px;
+        display: none;
+        justify-content: space-between;
 
-        background: rgb(255 255 255 / 12%);
-        border-radius: 12px;
+        height: 100vh;
 
-        transition: 0.35s;
-        backdrop-filter: blur(4px);
-        @include flex(row, center, center);
+        text-align: center;
 
-        &:not(:last-child) {
-          margin-right: 16px;
+        background: #000;
+        border-bottom: 2px solid #32cdef;
+        box-shadow: 0 2px 40px 4px #32cdef;
+        flex-flow: column;
+      }
+
+      &_socials {
+        display: none;
+        @include b(tablet) {
+          @include flex(row, center, center);
+
+          a + a {
+            margin-left: 16px;
+          }
+
+          a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            @include flex(row, center, center);
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
         }
+      }
 
-        &:hover {
-          background: $color-blue-gradient;
-
-          svg > path {
-            fill: $color-white;
+      &_nav {
+        display: none;
+        @include b(tablet) {
+          margin: auto;
+          @include flex(column, center, center);
+          a {
+            padding: 15px;
+            font-size: 20px;
           }
         }
       }
     }
 
     @include b(tablet) {
-      position: absolute;
-      z-index: 100;
-      top: 0;
-      right: 0;
-      left: 0;
-
-      padding: 10px 0 30px;
-
       display: none;
-      justify-content: space-between;
+    }
+  }
 
-      height: 100vh;
+  &__navbar {
+    @include flex(row, center, space-between);
+    max-width: 200px;
+    width: 100%;
 
-      text-align: center;
+    @include b(tablet) {
+      display: none;
+    }
 
-      background: #000;
-      border-bottom: 2px solid #32cdef;
-      box-shadow: 0 2px 40px 4px #32cdef;
-      flex-flow: column;
+    &_logo {
+      z-index: 101;
+      @include b(tablet) {
+        display: none;
+      }
     }
   }
 
@@ -110,7 +137,6 @@
   }
 
   &__control {
-    z-index: 101;
 
     button {
       height: 44px !important;

@@ -6,6 +6,7 @@ import s from './Input.module.scss';
 
 interface IInputProps {
   type?: 'text' | 'number';
+  className?: string;
   value?: string;
   onChange: (str: string) => void;
   error?: string;
@@ -24,6 +25,7 @@ interface IInputProps {
 const Input: React.FC<IInputProps> = (props) => {
   const {
     type = 'text',
+    className,
     value,
     onChange,
     error,
@@ -74,6 +76,7 @@ const Input: React.FC<IInputProps> = (props) => {
           required={required}
           value={inputValue}
           placeholder={placeholder}
+          className={className}
           onWheel={(evt) => {
             evt.preventDefault();
           }}

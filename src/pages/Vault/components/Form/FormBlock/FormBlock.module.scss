@@ -1,0 +1,45 @@
+@import 'src/styles';
+
+.block + .block {
+  margin-top: 12px;
+}
+
+.block {
+  &__group {
+    &_wrap {
+      @include flex(row, center, space-between, nowrap);
+      div:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 24px;
+    div:first-child {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.button {
+  font-size: 14px;
+  line-height: 20px;
+  width: 100% !important;
+  margin-top: 24px;
+}
+
+.input {
+  margin-bottom: 16px;
+  margin-top: 6px;
+}
+
+.label {
+  @include flex(row, center, space-between, nowrap);
+  &__notification {
+    background: linear-gradient(#EF328D, #EC0909);
+    opacity: .8;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

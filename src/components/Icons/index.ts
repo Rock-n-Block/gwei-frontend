@@ -1,7 +1,6 @@
 export { TwitterIcon } from './TwitterIcon';
 export { FacebookIcon } from './FacebookIcon';
 export { LinkedInIcon } from './LinkedInIcon';
-export { LogoIcon } from './LogoIcon';
 export { MediumIcon } from './MediumIcon';
 export { DiscordIcon } from './DiscordIcon';
 export { TelegramIcon } from './TelegramIcon';
@@ -19,3 +18,6 @@ export { WalletConnectIcon } from './WalletConnectIcon';
 export { LatticeIcon } from './LatticeIcon';
 export { CloseIcon } from './CloseIcon';
 export { UserIcon } from './UserIcon';
+export { GoLinkIcon } from './GoLinkIcon';
+export { QuestionMarkIcon } from './QuestionMarkIcon';
+export { InfoIcon } from './InfoIcon';

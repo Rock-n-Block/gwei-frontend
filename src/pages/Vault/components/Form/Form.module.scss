@@ -1,0 +1,46 @@
+@import "src/styles";
+
+.form {
+  max-width: 380px;
+  flex-shrink: 0;
+  width: 100%;
+
+  @include b(tablet) {
+    max-width: unset;
+    margin-top: 50px;
+  }
+
+  &__group + &__group {
+    margin-bottom: 16px;
+  }
+
+  &__tabs {
+    display: flex;
+    margin-bottom: 12px;
+    div {
+      padding: 12px 28px;
+      font-size: 20px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.6);
+      background: rgba(16, 19, 39, 0.88);
+      border-radius: 12px;
+      transition: 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.05);
+        color: #fff;
+        box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(50 205 239 / 53%), 0 1px 0 #32cdef;
+      }
+    }
+
+    &_withdraw {
+      margin-left: 12px;
+    }
+
+    &_active {
+      color: $color-white !important;
+    }
+  }
+}
+

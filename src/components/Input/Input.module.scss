@@ -1,4 +1,4 @@
-@import 'src/styles/theme';
+@import 'src/styles';
 
 // input
 .input {
@@ -19,6 +19,18 @@
     outline: 0;
 
     transition: 0.35s;
+
+    @include b(tablet) {
+      max-width: unset !important;
+    }
+    &:hover {
+      border: 1px solid #32cdef;
+    }
+
+    &:focus {
+      border: 1px solid #32cdef;
+      box-shadow: 0 0 9px 1px #32cdef;
+    }
   }
 
   &_title {
@@ -45,6 +57,10 @@
 
     color: #fff;
     border-radius: 4px;
+
+    @include b(tablet) {
+      max-width: unset !important;
+    }
 
     &:focus-within {
       //border-color: $color-border-input-focused;

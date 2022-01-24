@@ -2,8 +2,8 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 
 import { chainsEnum, IConnectWallet, IContracts } from 'types';
 
-import { stakingAbi } from './abi';
 import { ETHEREUM_CHAIN } from './constants';
+import { InvitationNFTAbi, MockToken1Abi, MockToken2Abi, Pool10000Abi, Pool3000Abi, Pool500Abi, VaultAbi } from './abi';
 
 export const is_production = false;
 
@@ -66,16 +66,76 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
 
 export const contracts: IContracts = {
   type: is_production ? 'mainnet' : 'testnet',
-  names: ['STAKING'],
+  names: ['MockToken1', 'MockToken2', 'Pool500', 'Pool3000', 'Pool10000', 'Vault', 'InvitationNFT'],
   params: {
-    STAKING: {
+    MockToken1: {
       mainnet: {
-        address: '0xfab0fd2586e287746aaec8397109b5fe6d2ff053',
-        abi: stakingAbi,
+        address: '',
+        abi: MockToken1Abi,
       },
       testnet: {
-        address: '0x3bEeA65fdf4C0C51055675800B142045Ed4c76A2',
-        abi: stakingAbi,
+        address: '0x32f7815c5854FE5826449344Fc6d400927D9CFDB',
+        abi: MockToken1Abi,
+      },
+    },
+    MockToken2: {
+      mainnet: {
+        address: '',
+        abi: MockToken2Abi,
+      },
+      testnet: {
+        address: '0xc2963fD186B4A269C5EbFd9dD7f5F8C4575656Be',
+        abi: MockToken2Abi,
+      },
+    },
+    Pool500: {
+      mainnet: {
+        address: '',
+        abi: Pool500Abi,
+      },
+      testnet: {
+        address: '0xDaAD8A10d7c518fA0AeF5850B68E25fFc01e4461',
+        abi: Pool500Abi,
+      },
+    },
+    Pool3000: {
+      mainnet: {
+        address: '',
+        abi: Pool3000Abi,
+      },
+      testnet: {
+        address: '0x25A921ECdD3aaf5eD91F723fC49e34559976c724',
+        abi: Pool3000Abi,
+      },
+    },
+    Pool10000: {
+      mainnet: {
+        address: '',
+        abi: Pool10000Abi,
+      },
+      testnet: {
+        address: '0x458B95Cd8A5349278594205451843dc6aF333C7F',
+        abi: Pool10000Abi,
+      },
+    },
+    Vault: {
+      mainnet: {
+        address: '',
+        abi: VaultAbi,
+      },
+      testnet: {
+        address: '0x1138a60211eAD0996E8c0F6c925ee9E61368Ac86',
+        abi: VaultAbi,
+      },
+    },
+    InvitationNFT: {
+      mainnet: {
+        address: '',
+        abi: InvitationNFTAbi,
+      },
+      testnet: {
+        address: '0x658dcfDDe53986819a6e18D714F8f4294C2DBE3A',
+        abi: InvitationNFTAbi,
       },
     },
   },

@@ -5,16 +5,15 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 
 import { connectWallet as connectWalletConfig, contracts } from 'config';
-import { bep20Abi, erc20Abi } from 'config/abi';
 
 import { chainsEnum } from 'types';
+import { erc20Abi } from 'config/abi';
 
 type TokenAbiType = {
   [key in chainsEnum]: Array<AbiItem>;
 };
 
 const tokenAbis: TokenAbiType = {
-  'Binance-Smart-Chain': bep20Abi as Array<AbiItem>,
   'Ethereum': erc20Abi as Array<AbiItem>,
 };
 

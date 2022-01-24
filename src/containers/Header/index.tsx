@@ -49,25 +49,27 @@ const Header: FC = observer(() => {
     </div>
   );
 
-  const showConnect = () => {
-    return !user.address ? (
-      <div className={s.header__control}>
-        <Button onClick={openModal} color="default">
-          CONNECT WALLET
-        </Button>
-      </div>
-    ) : (
-      <div className={s.user}>
-        <div className={s.user__logo}>
-          <UserIcon />
-        </div>
-        <div className={s.user__info}>
-          <div className={s.user__info_balance}>0 ETH</div>
-          <div>{shortAddress(user.address)}</div>
-        </div>
-      </div>
+  const showConnect = (
+      <>
+        {!user.address ? (
+          <div className={s.header__control}>
+            <Button onClick={openModal} color="default">
+              CONNECT WALLET
+            </Button>
+          </div>
+        ) : (
+          <div className={s.user}>
+            <div className={s.user__logo}>
+              <UserIcon />
+            </div>
+            <div className={s.user__info}>
+              <div className={s.user__info_balance}>0 ETH</div>
+              <div>{shortAddress(user.address)}</div>
+            </div>
+          </div>
+        )}
+      </>
     );
-  };
 
   return (
     <div className={cn(s.header, isBackground ? s.header_background : '')}>

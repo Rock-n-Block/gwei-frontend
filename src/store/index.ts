@@ -12,6 +12,7 @@ const RootModel = types.model('RootModel', {
 export const rootStore = RootModel.create({
   user: {
     address: null,
+    balance: null,
   },
 });
 

@@ -1,15 +1,10 @@
-import { FC, useEffect } from 'react';
+import { FC} from 'react';
 
 import { Footer, Header, RouterManager } from 'containers';
 
 import WalletConnect from './services/WalletConnect';
-import { WalletService } from './services';
 
 const App: FC = () => {
-
-  useEffect(() => {
-    console.log(WalletService.getAddress('MockToken1'));
-  }, [])
 
   return (
     <WalletConnect>

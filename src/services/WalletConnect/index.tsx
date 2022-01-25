@@ -3,16 +3,21 @@ import { createContext, FC, useCallback, useContext, useEffect, useMemo, useRef 
 import { observer } from 'mobx-react-lite';
 import { rootStore } from 'store';
 
-import { chains } from 'config';
+import { chains, contracts } from 'config';
 
 import { WalletService } from 'services/WalletService';
 import { chainsEnum } from 'types';
+import { clog, clogError } from 'utils/logger';
 
 declare global {
   interface Window {
     ethereum: any;
   }
 }
+
+const log = (...content: unknown[]) => clog('services/WalletConnect[debug]:', ...content);
+
+const { type, params } = contracts;
 
 const WalletConnectContext = createContext<{
   connect: (
@@ -51,6 +56,9 @@ const Connect: FC = observer(({ children }) => {
             provider.current.setAccountAddress(address);
             rootStore.user.setAddress(address);
             localStorage.gwei_logged = true;
+            const balance = await provider.current.getTokenBalance(params.MockToken1[type].address);
+            await log('balance: ', balance);
+            rootStore.user.setBalance(balance);
 
             const eventSubs = provider.current.connectWallet.eventSubscriber().subscribe(
               (res: any) => {
@@ -71,9 +79,13 @@ const Connect: FC = observer(({ children }) => {
               disconnect();
             }
           }
+        } else {
+          log('initWalletConnect: isConnected is', isConnected);
+          disconnect();
+          return;
         }
       } catch (err) {
-        console.error(err);
+        clogError('connect: provider.initWalletConnect', err);
         disconnect();
       }
     },

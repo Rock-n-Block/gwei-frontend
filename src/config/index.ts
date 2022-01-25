@@ -13,6 +13,7 @@ import {
 } from './abi';
 
 export const is_production = false;
+export const SHOW_LOGS = !is_production;
 
 const INFURA_KEY = '579f676938414709905652124fd1be95';
 

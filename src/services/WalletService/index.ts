@@ -22,12 +22,15 @@ export class WalletService {
 
   public walletAddress = '';
 
+  public web3: any = '';
+
   public contracts: any = {};
 
   private currentChain: chainsEnum = chainsEnum.Ethereum;
 
   constructor(initProvider?: any) {
     this.connectWallet = new ConnectWallet(initProvider);
+    this.web3 = this.connectWallet.currentWeb3();
   }
 
   public async initWalletConnect(

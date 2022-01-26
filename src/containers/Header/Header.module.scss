@@ -47,7 +47,7 @@
       }
       @include b(tablet) {
         position: absolute;
-        animation: goDown .8s ease-in-out;
+        transition: height ease .6s;
         z-index: 100;
         top: 0;
         right: 0;
@@ -58,7 +58,7 @@
         display: none;
         justify-content: space-between;
 
-        height: 100vh;
+        height: 0px;
 
         text-align: center;
 
@@ -171,4 +171,10 @@
       color: $color-text;
     }
   }
+}
+
+.open_mobile {
+  height: 100vh;
+  transition: height ease .6s;
+  display: flex;
 }

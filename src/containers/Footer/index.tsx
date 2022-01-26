@@ -1,31 +1,55 @@
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useState } from 'react';
 
-import { socials } from './Footer.mock';
+import { PrivacyText, socials, TermsText } from './Footer.mock';
 
 import s from './Footer.module.scss';
+import { FooterModal } from 'components';
 
 const Footer: FC = () => {
-  const showSocials = useMemo(
-    () => (
-      <>
-        {socials.map(({ href, icon, alt }) => (
-          <a
-            target="_blank"
-            key={alt}
-            href={href}
-            className={s.footer__inner_socials_item}
-            rel="noreferrer"
-          >
-            {icon}
-          </a>
-        ))}
-      </>
-    ),
-    [],
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+
+  const handlePrivacyModal = useCallback(() => setIsPrivacyOpen(!isPrivacyOpen), [isPrivacyOpen]);
+  const handleTermsModal = useCallback(() => setIsTermsOpen(!isTermsOpen), [isTermsOpen]);
+
+  const showSocials = (
+    <>
+      {socials.map(({ href, icon, alt }) => (
+        <a
+          target="_blank"
+          key={alt}
+          href={href}
+          className={s.footer__inner_socials_item}
+          rel="noreferrer"
+        >
+          {icon}
+        </a>
+      ))}
+    </>
   );
 
   return (
     <footer className={s.footer}>
+      <FooterModal
+        isOpen={isPrivacyOpen}
+        handleClose={handlePrivacyModal}
+        title={
+          <h2 className="title">
+            Privacy <span>Policy</span>
+          </h2>
+        }
+        children={PrivacyText}
+      />
+      <FooterModal
+        isOpen={isTermsOpen}
+        handleClose={handleTermsModal}
+        title={
+          <h2 className="title">
+            Terms <span>&</span> Conditions
+          </h2>
+        }
+        children={TermsText}
+      />
       <div className={s.footer__inner}>
         <div className={s.footer__inner_madeby_mobile}>
           made by{' '}
@@ -38,8 +62,8 @@ const Footer: FC = () => {
         </div>
 
         <div className={s.footer__inner_links}>
-          <a href="/">Privacy policy</a>
-          <a href="/">Terms of Use</a>
+          <a onClick={handlePrivacyModal}>Privacy policy</a>
+          <a onClick={handleTermsModal}>Terms of Use</a>
         </div>
 
         <div className={s.footer__inner_madeby}>

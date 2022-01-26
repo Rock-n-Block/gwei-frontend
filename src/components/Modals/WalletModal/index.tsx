@@ -45,6 +45,7 @@ const WalletModal: FC<WalletModalProps> = observer(({ isOpen, closeModal }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
+      closeTimeoutMS={350}
       className={s.modal_wallet}
       overlayClassName={s.overlay}
       contentLabel="Example Modal"

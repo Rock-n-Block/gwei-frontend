@@ -74,7 +74,7 @@ const Header: FC = observer(() => {
         <a href="#finance">Why GWEI</a>
         <a href="http://docs.gwei.fi/">Docs</a>
       </nav>
-      <div className={cn(s.header__nav_mobile, isBurgerOpen ? 'open' : '')}>
+      <div className={cn(s.header__nav_mobile, isBurgerOpen ? s.open_mobile : '')}>
         <Link onClick={handleBurger} to="/" className={s.header__nav_mobile_logo}>
           <img src={Logo} alt="logo" />
         </Link>

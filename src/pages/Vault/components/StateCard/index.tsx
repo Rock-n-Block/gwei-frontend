@@ -1,7 +1,10 @@
 import { FC, memo } from 'react';
+
 import { Plate } from 'containers';
-import s from './StateCard.module.scss';
+
 import { GoLinkIcon } from 'components/Icons';
+
+import s from './StateCard.module.scss';
 
 const StateCard: FC = () => {
   return (
@@ -12,6 +15,7 @@ const StateCard: FC = () => {
           <a
             target="_blank"
             href="https://rinkeby.etherscan.io/address/0x183cf97be592c67b1b369eb21f96eb73bc23db11"
+            rel="noreferrer"
           >
             <GoLinkIcon />
           </a>

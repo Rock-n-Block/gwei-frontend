@@ -1,13 +1,14 @@
-@import "src/styles";
+@import 'src/styles';
 
 .form {
+  width: 100%;
   max-width: 380px;
   flex-shrink: 0;
-  width: 100%;
 
   @include b(tablet) {
-    max-width: unset;
     margin-top: 50px;
+
+    max-width: unset;
   }
 
   &__group + &__group {
@@ -15,22 +16,29 @@
   }
 
   &__tabs {
-    display: flex;
     margin-bottom: 12px;
+
+    display: flex;
+
     div {
       padding: 12px 28px;
+
       font-size: 20px;
       line-height: 20px;
-      color: rgba(255, 255, 255, 0.6);
-      background: rgba(16, 19, 39, 0.88);
-      border-radius: 12px;
-      transition: 0.3s;
+
       cursor: pointer;
 
+      color: rgb(255 255 255 / 60%);
+      background: rgb(16 19 39 / 88%);
+      border-radius: 12px;
+
+      transition: 0.3s;
+
       &:hover {
-        transform: scale(1.05);
         color: #fff;
         box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(50 205 239 / 53%), 0 1px 0 #32cdef;
+
+        transform: scale(1.05);
       }
     }
 
@@ -43,4 +51,3 @@
     }
   }
 }
-

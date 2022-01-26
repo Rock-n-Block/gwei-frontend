@@ -6,6 +6,7 @@
   from {
     transform: translateY(-1000px);
   }
+
   to {
     transform: translateY(0);
   }
@@ -13,27 +14,33 @@
 
 .header {
   padding: 16px 0;
+
   width: 100%;
+
   background: transparent;
-  transition: .35s;
+
+  transition: 0.35s;
   @include flex(row, center, space-between, nowrap);
 
   @include b(tablet) {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
     position: fixed;
     z-index: 9999999;
     left: 50%;
+
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+
     transform: translateX(-50%);
 
     &_background {
-      background: rgba(16, 19, 39, 1) !important;
+      background: rgb(16 19 39 / 100%) !important;
     }
   }
 
   &__nav {
     @include flex(row, center, center, nowrap);
     width: 100%;
+
     a + a {
       margin-left: 50px;
     }
@@ -47,7 +54,6 @@
       }
       @include b(tablet) {
         position: absolute;
-        transition: height ease .6s;
         z-index: 100;
         top: 0;
         right: 0;
@@ -58,13 +64,15 @@
         display: none;
         justify-content: space-between;
 
-        height: 0px;
+        height: 0;
 
         text-align: center;
 
         background: #000;
         border-bottom: 2px solid #32cdef;
         box-shadow: 0 2px 40px 4px #32cdef;
+
+        transition: height ease 0.6s;
         flex-flow: column;
       }
 
@@ -80,7 +88,8 @@
           a {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.04);
+
+            background: rgb(255 255 255 / 4%);
             border-radius: 12px;
             @include flex(row, center, center);
 
@@ -97,8 +106,10 @@
         @include b(tablet) {
           margin: auto;
           @include flex(column, center, center);
+
           a {
             padding: 15px;
+
             font-size: 20px;
           }
         }
@@ -112,8 +123,8 @@
 
   &__navbar {
     @include flex(row, center, space-between);
-    max-width: 200px;
     width: 100%;
+    max-width: 200px;
 
     @include b(tablet) {
       display: none;
@@ -137,7 +148,6 @@
   }
 
   &__control {
-
     button {
       height: 44px !important;
 
@@ -155,13 +165,16 @@
 .user {
   @include flex(row, center, space-between, nowrap);
   cursor: pointer;
+
   &__logo {
-    background: rgba(255, 255, 255, 0.12);
+    margin-right: 12px;
+
     width: 36px;
     height: 36px;
-    @include flex(row, center, center);
-    margin-right: 12px;
+
+    background: rgb(255 255 255 / 12%);
     border-radius: 12px;
+    @include flex(row, center, center);
   }
 
   &__info {
@@ -174,7 +187,9 @@
 }
 
 .open_mobile {
-  height: 100vh;
-  transition: height ease .6s;
   display: flex;
+
+  height: 100vh;
+
+  transition: height ease 0.6s;
 }

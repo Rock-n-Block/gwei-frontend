@@ -1,9 +1,6 @@
 import { ReactElement } from 'react';
 
-import {
-  MetamaskIcon,
-  WalletConnectIcon,
-} from 'components/Icons';
+import { MetamaskIcon, WalletConnectIcon } from 'components/Icons';
 
 interface WalletsI {
   icon: ReactElement;

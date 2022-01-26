@@ -75,17 +75,13 @@ const Connect: FC = observer(({ children }) => {
               disconnect();
             }
           }
-        } else {
-          log('initWalletConnect: isConnected is', isConnected);
-          disconnect();
-          return;
         }
       } catch (err) {
         logErr('connect: provider.initWalletConnect', err);
         disconnect();
       }
     },
-    [disconnect, provider],
+    [disconnect],
   );
 
   const walletConnectValue = useMemo(() => {

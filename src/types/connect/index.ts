@@ -42,3 +42,5 @@ export interface IContracts {
     };
   };
 }
+
+export type WalletT = 'MetaMask' | 'WalletConnect' | string;

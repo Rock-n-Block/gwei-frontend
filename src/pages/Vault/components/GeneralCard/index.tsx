@@ -1,7 +1,9 @@
 import { FC, memo } from 'react';
-import s from './GeneralCard.module.scss';
-import { Plate } from 'containers';
+
 import cn from 'classnames';
+import { Plate } from 'containers';
+
+import s from './GeneralCard.module.scss';
 
 const GeneralCard: FC = () => {
   return (
@@ -19,7 +21,7 @@ const GeneralCard: FC = () => {
       </div>
 
       <div className={s.general_card__block}>
-        <div className={'text-descr'}>USDC/ETH</div>
+        <div className="text-descr">USDC/ETH</div>
         <div className={s.general_card__details}>
           <div className={s.general_card__details_item}>
             <div className="text-descr">USDC: 0.00</div>

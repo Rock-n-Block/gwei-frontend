@@ -1,32 +1,36 @@
-@import "src/styles";
+@import 'src/styles';
 
 .card {
+  margin-bottom: 12px;
+  padding: 16px !important;
+
   background: $card-bg-2 !important;
   border-radius: 12px;
-  padding: 16px !important;
-  margin-bottom: 12px;
 
   &__text {
     margin-bottom: 12px;
   }
 
   &__title {
-    @include flex (row, center, space-between);
+    @include flex(row, center, space-between);
     margin-bottom: 12px;
 
     &_icon {
       cursor: pointer;
-      transition: .3s;
+
+      transition: 0.3s;
+
       &:hover {
-        opacity: .65;
+        opacity: 0.65;
       }
     }
   }
 
   &__info {
     &_item {
-      @include flex (row, center, space-between);
+      @include flex(row, center, space-between);
     }
+
     &_item + &_item {
       margin-top: 6px;
     }

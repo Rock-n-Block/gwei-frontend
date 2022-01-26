@@ -1,7 +1,10 @@
 import { FC, memo, useCallback, useState } from 'react';
-import s from './Form.module.scss';
-import FormBlock from './FormBlock';
+
 import cn from 'classnames';
+
+import FormBlock from './FormBlock';
+
+import s from './Form.module.scss';
 
 type TabT = 'Deposit' | 'Withdraw';
 
@@ -12,7 +15,6 @@ const Form: FC = () => {
     setCurrentTab(tab);
   }, []);
 
-  console.log(currentTab);
   return (
     <div className={s.form}>
       <div className={s.form__tabs}>

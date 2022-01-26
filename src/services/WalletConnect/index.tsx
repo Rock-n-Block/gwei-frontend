@@ -4,10 +4,10 @@ import { observer } from 'mobx-react-lite';
 import { rootStore } from 'store';
 
 import { chains, contracts } from 'config';
+import { clog, clogError } from 'utils/logger';
 
 import { WalletService } from 'services/WalletService';
-import { chainsEnum } from 'types';
-import { clog, clogError } from 'utils/logger';
+import { chainsEnum, WalletT } from 'types';
 
 declare global {
   interface Window {
@@ -16,14 +16,12 @@ declare global {
 }
 
 const log = (...content: unknown[]) => clog('services/WalletConnect[debug]:', ...content);
+const logErr = (...content: unknown[]) => clogError('services/WalletConnect[debug]:', ...content);
 
 const { type, params } = contracts;
 
 const WalletConnectContext = createContext<{
-  connect: (
-    chainName: chainsEnum,
-    providerName: 'MetaMask' | 'WalletConnect' | string,
-  ) => Promise<void>;
+  connect: (chainName: chainsEnum, providerName: WalletT) => Promise<void>;
   disconnect: () => void;
   walletService: WalletService;
 }>({
@@ -36,13 +34,12 @@ const Connect: FC = observer(({ children }) => {
   const provider = useRef<WalletService>(new WalletService(chains.Ethereum.network.rpc as string));
 
   const disconnect = useCallback(() => {
-    // USE THIS: delete localStorage.project_name_logged;
     delete localStorage.gwei_logged;
     rootStore.user.disconnect();
   }, []);
 
   const connect = useCallback(
-    async (chainName: chainsEnum, providerName: 'MetaMask' | 'WalletConnect' | string) => {
+    async (chainName: chainsEnum, providerName: WalletT) => {
       try {
         const isConnected = await provider.current.initWalletConnect(
           chainName,
@@ -52,12 +49,12 @@ const Connect: FC = observer(({ children }) => {
         if (isConnected) {
           try {
             const { address }: any = await provider.current.getAccount();
-            console.log('getAccount address:', address);
+            log('getAccount address:', address);
             provider.current.setAccountAddress(address);
             rootStore.user.setAddress(address);
             localStorage.gwei_logged = true;
             const balance = await provider.current.getTokenBalance(params.MockToken1[type].address);
-            await log('balance: ', balance);
+            log('balance: ', balance);
             rootStore.user.setBalance(balance);
 
             const eventSubs = provider.current.connectWallet.eventSubscriber().subscribe(
@@ -67,14 +64,13 @@ const Connect: FC = observer(({ children }) => {
                 }
               },
               (err: any) => {
-                // eslint-disable-next-line no-console
-                console.log(err);
+                logErr(err);
                 eventSubs.unsubscribe();
                 disconnect();
               },
             );
           } catch (err: any) {
-            console.error('getAccount wallet connect - get user account err: ', err);
+            logErr('getAccount wallet connect - get user account err: ', err);
             if (!(err.code && err.code === 6)) {
               disconnect();
             }
@@ -85,7 +81,7 @@ const Connect: FC = observer(({ children }) => {
           return;
         }
       } catch (err) {
-        clogError('connect: provider.initWalletConnect', err);
+        logErr('connect: provider.initWalletConnect', err);
         disconnect();
       }
     },

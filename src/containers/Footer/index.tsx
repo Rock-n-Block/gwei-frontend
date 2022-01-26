@@ -1,16 +1,17 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useState } from 'react';
+
+import { FooterModal } from 'components';
 
 import { PrivacyText, socials, TermsText } from './Footer.mock';
 
 import s from './Footer.module.scss';
-import { FooterModal } from 'components';
 
 const Footer: FC = () => {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
 
-  const handlePrivacyModal = useCallback(() => setIsPrivacyOpen(!isPrivacyOpen), [isPrivacyOpen]);
-  const handleTermsModal = useCallback(() => setIsTermsOpen(!isTermsOpen), [isTermsOpen]);
+  const handlePrivacyModal = () => setIsPrivacyOpen(!isPrivacyOpen);
+  const handleTermsModal = () => setIsTermsOpen(!isTermsOpen);
 
   const showSocials = (
     <>
@@ -38,8 +39,9 @@ const Footer: FC = () => {
             Privacy <span>Policy</span>
           </h2>
         }
-        children={PrivacyText}
-      />
+      >
+        {PrivacyText}
+      </FooterModal>
       <FooterModal
         isOpen={isTermsOpen}
         handleClose={handleTermsModal}
@@ -48,8 +50,9 @@ const Footer: FC = () => {
             Terms <span>&</span> Conditions
           </h2>
         }
-        children={TermsText}
-      />
+      >
+        {TermsText}
+      </FooterModal>
       <div className={s.footer__inner}>
         <div className={s.footer__inner_madeby_mobile}>
           made by{' '}
@@ -62,8 +65,8 @@ const Footer: FC = () => {
         </div>
 
         <div className={s.footer__inner_links}>
-          <a onClick={handlePrivacyModal}>Privacy policy</a>
-          <a onClick={handleTermsModal}>Terms of Use</a>
+          <div onClick={handlePrivacyModal}>Privacy policy</div>
+          <div onClick={handleTermsModal}>Terms of Use</div>
         </div>
 
         <div className={s.footer__inner_madeby}>

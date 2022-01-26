@@ -1,9 +1,10 @@
-@import "src/styles";
+@import 'src/styles';
 
 .general_card {
-  background: $card-bg-2 !important;
   margin-bottom: 12px;
   padding: 16px !important;
+
+  background: $card-bg-2 !important;
 
   &__title {
     margin-bottom: 12px;
@@ -13,25 +14,31 @@
     &:nth-child(2) {
       margin-top: 6px;
     }
+
     &_item {
       @include flex(row, center, space-between, nowrap);
     }
 
     &_tlv {
       position: relative;
-      background: #bcb6ba;
-      box-shadow: 0 8px 4px rgb(0 0 0 / 18%), 0 0 34px #18a6dd;
-      border-radius: 60px;
-      height: 4px;
+
       margin-top: 16px;
+
+      height: 4px;
+
+      background: #bcb6ba;
+      border-radius: 60px;
+      box-shadow: 0 8px 4px rgb(0 0 0 / 18%), 0 0 34px #18a6dd;
 
       div {
         position: absolute;
         top: 0;
         left: 0;
-        border-radius: 50px;
+
         height: 4px;
+
         background: #44d3f2;
+        border-radius: 50px;
         box-shadow: 0 0 3px #32cdef, 0 0 4px #32cdef, 0 0 6px #32cdef, 0 0 4px #32cdef;
       }
     }
@@ -43,19 +50,24 @@
 
   &__compare {
     position: relative;
-    background: #bcb6ba;
-    box-shadow: 0 8px 4px rgb(0 0 0 / 18%), 0 0 34px #18a6dd;
-    border-radius: 60px;
-    height: 4px;
+
     margin-top: 16px;
     margin-bottom: 22px;
 
+    height: 4px;
+
+    background: #bcb6ba;
+    border-radius: 60px;
+    box-shadow: 0 8px 4px rgb(0 0 0 / 18%), 0 0 34px #18a6dd;
+
     &_list {
       position: absolute;
-      left: 0;
       top: 0;
       right: 0;
+      left: 0;
+
       display: flex;
+
       border-radius: 60px;
 
       div {
@@ -65,33 +77,42 @@
 
       div:first-child {
         background: #8b0000;
-        box-shadow: 0 0 3px #8b0000, 0 0 4px #8b0000, 0 0 6px #8b0000, 0 0 4px #32cdef;
         border-radius: 50px 0 0 50px;
+        box-shadow: 0 0 3px #8b0000, 0 0 4px #8b0000, 0 0 6px #8b0000, 0 0 4px #32cdef;
       }
+
       div:nth-child(2) {
         background: #c71585;
       }
+
       div:nth-child(3) {
         background: orange;
       }
+
       div:nth-child(4) {
         background: #ff0;
       }
+
       div:nth-child(5) {
         background: #f0f;
       }
+
       div:nth-child(6) {
         background: #6a5acd;
       }
+
       div:nth-child(7) {
         background: #00008b;
       }
+
       div:nth-child(8) {
         background: #00f;
       }
+
       div:nth-child(9) {
         background: #20b2aa;
       }
+
       div:nth-child(10) {
         background: #2f4f4f;
       }

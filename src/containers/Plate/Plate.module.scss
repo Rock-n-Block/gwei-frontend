@@ -1,9 +1,10 @@
 @import 'src/styles';
 
 .plate {
-  border-radius: 12px;
-  background: $card-bg;
   padding: 20px 24px 24px;
+
+  background: $card-bg;
+  border-radius: 12px;
 
   @include b(tablet) {
     padding-right: 17px;

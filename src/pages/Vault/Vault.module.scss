@@ -2,9 +2,10 @@
 
 .vault {
   position: relative;
+
+  margin: auto;
   padding-top: 57px;
   padding-bottom: 24px;
-  margin: auto;
 
   @include b(tablet) {
     padding-top: 100px;
@@ -17,12 +18,14 @@
     @include b(tablet) {
       flex-direction: column;
     }
+
     &_details {
       margin-right: 40px;
 
       @include b(tablet) {
         margin-right: 0;
       }
+
       &_head {
         @include flex(row, center, space-between);
         margin-bottom: 18px;
@@ -31,6 +34,7 @@
           @include flex(column, flex-start, flex-start);
         }
       }
+
       &_invite {
         position: relative;
         @include flex(row, center, center);
@@ -42,17 +46,20 @@
         &_item {
           color: #32cdef;
           background: linear-gradient(90deg, #32cdef 0, #0964ec 100%);
-          -webkit-background-clip: text;
+          background-clip: text;
           -webkit-text-fill-color: transparent;
 
           &:hover {
             opacity: 0.65;
           }
         }
+
         &_tooltip {
           position: relative;
-          line-height: 0;
+
           margin-left: 9px;
+
+          line-height: 0;
 
           &:hover {
             .vault__row_details_invite_tooltip_info {
@@ -63,25 +70,32 @@
           svg {
             cursor: pointer;
           }
+
           &_info {
-            display: none;
             position: absolute;
             z-index: 99;
-            width: 240px;
             top: 125%;
             left: -10px;
+
+            padding: 12px;
+
+            display: none;
+
+            width: 240px;
+
             font-size: 14px;
             line-height: 1.4;
-            border-radius: 15px;
-            padding: 12px;
             letter-spacing: -0.03em;
+
             color: #fff;
-            background: rgba(255, 255, 255, 0.4);
-            -webkit-backdrop-filter: blur(7px);
+            background: rgb(255 255 255 / 40%);
+            border-radius: 15px;
+            backdrop-filter: blur(7px);
             backdrop-filter: blur(7px);
           }
         }
       }
+
       &_text {
         margin-bottom: 24px;
       }
@@ -91,6 +105,7 @@
   &__footer {
     @include flex(row, flex-start, flex-start, nowrap);
     margin-top: 30px;
+
     svg {
       margin-right: 8px;
     }
@@ -98,14 +113,17 @@
 
   &__last_block {
     margin-top: 40px;
+
     text-align: right;
     @include b(tablet) {
       margin-top: 16px;
     }
+
     span {
-      font-weight: 700;
       font-size: 14px;
+      font-weight: 700;
       line-height: 16px;
+
       color: #0cfe32;
     }
   }

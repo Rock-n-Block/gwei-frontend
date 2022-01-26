@@ -3,6 +3,8 @@ import { createContext, useContext } from 'react';
 import makeInspectable from 'mobx-devtools-mst';
 import { Instance, onSnapshot, types } from 'mobx-state-tree';
 
+import { clog } from 'utils/logger';
+
 import { UserModel } from './Models';
 
 const RootModel = types.model('RootModel', {
@@ -25,7 +27,7 @@ const RootStoreContext = createContext<RootInstance | null>(null);
 export const { Provider } = RootStoreContext;
 
 onSnapshot(rootStore, (snapshot) => {
-  console.log(snapshot);
+  clog('store: ', snapshot);
 });
 
 export function useMst() {

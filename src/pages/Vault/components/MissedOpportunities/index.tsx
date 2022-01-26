@@ -1,7 +1,9 @@
 import { FC, memo } from 'react';
-import { Plate } from 'containers';
-import s from './MissedOpportunities.module.scss';
+
 import cn from 'classnames';
+import { Plate } from 'containers';
+
+import s from './MissedOpportunities.module.scss';
 
 const MissedOpportunities: FC = () => {
   return (

@@ -1,19 +1,24 @@
 @import 'src/styles';
 
 .modal_wallet {
-  max-width: 440px;
   position: relative;
-  transition: 0.3s;
-  padding: 32px;
-  width: 100%;
+
   margin: auto;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  padding: 32px;
+
+  width: 100%;
+  max-width: 440px;
+
   line-height: 1.4;
 
+  background: rgb(255 255 255 / 6%);
+  border-radius: 12px;
+
+  transition: 0.3s;
+
   @include b(tablet) {
-    padding-left: 20px;
     padding-right: 20px;
+    padding-left: 20px;
   }
 
   &__title {
@@ -24,14 +29,19 @@
     position: absolute;
     top: 25px;
     right: 25px;
+
+    padding: 0;
+
+    line-height: 0;
+
+    cursor: pointer;
+
     border: 0;
     outline: 0;
-    line-height: 0;
-    padding: 0;
-    cursor: pointer;
 
     svg > * {
       opacity: 0.4;
+
       transition: 0.35s;
     }
 
@@ -39,6 +49,7 @@
       svg > * {
         opacity: 1;
         fill: red;
+
         transition: 0.35s;
       }
     }
@@ -49,13 +60,17 @@
   }
 
   &__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
     padding: 10px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     cursor: pointer;
+
+    background: rgb(255 255 255 / 6%);
+    border-radius: 12px;
+
     transition: 0.3s;
 
     &:not(:first-child) {
@@ -63,22 +78,25 @@
     }
 
     &:hover {
-      transform: scale(1.02);
       box-shadow: 0 0 12px 1px rgb(50 205 239 / 80%);
+
+      transform: scale(1.02);
     }
 
     &_name {
-      font-weight: 700;
       font-size: 16px;
+      font-weight: 700;
       line-height: 1.5;
-      color: rgba(255, 255, 255, 0.6);
+
+      color: rgb(255 255 255 / 60%);
     }
 
     &_logo {
-      width: 24px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+
+      width: 24px;
     }
   }
 
@@ -88,14 +106,16 @@
 
   &__new {
     margin-bottom: 4px;
+
     color: $color-text;
   }
 
   &__learn {
     color: #32cdef;
     background: linear-gradient(90deg, #32cdef 0, #0964ec 100%);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+
     border-bottom: 1px solid #1e59af;
 
     &:hover {
@@ -106,19 +126,24 @@
 
 .overlay {
   position: fixed;
-  display: flex;
-  padding: 25px 20px;
+  z-index: 1050;
   top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
-  z-index: 1050;
-  outline: 0;
+  bottom: 0;
+
+  padding: 25px 20px;
+
+  display: flex;
   overflow: hidden;
   overflow-y: auto;
-  background: rgba(21, 31, 50, 0.6);
-  backdrop-filter: blur(24px);
-  transition: 0.3s all ease;
-  opacity: 1;
+
   pointer-events: auto;
+
+  background: rgb(21 31 50 / 60%);
+  outline: 0;
+  opacity: 1;
+
+  transition: 0.3s all ease;
+  backdrop-filter: blur(24px);
 }

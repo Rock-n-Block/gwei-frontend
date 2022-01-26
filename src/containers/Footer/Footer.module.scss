@@ -1,15 +1,16 @@
 @import 'src/styles';
 
 .footer {
-  height: 104px;
-  width: 100%;
-
   padding: 32px 1.25rem;
+
+  width: 100%;
+  height: 104px;
 
   background: $footer-bg;
 
   @include b(tablet) {
     position: initial;
+    height: auto;
   }
 
   &__inner {
@@ -75,8 +76,13 @@
     }
 
     &_links {
-      a {
+      display: flex;
+      height: 20px;
+      div {
         text-decoration: underline;
+        color: $color-link;
+
+        cursor: pointer;
 
         &:hover {
           text-decoration: underline;
@@ -88,7 +94,7 @@
         }
       }
 
-      a + a {
+      div + div {
         margin-left: 32px;
       }
     }

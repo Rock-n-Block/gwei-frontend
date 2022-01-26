@@ -2,90 +2,109 @@
 
 .modal {
   position: relative;
-  opacity: 0;
+
   margin: auto;
-  max-width: 1000px;
-  width: 100%;
   padding: 40px;
-  box-shadow: 0 0 15px 1px #32cdef;
+
+  width: 100%;
+  max-width: 1000px;
+
+  line-height: 1.4;
+
   background: #111328;
   border-radius: 10px;
-  line-height: 1.4;
-  transition: .35s;
+  opacity: 0;
+  box-shadow: 0 0 15px 1px #32cdef;
+
+  transition: 0.35s;
 
   &_open {
-    opacity: 1!important;
+    opacity: 1 !important;
   }
 
   @include b(tablet) {
-    padding-left: 20px;
     padding-right: 20px;
+    padding-left: 20px;
   }
 
-  p, ul {
+  p,
+  ul {
     margin: 1em 0;
+
     font-size: 14px;
   }
 
   a {
-    color: #32cdef;
     text-decoration: underline;
 
+    color: #32cdef;
+
     &:hover {
-      opacity: .8!important;
       color: #32cdef;
+      opacity: 0.8 !important;
     }
   }
 
   ul {
-    list-style: auto;
     padding-left: 2rem;
+
+    list-style: auto;
   }
 
   &_title {
     h2 {
-      text-align: center;
       margin-bottom: 30px;
+
       font-size: 30px;
       line-height: 1.3;
+      text-align: center;
     }
   }
 
   &_close {
     position: absolute;
-    right: 0;
-    border: 0;
     top: 0;
-    outline: 0;
-    line-height: 0;
-    cursor: pointer;
-    border-radius: 0 10px 0 0;
-    background: #ec0d93;
+    right: 0;
+
     padding: 0.5rem;
-    transition: .35s;
+
+    line-height: 0;
+
+    cursor: pointer;
+
+    background: #ec0d93;
+    border: 0;
+    border-radius: 0 10px 0 0;
+    outline: 0;
+
+    transition: 0.35s;
 
     &:hover {
       background: #bc0a75;
     }
   }
-
 }
 
 .overlay {
   position: fixed;
-  display: flex;
-  padding: 25px 20px;
+  z-index: 1050;
   top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
-  z-index: 1050;
-  outline: 0;
+  bottom: 0;
+
+  padding: 25px 20px;
+
+  display: flex;
   overflow: hidden;
   overflow-y: auto;
-  background: rgba(21, 31, 50, 0.6);
-  backdrop-filter: blur(24px);
-  transition: 0.3s all ease;
-  opacity: 1;
+
   pointer-events: auto;
+
+  background: rgb(21 31 50 / 60%);
+  outline: 0;
+  opacity: 1;
+
+  transition: 0.3s all ease;
+  backdrop-filter: blur(24px);
 }

@@ -1,8 +1,11 @@
 import { FC, memo } from 'react';
 import Modal from 'react-modal';
-import s from './FooterModal.module.scss';
-import { CloseIcon } from 'components/Icons';
+
 import cn from 'classnames';
+
+import { CloseIcon } from 'components/Icons';
+
+import s from './FooterModal.module.scss';
 
 interface FooterModalProps {
   title: JSX.Element;

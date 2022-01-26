@@ -162,15 +162,16 @@ section {
 }
 
 .text-subtitle {
-  font-weight: 700;
   font-size: 16px;
+  font-weight: 700;
   line-height: 20px;
 }
 
 .text-descr {
-  color: $color-text;
   font-size: 16px;
   line-height: 20px;
+
+  color: $color-text;
 }
 
 .sm {
@@ -188,14 +189,14 @@ section {
 
 .ReactModal__Overlay {
   opacity: 0;
-  transition: opacity .35s ease-in-out;
+
+  transition: opacity 0.35s ease-in-out;
 }
 
-.ReactModal__Overlay--after-open{
+.ReactModal__Overlay--after-open {
   opacity: 1;
 }
 
-.ReactModal__Overlay--before-close{
+.ReactModal__Overlay--before-close {
   opacity: 0;
 }
-

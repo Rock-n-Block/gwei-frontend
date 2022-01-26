@@ -1,23 +1,24 @@
 import { FC, memo } from 'react';
 
-import s from './Vault.module.scss';
-import { Plate } from 'containers';
-import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
 import cn from 'classnames';
+import { Plate } from 'containers';
+
 import { InfoIcon, QuestionMarkIcon } from 'components/Icons';
+
+import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
+
+import s from './Vault.module.scss';
 
 const Vault: FC = () => {
   return (
     <div className={s.vault}>
-      <h2 className={'title'}>USDC/Eth</h2>
+      <h2 className="title">USDC/Eth</h2>
       <div className={s.vault__row}>
         <Plate className={s.vault__row_details}>
           <div className={s.vault__row_details_head}>
             <div className="text-subtitle">USDC/ETH Vaults details</div>
             <div className={s.vault__row_details_invite}>
-              <a className={s.vault__row_details_invite_item}>
-                Invite mode
-              </a>
+              <div className={s.vault__row_details_invite_item}>Invite mode</div>
               <div className={s.vault__row_details_invite_tooltip}>
                 <QuestionMarkIcon />
                 <div className={s.vault__row_details_invite_tooltip_info}>
@@ -42,12 +43,16 @@ const Vault: FC = () => {
           <MissedOpportunities />
           <div className={s.vault__footer}>
             <InfoIcon />
-            <div  className="text-descr">This system will become active automatically on reaching required limit.</div>
+            <div className="text-descr">
+              This system will become active automatically on reaching required limit.
+            </div>
           </div>
         </Plate>
         <Form />
       </div>
-      <div className={cn('text-descr', s.vault__last_block)}>Last synced block: <span>12409471</span></div>
+      <div className={cn('text-descr', s.vault__last_block)}>
+        Last synced block: <span>12409471</span>
+      </div>
     </div>
   );
 };

@@ -6,8 +6,9 @@ import { AbiItem } from 'web3-utils';
 
 import { connectWallet as connectWalletConfig, contracts } from 'config';
 import { erc20Abi } from 'config/abi';
+import { clog } from 'utils/logger';
 
-import { chainsEnum } from 'types';
+import { chainsEnum, WalletT } from 'types';
 
 type TokenAbiType = {
   [key in chainsEnum]: Array<AbiItem>;
@@ -16,6 +17,8 @@ type TokenAbiType = {
 const tokenAbis: TokenAbiType = {
   Ethereum: erc20Abi as Array<AbiItem>,
 };
+
+const log = (...content: unknown[]) => clog('services/WalletService[debug]:', ...content);
 
 export class WalletService {
   public connectWallet: ConnectWallet;
@@ -35,11 +38,11 @@ export class WalletService {
 
   public async initWalletConnect(
     chainName: chainsEnum,
-    providerName: 'MetaMask' | 'WalletConnect', // ADD PROVIDERS HERE
+    providerName: WalletT, // ADD PROVIDERS HERE
   ): Promise<boolean> {
     return new Promise((resolve) => {
       const { provider, network, settings } = connectWalletConfig(chainName);
-      console.log('chainName: ', chainName);
+      log('chainName: ', chainName);
 
       const connecting = this.connectWallet
         .connect(provider[providerName], network, settings)

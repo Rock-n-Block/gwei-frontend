@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 
 import classnames from 'classnames';
 
-import s from './LiquidityCard.module.scss';
 import { getSpacedNumbers } from 'utils';
+
+import s from './LiquidityCard.module.scss';
 
 interface LiquidityCardProps {
   capacity: string;
   maxTotalSupply: number;
   ADDRESS: string;
-  tokenOneSymbol: string;
-  tokenTwoSymbol: string;
+  pair: string;
 }
 
 const LiquidityCard: FC<LiquidityCardProps> = (props) => {
-  const { capacity, maxTotalSupply, ADDRESS, tokenOneSymbol, tokenTwoSymbol } = props;
+  const { capacity, maxTotalSupply, ADDRESS, pair } = props;
   return (
     <Link to={`/vault/${ADDRESS}`} className={s.card}>
       <div className={s.card__bages}>
@@ -23,9 +23,7 @@ const LiquidityCard: FC<LiquidityCardProps> = (props) => {
         <div className={s.card__bages_bage}>V1</div>
       </div>
 
-      <div className={s.card__subtitle}>
-        {tokenOneSymbol}/{tokenTwoSymbol}
-      </div>
+      <div className={s.card__subtitle}>{pair}</div>
 
       <div className={s.card__descr}>
         Manage your liquidity using a passive rebalancing strategy
@@ -35,7 +33,7 @@ const LiquidityCard: FC<LiquidityCardProps> = (props) => {
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>TVL</div>
           <div className={classnames(s.card__descr, s.card__meta_value)}>
-            {getSpacedNumbers(String(maxTotalSupply * 232))} USD
+            {getSpacedNumbers(String(maxTotalSupply))} USD
           </div>
         </div>
         <div className={s.card__meta_block}>

@@ -156,21 +156,21 @@ export class WalletService {
     });
   }
 
-  async totalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals: number) {
+  async getTotalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals: number) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const totalSupply = await contract.methods.totalSupply().call();
 
     return new BigNumber(totalSupply).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
-  async maxTotalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals = 18) {
+  async getMaxTotalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals = 18) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const maxTotalSupply = await contract.methods.maxTotalSupply().call();
 
-    return +new BigNumber(maxTotalSupply).dividedBy(new BigNumber(10).pow(tokenDecimals));
+    return new BigNumber(maxTotalSupply).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
-  async tokenSymbol(tokenAddress: string, abi: Array<any>) {
+  async getTokenSymbol(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     return contract.methods.symbol().call();
   }

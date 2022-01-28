@@ -9,7 +9,7 @@ import s from './LiquidityCard.module.scss';
 
 interface LiquidityCardProps {
   capacity: string;
-  maxTotalSupply: number;
+  maxTotalSupply: string;
   ADDRESS: string;
   pair: string;
 }
@@ -33,7 +33,7 @@ const LiquidityCard: FC<LiquidityCardProps> = (props) => {
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>TVL</div>
           <div className={classnames(s.card__descr, s.card__meta_value)}>
-            {getSpacedNumbers(String(maxTotalSupply))} USD
+            {getSpacedNumbers(maxTotalSupply)} USD
           </div>
         </div>
         <div className={s.card__meta_block}>

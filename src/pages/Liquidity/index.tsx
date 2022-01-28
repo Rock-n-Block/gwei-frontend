@@ -20,30 +20,33 @@ const TOKEN2_ADDRESS = params.MockToken2[type].address;
 const Liquidity: FC = () => {
   const { walletService } = useWalletConnectorContext();
   const [totalSupply, setTotalSupply] = useState('');
-  const [maxTotalSupply, setMaxTotalSupply] = useState(0);
+  const [maxTotalSupply, setMaxTotalSupply] = useState('');
   const [tokenOneSymbol, setTokenOneSymbol] = useState('');
   const [tokenTwoSymbol, setTokenTwoSymbol] = useState('');
 
   const getTotalSupply = useCallback(
-    () => walletService.totalSupply(VAULT_ADDRESS, VaultAbi, 18),
+    () => walletService.getTotalSupply(VAULT_ADDRESS, VaultAbi, 18),
     [walletService],
   );
   const getMaxTotalSupply = useCallback(
-    () => walletService.maxTotalSupply(VAULT_ADDRESS, VaultAbi, 18),
+    () => walletService.getMaxTotalSupply(VAULT_ADDRESS, VaultAbi, 18),
     [walletService],
   );
   const getToken1Symbol = useCallback(
-    () => walletService.tokenSymbol(TOKEN1_ADDRESS, MockToken1Abi),
+    () => walletService.getTokenSymbol(TOKEN1_ADDRESS, MockToken1Abi),
     [walletService],
   );
   const getToken2Symbol = useCallback(
-    () => walletService.tokenSymbol(TOKEN2_ADDRESS, MockToken2Abi),
+    () => walletService.getTokenSymbol(TOKEN2_ADDRESS, MockToken2Abi),
     [walletService],
   );
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply
-      ? new BigNumber(totalSupply).multipliedBy(100).dividedBy(maxTotalSupply).toString(10)
+      ? new BigNumber(totalSupply)
+          .multipliedBy(100)
+          .dividedBy(new BigNumber(maxTotalSupply))
+          .toString(10)
       : '0';
   }, [totalSupply, maxTotalSupply]);
 

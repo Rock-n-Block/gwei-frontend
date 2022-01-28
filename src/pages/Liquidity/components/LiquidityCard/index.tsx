@@ -3,24 +3,24 @@ import { Link } from 'react-router-dom';
 
 import classnames from 'classnames';
 
+import { getSpacedNumbers } from 'utils';
+
 import s from './LiquidityCard.module.scss';
 
 interface LiquidityCardProps {
-  status: string;
-  version: string;
-  pair: string;
-  TVL: string;
   capacity: string;
-  index: number;
+  maxTotalSupply: string;
+  ADDRESS: string;
+  pair: string;
 }
 
 const LiquidityCard: FC<LiquidityCardProps> = (props) => {
-  const { status, version, pair, TVL, capacity, index } = props;
+  const { capacity, maxTotalSupply, ADDRESS, pair } = props;
   return (
-    <Link to={`/vault/${index}`} className={s.card}>
+    <Link to={`/vault/${ADDRESS}`} className={s.card}>
       <div className={s.card__bages}>
-        <div className={s.card__bages_bage}>{status}</div>
-        <div className={s.card__bages_bage}>{version}</div>
+        <div className={s.card__bages_bage}>Active</div>
+        <div className={s.card__bages_bage}>V1</div>
       </div>
 
       <div className={s.card__subtitle}>{pair}</div>
@@ -32,11 +32,13 @@ const LiquidityCard: FC<LiquidityCardProps> = (props) => {
       <div className={s.card__meta}>
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>TVL</div>
-          <div className={classnames(s.card__descr, s.card__meta_value)}>{TVL}</div>
+          <div className={classnames(s.card__descr, s.card__meta_value)}>
+            {getSpacedNumbers(maxTotalSupply)} USD
+          </div>
         </div>
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>Capacity used</div>
-          <div className={classnames(s.card__descr, s.card__meta_value)}>{capacity}</div>
+          <div className={classnames(s.card__descr, s.card__meta_value)}>{capacity} %</div>
         </div>
       </div>
     </Link>

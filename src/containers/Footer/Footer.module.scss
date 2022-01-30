@@ -10,6 +10,7 @@
 
   @include b(tablet) {
     position: initial;
+
     height: auto;
   }
 
@@ -77,12 +78,15 @@
 
     &_links {
       display: flex;
+
       height: 20px;
+
       div {
         text-decoration: underline;
-        color: $color-link;
 
         cursor: pointer;
+
+        color: $color-link;
 
         &:hover {
           text-decoration: underline;

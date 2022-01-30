@@ -17,27 +17,6 @@
     transform: scale(1.05);
   }
 
-  &__soon {
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 20px;
-    line-height: 28px;
-    text-shadow: 0 1px 13px rgb(255 255 255 / 55%), 0 4px 44px rgb(255 255 255 / 25%);
-
-    pointer-events: none;
-
-    color: #fff;
-    background: linear-gradient(
-      100.26deg,
-      rgb(50 205 239 / 72%) 18.91%,
-      rgb(9 100 236 / 72%) 136.75%
-    );
-  }
-
   &__bages {
     margin-bottom: 20px;
 

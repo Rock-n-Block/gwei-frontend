@@ -150,3 +150,8 @@ export const contracts: IContracts = {
     },
   },
 };
+
+const { params, type } = contracts;
+export const TOKEN1_ADDRESS = params.MockToken1[type].address;
+export const TOKEN2_ADDRESS = params.MockToken2[type].address;
+export const VAULT_ADDRESS = params.Vault[type].address;

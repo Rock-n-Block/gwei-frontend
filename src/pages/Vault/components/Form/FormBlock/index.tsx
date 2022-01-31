@@ -5,6 +5,8 @@ import { Plate } from 'containers';
 
 import { Button, Input } from 'components';
 
+import { useGetTokensInfo } from '../../../../../hooks';
+
 import s from './FormBlock.module.scss';
 
 interface FormBlockProps {
@@ -14,22 +16,19 @@ interface FormBlockProps {
 type TabT = 'Deposit' | 'Withdraw';
 
 const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
+  const tokensInfo = useGetTokensInfo();
   const showFirstBlock = useMemo(
     () => (
       <Plate className={s.block}>
         {currentTab === 'Deposit' ? (
           <>
             <div className={s.block__group}>
-              <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token1">
-                USDC
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol0}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
 
             <div className={s.block__group}>
-              <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token2">
-                ETH
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
               <Button className={s.button} color="filled">
                 Connect wallet
@@ -40,7 +39,7 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
           <>
             <div className={s.block__group}>
               <div>
-                <label className={cn(s.label, 'text-descr')} htmlFor="token1">
+                <label className={cn(s.label, 'text-descr')}>
                   <div>Vault shares</div>
                   <div className={s.label__notification}>Balance: 0(Max)</div>
                 </label>
@@ -50,14 +49,14 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             <div className={s.block__group}>
               <div className={s.block__group_wrap}>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token2">
-                    WBTC
+                  <label className={cn(s.block__group_label, 'text-descr')}>
+                    {tokensInfo.symbol0}
                   </label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token2">
-                    USDC
+                  <label className={cn(s.block__group_label, 'text-descr')}>
+                    {tokensInfo.symbol1}
                   </label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
@@ -70,7 +69,7 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
         )}
       </Plate>
     ),
-    [currentTab],
+    [currentTab, tokensInfo],
   );
 
   return (
@@ -80,24 +79,18 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
         <div className={s.block__group}>
           <div className={s.block__group_wrap}>
             <div>
-              <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token1">
-                USDC
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol0}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
             <div>
-              <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token1">
-                ETH
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
           </div>
         </div>
 
         <div className={s.block__group}>
-          <label className={cn(s.block__group_label, 'text-descr')} htmlFor="token2">
-            Value, USD
-          </label>
+          <label className={cn(s.block__group_label, 'text-descr')}>Value, USD</label>
           <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
           <Button className={s.button} color="filled">
             To mint

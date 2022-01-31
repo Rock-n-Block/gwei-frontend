@@ -1,45 +1,23 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import BigNumber from 'bignumber.js';
 import classnames from 'classnames';
 
 import { contracts } from 'config';
-import { MockToken1Abi, MockToken2Abi, VaultAbi } from 'config/abi';
+import { VaultAbi } from 'config/abi';
 
 import { LiquidityCard } from './components';
 
-import { useWalletConnectorContext } from 'services';
+import { useGetMaxTotalSupply, useGetTokensInfo, useGetTotalSupply } from 'hooks';
 
 import s from './Liquidity.module.scss';
 
 const { params, type } = contracts;
-const VAULT_ADDRESS = params.Vault[type].address;
-const TOKEN1_ADDRESS = params.MockToken1[type].address;
-const TOKEN2_ADDRESS = params.MockToken2[type].address;
 
 const Liquidity: FC = () => {
-  const { walletService } = useWalletConnectorContext();
-  const [totalSupply, setTotalSupply] = useState('');
-  const [maxTotalSupply, setMaxTotalSupply] = useState('');
-  const [tokenOneSymbol, setTokenOneSymbol] = useState('');
-  const [tokenTwoSymbol, setTokenTwoSymbol] = useState('');
-
-  const getTotalSupply = useCallback(
-    () => walletService.getTotalSupply(VAULT_ADDRESS, VaultAbi, 18),
-    [walletService],
-  );
-  const getMaxTotalSupply = useCallback(
-    () => walletService.getMaxTotalSupply(VAULT_ADDRESS, VaultAbi, 18),
-    [walletService],
-  );
-  const getToken1Symbol = useCallback(
-    () => walletService.getTokenSymbol(TOKEN1_ADDRESS, MockToken1Abi),
-    [walletService],
-  );
-  const getToken2Symbol = useCallback(
-    () => walletService.getTokenSymbol(TOKEN2_ADDRESS, MockToken2Abi),
-    [walletService],
-  );
+  const maxTotalSupply = useGetMaxTotalSupply(params.Vault[type].address, VaultAbi);
+  const totalSupply = useGetTotalSupply(params.Vault[type].address, VaultAbi);
+  const { symbol0, symbol1 } = useGetTokensInfo();
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply
@@ -50,27 +28,18 @@ const Liquidity: FC = () => {
       : '0';
   }, [totalSupply, maxTotalSupply]);
 
-  const pair = useMemo(() => {
-    return tokenOneSymbol && tokenTwoSymbol ? `${tokenOneSymbol}/${tokenTwoSymbol}` : 'USDC/ETH';
-  }, [tokenOneSymbol, tokenTwoSymbol]);
-
-  useEffect(() => {
-    getTotalSupply().then((r) => setTotalSupply(r));
-    getMaxTotalSupply().then((r) => setMaxTotalSupply(r));
-    getToken1Symbol().then((r) => setTokenOneSymbol(r));
-    getToken2Symbol().then((r) => setTokenTwoSymbol(r));
-  }, [getMaxTotalSupply, getToken1Symbol, getToken2Symbol, getTotalSupply]);
+  const pair = useMemo(() => `${symbol0}/${symbol1}`, [symbol0, symbol1]);
 
   const showCards = useMemo(
     () => (
       <LiquidityCard
         pair={pair}
-        ADDRESS={VAULT_ADDRESS}
+        ADDRESS={params.Vault[type].address}
         capacity={capacity}
         maxTotalSupply={maxTotalSupply}
       />
     ),
-    [totalSupply, maxTotalSupply, capacity, pair],
+    [maxTotalSupply, capacity, pair],
   );
   return (
     <div className={s.liquidity}>

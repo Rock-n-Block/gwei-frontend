@@ -156,25 +156,37 @@ export class WalletService {
     });
   }
 
-  async getTotalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals: number) {
+  async getTotalSupply(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const totalSupply = await contract.methods.totalSupply().call();
+    const decimals = await this.getTokenDecimals(tokenAddress);
 
-    return new BigNumber(totalSupply).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
+    return new BigNumber(totalSupply).dividedBy(new BigNumber(10).pow(decimals)).toString(10);
   }
 
-  async getMaxTotalSupply(tokenAddress: string, abi: Array<any>, tokenDecimals = 18) {
+  async getMaxTotalSupply(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const maxTotalSupply = await contract.methods.maxTotalSupply().call();
+    const decimals = await this.getTokenDecimals(tokenAddress);
 
     return new BigNumber(maxTotalSupply)
-      .dividedBy(new BigNumber(10).pow(tokenDecimals))
+      .dividedBy(new BigNumber(10).pow(decimals))
       .toString(10);
   }
 
   async getTokenSymbol(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     return contract.methods.symbol().call();
+  }
+
+  async getFirstTokenBalance(tokenAddress: string, abi: Array<any>) {
+    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
+    return contract.methods.getBalance0().call();
+  }
+
+  async getSecondTokenBalance(tokenAddress: string, abi: Array<any>) {
+    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
+    return contract.methods.getBalance1().call();
   }
 
   async checkTokenAllowance({

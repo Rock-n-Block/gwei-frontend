@@ -28,7 +28,7 @@ const Liquidity: FC = () => {
       : '0';
   }, [totalSupply, maxTotalSupply]);
 
-  const pair = useMemo(() => `${symbol0}/${symbol1}`, []);
+  const pair = useMemo(() => `${symbol0}/${symbol1}`, [symbol0, symbol1]);
 
   const showCards = useMemo(
     () => (

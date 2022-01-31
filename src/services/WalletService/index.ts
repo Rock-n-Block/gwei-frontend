@@ -222,10 +222,7 @@ export class WalletService {
         result === '0'
           ? null
           : +new BigNumber(result).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
-      if (result && new BigNumber(result).minus(amount || 0).isPositive()) {
-        return true;
-      }
-      return false;
+      return !!(result && new BigNumber(result).minus(amount || 0).isPositive());
     } catch (error) {
       return false;
     }
@@ -233,10 +230,12 @@ export class WalletService {
 
   async approveToken({
     contractName,
+    amountToApprove,
     approvedAddress,
     walletAddress,
   }: {
     contractName: string;
+    amountToApprove: string;
     approvedAddress?: string;
     walletAddress?: string;
   }) {
@@ -248,7 +247,7 @@ export class WalletService {
 
       const approveSignature = this.encodeFunctionCall(approveMethod, [
         approvedAddress || walletAddress || this.walletAddress,
-        '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+        amountToApprove,
       ]);
 
       return this.sendTransaction({

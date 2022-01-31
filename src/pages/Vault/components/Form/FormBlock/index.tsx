@@ -53,11 +53,11 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             <div className={s.block__group}>
               <div className={s.block__group_wrap}>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')}>WBTC</label>
+                  <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo[0].symbol}</label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')}>USDC</label>
+                  <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo[1].symbol}</label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
               </div>

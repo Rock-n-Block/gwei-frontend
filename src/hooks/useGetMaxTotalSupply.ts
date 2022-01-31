@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useWalletConnectorContext } from '../services';
+import { useWalletConnectorContext } from 'services';
 
-export const useGetMaxTotalSupply = (address: string, abi: any[], decimals: number): string => {
+export const useGetMaxTotalSupply = (address: string, abi: any[]): string => {
   const { walletService } = useWalletConnectorContext();
   const [maxTotalSupply, setMaxTotalSupply] = useState('');
 
   const getTotalSupply = useCallback(
-    () => walletService.getMaxTotalSupply(address, abi, decimals),
-    [walletService, address, abi, decimals],
+    () => walletService.getMaxTotalSupply(address, abi),
+    [walletService, address, abi],
   );
 
   useEffect(() => {

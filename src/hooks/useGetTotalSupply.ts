@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useWalletConnectorContext } from '../services';
+import { useWalletConnectorContext } from 'services';
 
-export const useGetTotalSupply = (address: string, abi: any[], decimals: number): string => {
+export const useGetTotalSupply = (address: string, abi: any[]): string => {
   const { walletService } = useWalletConnectorContext();
   const [totalSupply, setTotalSupply] = useState('');
 
   const getTotalSupply = useCallback(
-    () => walletService.getTotalSupply(address, abi, decimals),
-    [walletService, address, abi, decimals],
+    () => walletService.getTotalSupply(address, abi),
+    [walletService, address, abi],
   );
 
   useEffect(() => {

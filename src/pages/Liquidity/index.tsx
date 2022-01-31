@@ -3,7 +3,7 @@ import { FC, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 import classnames from 'classnames';
 
-import { VAULT_ADDRESS } from 'config';
+import { contracts } from 'config';
 import { VaultAbi } from 'config/abi';
 
 import { LiquidityCard } from './components';
@@ -12,10 +12,12 @@ import { useGetMaxTotalSupply, useGetTokensInfo, useGetTotalSupply } from 'hooks
 
 import s from './Liquidity.module.scss';
 
+const { params, type } = contracts;
+
 const Liquidity: FC = () => {
-  const maxTotalSupply = useGetMaxTotalSupply(VAULT_ADDRESS, VaultAbi, 18);
-  const totalSupply = useGetTotalSupply(VAULT_ADDRESS, VaultAbi, 18);
-  const tokensInfo = useGetTokensInfo();
+  const maxTotalSupply = useGetMaxTotalSupply(params.Vault[type].address, VaultAbi);
+  const totalSupply = useGetTotalSupply(params.Vault[type].address, VaultAbi);
+  const { symbol0, symbol1 } = useGetTokensInfo();
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply
@@ -26,15 +28,13 @@ const Liquidity: FC = () => {
       : '0';
   }, [totalSupply, maxTotalSupply]);
 
-  const pair = useMemo(() => {
-    return tokensInfo ? `${tokensInfo[0].symbol}/${tokensInfo[1].symbol}` : 'USDC/ETH';
-  }, [tokensInfo]);
+  const pair = useMemo(() => `${symbol0}/${symbol1}`, []);
 
   const showCards = useMemo(
     () => (
       <LiquidityCard
         pair={pair}
-        ADDRESS={VAULT_ADDRESS}
+        ADDRESS={params.Vault[type].address}
         capacity={capacity}
         maxTotalSupply={maxTotalSupply}
       />

@@ -10,15 +10,15 @@ import { getSpacedNumbers } from 'utils';
 import { useGetMaxTotalSupply, useGetTotalSupply } from 'hooks';
 
 import s from './GeneralCard.module.scss';
+import { TokensInfoI } from 'types';
 
-interface GeneralCardProps {
+interface GeneralCardProps extends TokensInfoI{
   address: any;
-  tokensInfo: any[];
 }
 
-const GeneralCard: FC<GeneralCardProps> = ({ address, tokensInfo }) => {
-  const maxTotalSupply = useGetMaxTotalSupply(address, VaultAbi, 18);
-  const totalSupply = useGetTotalSupply(address, VaultAbi, 18);
+const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0, balance1 }) => {
+  const maxTotalSupply = useGetMaxTotalSupply(address, VaultAbi);
+  const totalSupply = useGetTotalSupply(address, VaultAbi);
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply
@@ -44,14 +44,14 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, tokensInfo }) => {
       </div>
 
       <div className={s.general_card__block}>
-        <div className="text-descr">{`${tokensInfo[0].symbol}/${tokensInfo[1].symbol}`}</div>
+        <div className="text-descr">{`${symbol0}/${symbol1}`}</div>
         <div className={s.general_card__details}>
           <div className={s.general_card__details_item}>
             <div className="text-descr">
-              {tokensInfo[0].symbol}: {getSpacedNumbers(tokensInfo[0].balance)}
+              {symbol0}: {getSpacedNumbers(balance0)}
             </div>
             <div>
-              {tokensInfo[1].symbol}: {getSpacedNumbers(tokensInfo[1].balance)}
+              {symbol1}: {getSpacedNumbers(balance1)}
             </div>
           </div>
         </div>

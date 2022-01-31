@@ -65,7 +65,6 @@ module.exports = {
     'prettier/prettier': ['warn', prettierConfig],
     'quote-props': ['error', 'consistent-as-needed'],
     'react/jsx-uses-react': 'off',
-    'react-hooks/exhaustive-deps': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/label-has-for': 'off',

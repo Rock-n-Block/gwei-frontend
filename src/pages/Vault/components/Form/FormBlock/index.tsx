@@ -23,16 +23,12 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
         {currentTab === 'Deposit' ? (
           <>
             <div className={s.block__group}>
-              <label className={cn(s.block__group_label, 'text-descr')}>
-                {tokensInfo[0].symbol}
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol0}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
 
             <div className={s.block__group}>
-              <label className={cn(s.block__group_label, 'text-descr')}>
-                {tokensInfo[1].symbol}
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
               <Button className={s.button} color="filled">
                 Connect wallet
@@ -53,11 +49,15 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             <div className={s.block__group}>
               <div className={s.block__group_wrap}>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo[0].symbol}</label>
+                  <label className={cn(s.block__group_label, 'text-descr')}>
+                    {tokensInfo.symbol0}
+                  </label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
                 <div>
-                  <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo[1].symbol}</label>
+                  <label className={cn(s.block__group_label, 'text-descr')}>
+                    {tokensInfo.symbol1}
+                  </label>
                   <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
                 </div>
               </div>
@@ -79,15 +79,11 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
         <div className={s.block__group}>
           <div className={s.block__group_wrap}>
             <div>
-              <label className={cn(s.block__group_label, 'text-descr')}>
-                {tokensInfo[0].symbol}
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol0}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
             <div>
-              <label className={cn(s.block__group_label, 'text-descr')}>
-                {tokensInfo[1].symbol}
-              </label>
+              <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
           </div>

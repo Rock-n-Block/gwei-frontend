@@ -8,3 +8,10 @@ export interface IModalProps {
   visible: boolean;
   onClose: () => void;
 }
+
+export interface TokensInfoI {
+  symbol0: string;
+  symbol1: string;
+  balance0: string;
+  balance1: string;
+}

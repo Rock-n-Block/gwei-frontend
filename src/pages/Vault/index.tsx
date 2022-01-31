@@ -14,16 +14,16 @@ import s from './Vault.module.scss';
 
 const Vault: FC = () => {
   const { id } = useParams();
-  const tokensInfo = useGetTokensInfo();
+  const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo();
 
   return (
     <div className={s.vault}>
-      <h2 className="title">{`${tokensInfo[0].symbol}/${tokensInfo[1].symbol}`}</h2>
+      <h2 className="title">{`${symbol0}/${symbol1}`}</h2>
       <div className={s.vault__row}>
         <Plate className={s.vault__row_details}>
           <div className={s.vault__row_details_head}>
             <div className="text-subtitle">
-              {`${tokensInfo[0].symbol}/${tokensInfo[1].symbol}`} Vaults details
+              {`${symbol0}/${symbol1}`} Vaults details
             </div>
             <div className={s.vault__row_details_invite}>
               <div className={s.vault__row_details_invite_item}>Invite mode</div>
@@ -46,7 +46,7 @@ const Vault: FC = () => {
             underlying price moves so that it can continue to capture fees. (CHARM)
           </div>
 
-          <GeneralCard address={id} tokensInfo={tokensInfo} />
+          <GeneralCard address={id} symbol0={symbol0} symbol1={symbol1} balance0={balance0} balance1={balance1} />
           <StateCard />
           <MissedOpportunities />
           <div className={s.vault__footer}>

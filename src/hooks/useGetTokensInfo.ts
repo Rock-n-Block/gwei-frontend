@@ -1,62 +1,50 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { TOKEN1_ADDRESS, TOKEN2_ADDRESS, VAULT_ADDRESS } from 'config';
+import { contracts } from 'config';
 import { MockToken1Abi, MockToken2Abi, VaultAbi } from 'config/abi';
 
 import { useWalletConnectorContext } from 'services';
+import { TokensInfoI } from 'types';
 
-interface TokensInfoI {
-  symbol: string;
-  balance: string;
-}
+const { params, type } = contracts;
 
-type TokensInfoT = TokensInfoI[];
-
-export const useGetTokensInfo = (): TokensInfoT => {
+export const useGetTokensInfo = (): TokensInfoI => {
   const { walletService } = useWalletConnectorContext();
 
-  const [tokensInfo, setTokensInfo] = useState<TokensInfoT>([
-    {
-      symbol: '',
-      balance: '',
-    },
-    {
-      symbol: '',
-      balance: '',
-    },
-  ]);
+  const [tokensInfo, setTokensInfo] = useState<TokensInfoI>({
+    symbol0: '',
+    symbol1: '',
+    balance0: '',
+    balance1: '',
+  });
 
-  const getToken1Symbol = useCallback(
-    () => walletService.getTokenSymbol(TOKEN1_ADDRESS, MockToken1Abi),
-    [walletService],
-  );
-  const getToken2Symbol = useCallback(
-    () => walletService.getTokenSymbol(TOKEN2_ADDRESS, MockToken2Abi),
-    [walletService],
-  );
-  const getFirstTokenBalance = useCallback(
-    () => walletService.getFirstTokenBalance(VAULT_ADDRESS, VaultAbi),
-    [walletService],
-  );
-  const getSecondTokenBalance = useCallback(
-    () => walletService.getSecondTokenBalance(VAULT_ADDRESS, VaultAbi),
-    [walletService],
-  );
+  const getPoolData = useCallback(async () => {
+    const symbol0 = await walletService.getTokenSymbol(
+      params.MockToken1[type].address,
+      MockToken1Abi,
+    );
+    const symbol1 = await walletService.getTokenSymbol(
+      params.MockToken2[type].address,
+      MockToken2Abi,
+    );
+    const balance0 = await walletService.getFirstTokenBalance(params.Vault[type].address, VaultAbi);
+    const balance1 = await walletService.getSecondTokenBalance(
+      params.Vault[type].address,
+      VaultAbi,
+    );
+    const pool = {
+      symbol0,
+      symbol1,
+      balance0,
+      balance1,
+    };
+
+    setTokensInfo(pool);
+  }, [walletService]);
 
   useEffect(() => {
-    getToken1Symbol().then((symbol) => {
-      setTokensInfo([...tokensInfo, (tokensInfo[0].symbol = symbol)]);
-    });
-    getToken2Symbol().then((symbol) => {
-      setTokensInfo([...tokensInfo, (tokensInfo[1].symbol = symbol)]);
-    });
-    getFirstTokenBalance().then((balance) => {
-      setTokensInfo([...tokensInfo, (tokensInfo[0].balance = balance)]);
-    });
-    getSecondTokenBalance().then((balance) => {
-      setTokensInfo([...tokensInfo, (tokensInfo[1].balance = balance)]);
-    });
-  }, []);
+    getPoolData();
+  }, [getPoolData]);
 
   return tokensInfo;
 };

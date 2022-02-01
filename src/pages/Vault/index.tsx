@@ -22,9 +22,7 @@ const Vault: FC = () => {
       <div className={s.vault__row}>
         <Plate className={s.vault__row_details}>
           <div className={s.vault__row_details_head}>
-            <div className="text-subtitle">
-              {`${symbol0}/${symbol1}`} Vaults details
-            </div>
+            <div className="text-subtitle">{`${symbol0}/${symbol1}`} Vaults details</div>
             <div className={s.vault__row_details_invite}>
               <div className={s.vault__row_details_invite_item}>Invite mode</div>
               <div className={s.vault__row_details_invite_tooltip}>
@@ -46,8 +44,14 @@ const Vault: FC = () => {
             underlying price moves so that it can continue to capture fees. (CHARM)
           </div>
 
-          <GeneralCard address={id} symbol0={symbol0} symbol1={symbol1} balance0={balance0} balance1={balance1} />
-          <StateCard />
+          <GeneralCard
+            address={id}
+            symbol0={symbol0}
+            symbol1={symbol1}
+            balance0={balance0}
+            balance1={balance1}
+          />
+          <StateCard symbol0={symbol0} symbol1={symbol1} />
           <MissedOpportunities />
           <div className={s.vault__footer}>
             <InfoIcon />

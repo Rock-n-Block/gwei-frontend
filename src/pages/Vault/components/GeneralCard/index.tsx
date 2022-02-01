@@ -8,11 +8,11 @@ import { VaultAbi } from 'config/abi';
 import { getSpacedNumbers } from 'utils';
 
 import { useGetMaxTotalSupply, useGetTotalSupply } from 'hooks';
-
-import s from './GeneralCard.module.scss';
 import { TokensInfoI } from 'types';
 
-interface GeneralCardProps extends TokensInfoI{
+import s from './GeneralCard.module.scss';
+
+interface GeneralCardProps extends TokensInfoI {
   address: any;
 }
 

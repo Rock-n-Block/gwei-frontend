@@ -6,7 +6,12 @@ import { GoLinkIcon } from 'components/Icons';
 
 import s from './StateCard.module.scss';
 
-const StateCard: FC = () => {
+interface StateCardProps {
+  symbol0: string;
+  symbol1: string;
+}
+
+const StateCard: FC<StateCardProps> = ({ symbol0, symbol1 }) => {
   return (
     <Plate className={s.card}>
       <div className={s.card__title}>
@@ -24,7 +29,9 @@ const StateCard: FC = () => {
 
       <div className={s.card__info}>
         <div className={s.card__info_item}>
-          <div className="text-descr">USDC/ETH price</div>
+          <div className="text-descr">
+            {symbol0}/{symbol1} price
+          </div>
           <div>$3,650.25</div>
         </div>
         <div className={s.card__info_item}>

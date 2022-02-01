@@ -169,9 +169,7 @@ export class WalletService {
     const maxTotalSupply = await contract.methods.maxTotalSupply().call();
     const decimals = await this.getTokenDecimals(tokenAddress);
 
-    return new BigNumber(maxTotalSupply)
-      .dividedBy(new BigNumber(10).pow(decimals))
-      .toString(10);
+    return new BigNumber(maxTotalSupply).dividedBy(new BigNumber(10).pow(decimals)).toString(10);
   }
 
   async getTokenSymbol(tokenAddress: string, abi: Array<any>) {

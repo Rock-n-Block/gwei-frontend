@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import cn from 'classnames';
@@ -8,13 +8,23 @@ import { InfoIcon, QuestionMarkIcon } from 'components/Icons';
 
 import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
 
+import { useWalletConnectorContext } from '../../services';
 import { useGetTokensInfo } from 'hooks';
 
 import s from './Vault.module.scss';
 
 const Vault: FC = () => {
-  const { id } = useParams();
+  const [lastBlock, setLastBlock] = useState<number>(0);
+  const { id } = useParams<string>();
   const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo();
+  const connector = useWalletConnectorContext().walletService;
+
+  useEffect(() => {
+    connector
+      .Web3()
+      .eth.getBlock('latest')
+      .then((res: { number: number }) => setLastBlock(res.number));
+  }, [connector]);
 
   return (
     <div className={s.vault}>
@@ -22,9 +32,7 @@ const Vault: FC = () => {
       <div className={s.vault__row}>
         <Plate className={s.vault__row_details}>
           <div className={s.vault__row_details_head}>
-            <div className="text-subtitle">
-              {`${symbol0}/${symbol1}`} Vaults details
-            </div>
+            <div className="text-subtitle">{`${symbol0}/${symbol1}`} Vaults details</div>
             <div className={s.vault__row_details_invite}>
               <div className={s.vault__row_details_invite_item}>Invite mode</div>
               <div className={s.vault__row_details_invite_tooltip}>
@@ -39,14 +47,18 @@ const Vault: FC = () => {
               </div>
             </div>
           </div>
-
           <div className={cn('text-descr', s.vault__row_details_text)}>
             This vault automatically manages liquidity on Uniswap V3 for you. It concentrates its
             liquidity to earn higher yields and automatically adjusts its range orders as the
             underlying price moves so that it can continue to capture fees. (CHARM)
           </div>
-
-          <GeneralCard address={id} symbol0={symbol0} symbol1={symbol1} balance0={balance0} balance1={balance1} />
+          <GeneralCard
+            address={id || ''}
+            symbol0={symbol0}
+            symbol1={symbol1}
+            balance0={balance0}
+            balance1={balance1}
+          />
           <StateCard />
           <MissedOpportunities />
           <div className={s.vault__footer}>
@@ -59,7 +71,7 @@ const Vault: FC = () => {
         <Form />
       </div>
       <div className={cn('text-descr', s.vault__last_block)}>
-        Last synced block: <span>12409471</span>
+        Last synced block: <span>{lastBlock}</span>
       </div>
     </div>
   );

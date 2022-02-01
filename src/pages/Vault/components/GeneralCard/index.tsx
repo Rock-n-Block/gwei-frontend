@@ -8,12 +8,12 @@ import { VaultAbi } from 'config/abi';
 import { getSpacedNumbers } from 'utils';
 
 import { useGetMaxTotalSupply, useGetTotalSupply } from 'hooks';
-
-import s from './GeneralCard.module.scss';
 import { TokensInfoI } from 'types';
 
-interface GeneralCardProps extends TokensInfoI{
-  address: any;
+import s from './GeneralCard.module.scss';
+
+interface GeneralCardProps extends TokensInfoI {
+  address: string;
 }
 
 const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0, balance1 }) => {
@@ -55,7 +55,6 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0
             </div>
           </div>
         </div>
-
         <div className={s.general_card__compare}>
           <div className={s.general_card__compare_list}>
             <div />
@@ -70,6 +69,8 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0
             <div />
           </div>
         </div>
+        {new BigNumber(balance0).div(new BigNumber(Math.min(+balance0, +balance1))).toFixed(0, 1)} :{' '}
+        {new BigNumber(balance1).div(new BigNumber(Math.min(+balance0, +balance1))).toFixed(0, 1)}
       </div>
     </Plate>
   );

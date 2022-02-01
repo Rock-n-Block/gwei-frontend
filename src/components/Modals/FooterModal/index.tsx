@@ -21,7 +21,7 @@ const FooterModal: FC<FooterModalProps> = ({ title, children, isOpen, handleClos
       closeTimeoutMS={350}
       isOpen={isOpen}
       className={cn(s.modal, s.modal_open)}
-      overlayClassName={s.overlay}
+      overlayClassName="overlay"
       contentLabel="Example Modal"
       ariaHideApp={false}
     >

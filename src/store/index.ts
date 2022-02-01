@@ -5,16 +5,21 @@ import { Instance, onSnapshot, types } from 'mobx-state-tree';
 
 import { clog } from 'utils/logger';
 
-import { UserModel } from './Models';
+import { ModalModel, UserModel } from './Models';
 
 const RootModel = types.model('RootModel', {
   user: UserModel,
+  modal: ModalModel,
 });
 
 export const rootStore = RootModel.create({
   user: {
     address: null,
     balance: null,
+  },
+  modal: {
+    status: 'success', // TODO: change to '' and mutate it when transaction will be done
+    isOpen: false,
   },
 });
 

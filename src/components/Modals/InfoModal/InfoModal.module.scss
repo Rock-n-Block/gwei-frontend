@@ -1,0 +1,96 @@
+@import 'src/styles';
+
+.modal {
+  position: relative;
+
+  margin: auto;
+  padding: 32px;
+
+  width: 100%;
+  max-width: 440px;
+
+  line-height: 1.4;
+
+  background: rgb(255 255 255 / 6%);
+  border-radius: 12px;
+
+  transition: 0.3s;
+
+  @include b(tablet) {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  &__inner {
+    @include flex(column, center, center, nowrap);
+    text-align: center;
+
+    img {
+      margin-bottom: -20px;
+    }
+
+    button {
+      margin-top: 32px;
+
+      width: 250px !important;
+    }
+  }
+
+  &__title {
+    @include flex(row, center, space-between, nowrap);
+  }
+
+  &__close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+
+    padding: 0;
+
+    line-height: 0;
+
+    cursor: pointer;
+
+    border: 0;
+    outline: 0;
+
+    svg > * {
+      opacity: 0.4;
+
+      transition: 0.35s;
+    }
+
+    &:hover {
+      svg > * {
+        opacity: 1;
+        fill: red;
+
+        transition: 0.35s;
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  padding: 25px 20px;
+
+  display: flex;
+  overflow: hidden;
+  overflow-y: auto;
+
+  pointer-events: auto;
+
+  background: rgb(21 31 50 / 60%);
+  outline: 0;
+  opacity: 1;
+
+  transition: 0.3s all ease;
+  backdrop-filter: blur(24px);
+}

@@ -13,6 +13,7 @@ import { shortAddress } from 'utils';
 import WalletModal from '../../components/Modals/WalletModal';
 
 import { useBackground } from 'hooks';
+import { useWalletConnectorContext } from 'services';
 
 import { socials } from './Header.mock';
 
@@ -24,6 +25,7 @@ const Header: FC = observer(() => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const isBackground = useBackground();
+  const { disconnect } = useWalletConnectorContext();
 
   const { user } = useMst();
 
@@ -47,7 +49,7 @@ const Header: FC = observer(() => {
         </Button>
       </div>
     ) : (
-      <div className={s.user}>
+      <div onClick={disconnect} className={s.user}>
         <div className={s.user__logo}>
           <UserIcon />
         </div>

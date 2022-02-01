@@ -47,7 +47,7 @@ const Vault: FC = () => {
           </div>
 
           <GeneralCard address={id} symbol0={symbol0} symbol1={symbol1} balance0={balance0} balance1={balance1} />
-          <StateCard />
+          <StateCard symbol0={symbol0} symbol1={symbol1} />
           <MissedOpportunities />
           <div className={s.vault__footer}>
             <InfoIcon />

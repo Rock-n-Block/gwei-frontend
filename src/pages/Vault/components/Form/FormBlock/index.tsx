@@ -1,4 +1,5 @@
-import { FC, memo, useMemo } from 'react';
+import { FC, memo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useMst } from 'store';
 
@@ -12,17 +13,17 @@ import { useGetTokensInfo } from 'hooks';
 import s from './FormBlock.module.scss';
 
 interface FormBlockProps {
-  currentTab: TabT;
+  currentTab: 'Deposit' | 'Withdraw';
 }
 
-type TabT = 'Deposit' | 'Withdraw';
-
 const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
-  const tokensInfo = useGetTokensInfo();
+  const { id } = useParams();
   const { modal } = useMst();
   const { setIsOpen } = modal;
-  const showFirstBlock = useMemo(
-    () => (
+  const tokensInfo = useGetTokensInfo(id || '');
+
+  return (
+    <div>
       <Plate className={s.block}>
         {currentTab === 'Deposit' ? (
           <>
@@ -30,7 +31,6 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
               <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol0}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
             </div>
-
             <div className={s.block__group}>
               <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
@@ -72,13 +72,6 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
           </>
         )}
       </Plate>
-    ),
-    [currentTab, tokensInfo, setIsOpen],
-  );
-
-  return (
-    <div>
-      {showFirstBlock}
       <Plate className={s.block}>
         <div className={s.block__group}>
           <div className={s.block__group_wrap}>
@@ -92,7 +85,6 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             </div>
           </div>
         </div>
-
         <div className={s.block__group}>
           <label className={cn(s.block__group_label, 'text-descr')}>Value, USD</label>
           <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
@@ -100,7 +92,6 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             To mint
           </Button>
         </div>
-
         <div className={s.block__footer}>
           <div className="text-descr">Your eligible to mint invitation after:</div>
           <div>1d 4h 35m 36s</div>

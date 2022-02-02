@@ -10,6 +10,8 @@ export interface IModalProps {
 }
 
 export interface TokensInfoI {
+  address0: string;
+  address1: string;
   symbol0: string;
   symbol1: string;
   balance0: string;

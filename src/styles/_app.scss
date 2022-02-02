@@ -1,5 +1,7 @@
 @import 'theme';
 @import 'fonts';
+@import 'variables';
+@import 'mixins/index';
 
 * {
   box-sizing: border-box;
@@ -199,4 +201,28 @@ section {
 
 .ReactModal__Overlay--before-close {
   opacity: 0;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  padding: 25px 20px;
+
+  display: flex;
+  overflow: hidden;
+  overflow-y: auto;
+
+  pointer-events: auto;
+
+  background: rgb(21 31 50 / 60%);
+  outline: 0;
+  opacity: 1;
+
+  transition: 0.3s all ease;
+  backdrop-filter: blur(24px);
 }

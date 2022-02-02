@@ -17,7 +17,7 @@ const { params, type } = contracts;
 const Liquidity: FC = () => {
   const maxTotalSupply = useGetMaxTotalSupply(params.Vault[type].address, VaultAbi);
   const totalSupply = useGetTotalSupply(params.Vault[type].address, VaultAbi);
-  const { symbol0, symbol1 } = useGetTokensInfo();
+  const { symbol0, symbol1 } = useGetTokensInfo(params.Vault[type].address);
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply

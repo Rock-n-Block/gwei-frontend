@@ -2,15 +2,7 @@ import { INetwork } from '@amfi/connect-wallet/dist/interface';
 
 import { chainsEnum, IConnectWallet, IContracts } from 'types';
 
-import {
-  InvitationNFTAbi,
-  MockToken1Abi,
-  MockToken2Abi,
-  Pool500Abi,
-  Pool3000Abi,
-  Pool10000Abi,
-  VaultAbi,
-} from './abi';
+import { erc20Abi, InvitationNFTAbi, Pool500Abi, Pool3000Abi, Pool10000Abi, VaultAbi } from './abi';
 
 export const is_production = false;
 export const SHOW_LOGS = !is_production;
@@ -81,21 +73,21 @@ export const contracts: IContracts = {
     MockToken1: {
       mainnet: {
         address: '',
-        abi: MockToken1Abi,
+        abi: erc20Abi,
       },
       testnet: {
         address: '0x32f7815c5854FE5826449344Fc6d400927D9CFDB',
-        abi: MockToken1Abi,
+        abi: erc20Abi,
       },
     },
     MockToken2: {
       mainnet: {
         address: '',
-        abi: MockToken2Abi,
+        abi: erc20Abi,
       },
       testnet: {
         address: '0xc2963fD186B4A269C5EbFd9dD7f5F8C4575656Be',
-        abi: MockToken2Abi,
+        abi: erc20Abi,
       },
     },
     Pool500: {

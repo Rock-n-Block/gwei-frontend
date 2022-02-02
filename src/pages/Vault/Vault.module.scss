@@ -1,4 +1,4 @@
-@import 'src/styles';
+@import 'src/styles/mixins';
 
 .vault {
   position: relative;
@@ -90,7 +90,6 @@
             color: #fff;
             background: rgb(255 255 255 / 40%);
             border-radius: 15px;
-            backdrop-filter: blur(7px);
             backdrop-filter: blur(7px);
           }
         }

@@ -66,13 +66,14 @@ export class WalletService {
     return this.connectWallet.currentWeb3();
   }
 
-  public getTokenBalance(address: string): Promise<string> {
+  public getTokenBalance(address: string, abi?: AbiItem[]): Promise<string> {
     const contract = this.connectWallet.getContract({
       address,
-      abi: tokenAbis[this.currentChain],
+      abi: abi ?? tokenAbis[this.currentChain],
     });
+    const balance = contract.methods.balanceOf(this.walletAddress).call();
 
-    return contract.methods.balanceOf(this.walletAddress).call();
+    return this.weiToEth(address, balance);
   }
 
   public getTokenDecimals(address: string): Promise<string> {
@@ -159,17 +160,15 @@ export class WalletService {
   async getTotalSupply(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const totalSupply = await contract.methods.totalSupply().call();
-    const decimals = await this.getTokenDecimals(tokenAddress);
 
-    return new BigNumber(totalSupply).dividedBy(new BigNumber(10).pow(decimals)).toString(10);
+    return this.weiToEth(tokenAddress, totalSupply);
   }
 
   async getMaxTotalSupply(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
     const maxTotalSupply = await contract.methods.maxTotalSupply().call();
-    const decimals = await this.getTokenDecimals(tokenAddress);
 
-    return new BigNumber(maxTotalSupply).dividedBy(new BigNumber(10).pow(decimals)).toString(10);
+    return this.weiToEth(tokenAddress, maxTotalSupply);
   }
 
   async getTokenSymbol(tokenAddress: string, abi: Array<any>) {
@@ -179,12 +178,16 @@ export class WalletService {
 
   async getFirstTokenBalance(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    return contract.methods.getBalance0().call();
+    const balance = await contract.methods.getBalance0().call();
+
+    return this.weiToEth(tokenAddress, balance);
   }
 
   async getSecondTokenBalance(tokenAddress: string, abi: Array<any>) {
     const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    return contract.methods.getBalance1().call();
+    const balance = await contract.methods.getBalance1().call();
+
+    return this.weiToEth(tokenAddress, balance);
   }
 
   async checkTokenAllowance({
@@ -258,17 +261,6 @@ export class WalletService {
     }
   }
 
-  public async calcTransactionAmount(
-    tokenContract: string,
-    amount: number | string,
-  ): Promise<string> {
-    if (amount === '0') {
-      return amount;
-    }
-    const tokenDecimals = await this.getTokenDecimals(tokenContract);
-    return new BigNumber(amount).times(new BigNumber(10).pow(tokenDecimals)).toString(10);
-  }
-
   public async weiToEth(tokenContract: string, amount: number | string): Promise<string> {
     if (amount === '0') {
       return amount;
@@ -277,8 +269,12 @@ export class WalletService {
     return new BigNumber(amount).dividedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
-  static ethToWei(amount: number | string, decimals = 18): string {
-    return new BigNumber(amount).multipliedBy(new BigNumber(10).pow(decimals)).toString(10);
+  public async ethToWei(tokenContract: string, amount: number | string): Promise<string> {
+    if (amount === '0') {
+      return amount;
+    }
+    const tokenDecimals = await this.getTokenDecimals(tokenContract);
+    return new BigNumber(amount).multipliedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
   }
 
   static getAddress(contractName: string): string {

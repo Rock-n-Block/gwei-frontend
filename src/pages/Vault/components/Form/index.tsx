@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import cn from 'classnames';
 
@@ -11,9 +11,9 @@ type TabT = 'Deposit' | 'Withdraw';
 const Form: FC = () => {
   const [currentTab, setCurrentTab] = useState<TabT>('Deposit');
 
-  const tabHandler = useCallback((tab: TabT) => {
+  const tabHandler = (tab: TabT) => {
     setCurrentTab(tab);
-  }, []);
+  };
 
   return (
     <div className={s.form}>

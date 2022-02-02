@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
@@ -12,15 +12,25 @@ import { InfoModal } from 'components/Modals';
 
 import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
 
+import { useWalletConnectorContext } from '../../services';
 import { useGetTokensInfo } from 'hooks';
 
 import s from './Vault.module.scss';
 
-const Vault: FC = observer(() => {
-  const { id } = useParams();
-  const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo();
+const Vault: FC = observer() => {
+  const [lastBlock, setLastBlock] = useState<number>(0);
+  const { id } = useParams<string>();
   const { modal } = useMst();
   const { isOpen, status, setIsOpen } = modal;
+  const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo(id || '');
+  const connector = useWalletConnectorContext().walletService;
+
+  useEffect(() => {
+    connector
+      .Web3()
+      .eth.getBlock('latest')
+      .then((res: { number: number }) => setLastBlock(res.number));
+  }, [connector]);
 
   return (
     <div className={s.vault}>
@@ -43,15 +53,13 @@ const Vault: FC = observer(() => {
               </div>
             </div>
           </div>
-
           <div className={cn('text-descr', s.vault__row_details_text)}>
             This vault automatically manages liquidity on Uniswap V3 for you. It concentrates its
             liquidity to earn higher yields and automatically adjusts its range orders as the
             underlying price moves so that it can continue to capture fees. (CHARM)
           </div>
-
           <GeneralCard
-            address={id}
+            address={id || ''}
             symbol0={symbol0}
             symbol1={symbol1}
             balance0={balance0}
@@ -69,7 +77,7 @@ const Vault: FC = observer(() => {
         <Form />
       </div>
       <div className={cn('text-descr', s.vault__last_block)}>
-        Last synced block: <span>12409471</span>
+        Last synced block: <span>{lastBlock}</span>
       </div>
 
       {status === 'success' ? (

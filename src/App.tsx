@@ -2,6 +2,8 @@ import { FC } from 'react';
 
 import { Footer, Header, RouterManager } from 'containers';
 
+import { InfoModal, WalletModal } from './components';
+
 import WalletConnect from 'services/WalletConnect';
 
 const App: FC = () => {
@@ -13,6 +15,8 @@ const App: FC = () => {
           <RouterManager />
         </div>
         <Footer />
+        <InfoModal />
+        <WalletModal />
       </div>
     </WalletConnect>
   );

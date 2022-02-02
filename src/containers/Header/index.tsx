@@ -10,8 +10,6 @@ import { Button } from 'components';
 import { Burger, UserIcon } from 'components/Icons';
 import { shortAddress } from 'utils';
 
-import WalletModal from '../../components/Modals/WalletModal';
-
 import { useBackground } from 'hooks';
 import { useWalletConnectorContext } from 'services';
 
@@ -23,22 +21,16 @@ import s from './Header.module.scss';
 
 const Header: FC = observer(() => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
   const isBackground = useBackground();
   const { disconnect } = useWalletConnectorContext();
+  const { modals, user } = useMst();
 
-  const { user } = useMst();
+  const openModal = () => {
+    modals.wallet.open();
+  };
 
   const handleBurger = () => {
     setIsBurgerOpen(!isBurgerOpen);
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   const showConnect = () => {
@@ -100,7 +92,6 @@ const Header: FC = observer(() => {
         </div>
       </div>
       {showConnect()}
-      <WalletModal isOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
 });

@@ -1,6 +1,7 @@
 import { FC, memo } from 'react';
 import Modal from 'react-modal';
 
+import { useMst } from '../../../store';
 import { observer } from 'mobx-react-lite';
 
 import cn from 'classnames';
@@ -14,13 +15,13 @@ import { wallets } from './WalletModal.mock';
 
 import s from './WalletModal.module.scss';
 
-interface WalletModalProps {
-  isOpen: boolean;
-  closeModal: () => void;
-}
-
-const WalletModal: FC<WalletModalProps> = observer(({ isOpen, closeModal }) => {
+const WalletModal: FC = observer(() => {
+  const { modals } = useMst();
   const { connect } = useWalletConnectorContext();
+
+  const closeModal = () => {
+    modals.wallet.close();
+  };
 
   const connectToWallet = (providerName: 'MetaMask' | 'WalletConnect' | string) => {
     connect(chainsEnum.Ethereum, providerName).then(() => closeModal());
@@ -43,21 +44,19 @@ const WalletModal: FC<WalletModalProps> = observer(({ isOpen, closeModal }) => {
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={modals.wallet.isOpen}
       onRequestClose={closeModal}
       closeTimeoutMS={350}
       className={s.modal_wallet}
       overlayClassName="overlay"
-      contentLabel="Example Modal"
+      contentLabel="Example Modals"
       ariaHideApp={false}
     >
       <div onClick={closeModal} className={s.modal_wallet__close}>
         <CloseIcon />
       </div>
       <div className={cn(s.modal_wallet__title, 'text', 'sm')}>Select a wallet</div>
-
       <div className={s.modal_wallet__list}>{showList}</div>
-
       <div className={s.modal_wallet__footer}>
         <div className={s.modal_wallet__new}>New to Ethereum?</div>
         <a href="/" className={s.modal_wallet__learn}>

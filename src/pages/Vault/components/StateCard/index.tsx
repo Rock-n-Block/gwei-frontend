@@ -26,7 +26,6 @@ const StateCard: FC<StateCardProps> = ({ symbol0, symbol1 }) => {
           </a>
         </div>
       </div>
-
       <div className={s.card__info}>
         <div className={s.card__info_item}>
           <div className="text-descr">

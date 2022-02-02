@@ -35,6 +35,7 @@ const Connect: FC = observer(({ children }) => {
 
   const disconnect = useCallback(() => {
     delete localStorage.gwei_logged;
+    provider.current.connectWallet.resetConect();
     rootStore.user.disconnect();
   }, []);
 

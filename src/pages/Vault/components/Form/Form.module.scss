@@ -52,3 +52,52 @@
     }
   }
 }
+
+.block + .block {
+  margin-top: 12px;
+}
+
+.block {
+  &__group {
+    &_wrap {
+      @include flex(row, center, space-between, nowrap);
+
+      div:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 24px;
+
+    div:first-child {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.button {
+  margin-top: 24px;
+
+  width: 100% !important;
+
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.input {
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+.label {
+  @include flex(row, center, space-between, nowrap);
+
+  &__notification {
+    background: linear-gradient(#ef328d, #ec0909);
+    background-clip: text;
+    opacity: 0.8;
+    -webkit-text-fill-color: transparent;
+  }
+}

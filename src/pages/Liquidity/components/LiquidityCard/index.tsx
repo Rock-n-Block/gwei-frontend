@@ -22,13 +22,10 @@ const LiquidityCard: FC<LiquidityCardProps> = (props) => {
         <div className={s.card__bages_bage}>Active</div>
         <div className={s.card__bages_bage}>V1</div>
       </div>
-
       <div className={s.card__subtitle}>{pair}</div>
-
       <div className={s.card__descr}>
         Manage your liquidity using a passive rebalancing strategy
       </div>
-
       <div className={s.card__meta}>
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>TVL</div>

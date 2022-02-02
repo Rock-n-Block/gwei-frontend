@@ -2,13 +2,11 @@ import { FC, memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
-import { useMst } from 'store';
 
 import cn from 'classnames';
 import { Plate } from 'containers';
 
 import { InfoIcon, QuestionMarkIcon } from 'components/Icons';
-import { InfoModal } from 'components/Modals';
 
 import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
 
@@ -17,11 +15,9 @@ import { useGetTokensInfo } from 'hooks';
 
 import s from './Vault.module.scss';
 
-const Vault: FC = observer() => {
+const Vault: FC = observer(() => {
   const [lastBlock, setLastBlock] = useState<number>(0);
   const { id } = useParams<string>();
-  const { modal } = useMst();
-  const { isOpen, status, setIsOpen } = modal;
   const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo(id || '');
   const connector = useWalletConnectorContext().walletService;
 
@@ -79,22 +75,6 @@ const Vault: FC = observer() => {
       <div className={cn('text-descr', s.vault__last_block)}>
         Last synced block: <span>{lastBlock}</span>
       </div>
-
-      {status === 'success' ? (
-        <InfoModal
-          text="The action was successful. Expect a response in the near future by email or in your personal account."
-          isOpen={isOpen}
-          status={status}
-          closeModal={setIsOpen}
-        />
-      ) : (
-        <InfoModal
-          text="Something went wrong."
-          isOpen={isOpen}
-          status={status}
-          closeModal={setIsOpen}
-        />
-      )}
     </div>
   );
 });

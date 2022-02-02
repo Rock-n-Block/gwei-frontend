@@ -1,2 +1,2 @@
 export { default as UserModel } from './User';
-export { default as ModalModel } from './Modal';
+export { default as ModalsModel } from './Modals';

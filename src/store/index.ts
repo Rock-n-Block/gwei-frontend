@@ -5,11 +5,11 @@ import { Instance, onSnapshot, types } from 'mobx-state-tree';
 
 import { clog } from 'utils/logger';
 
-import { ModalModel, UserModel } from './Models';
+import { ModalsModel, UserModel } from './Models';
 
 const RootModel = types.model('RootModel', {
   user: UserModel,
-  modal: ModalModel,
+  modals: ModalsModel,
 });
 
 export const rootStore = RootModel.create({
@@ -17,9 +17,14 @@ export const rootStore = RootModel.create({
     address: null,
     balance: null,
   },
-  modal: {
-    status: 'success', // TODO: change to '' and mutate it when transaction will be done
-    isOpen: false,
+  modals: {
+    info: {
+      status: 'success',
+      msg: '',
+    },
+    wallet: {
+      isOpen: false,
+    },
   },
 });
 

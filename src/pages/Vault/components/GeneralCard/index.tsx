@@ -8,12 +8,15 @@ import { VaultAbi } from 'config/abi';
 import { getSpacedNumbers } from 'utils';
 
 import { useGetMaxTotalSupply, useGetTotalSupply } from 'hooks';
-import { TokensInfoI } from 'types';
 
 import s from './GeneralCard.module.scss';
 
-interface GeneralCardProps extends TokensInfoI {
+interface GeneralCardProps {
   address: string;
+  symbol0: string;
+  symbol1: string;
+  balance0: string;
+  balance1: string;
 }
 
 const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0, balance1 }) => {

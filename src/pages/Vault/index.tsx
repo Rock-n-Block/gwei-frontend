@@ -16,7 +16,7 @@ import s from './Vault.module.scss';
 const Vault: FC = () => {
   const [lastBlock, setLastBlock] = useState<number>(0);
   const { id } = useParams<string>();
-  const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo();
+  const { symbol0, symbol1, balance0, balance1 } = useGetTokensInfo(id || '');
   const connector = useWalletConnectorContext().walletService;
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Vault: FC = () => {
             balance0={balance0}
             balance1={balance1}
           />
-          <StateCard />
+          <StateCard symbol0={symbol0} symbol1={symbol1} />
           <MissedOpportunities />
           <div className={s.vault__footer}>
             <InfoIcon />

@@ -1,12 +1,14 @@
 import { FC, memo } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useMst } from 'store';
+
 import cn from 'classnames';
 import { Plate } from 'containers';
 
 import { Button, Input } from 'components';
 
-import { useGetTokensInfo } from '../../../../../hooks';
+import { useGetTokensInfo } from 'hooks';
 
 import s from './FormBlock.module.scss';
 
@@ -16,6 +18,8 @@ interface FormBlockProps {
 
 const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
   const { id } = useParams();
+  const { modal } = useMst();
+  const { setIsOpen } = modal;
   const tokensInfo = useGetTokensInfo(id || '');
 
   return (
@@ -30,7 +34,7 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             <div className={s.block__group}>
               <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
-              <Button className={s.button} color="filled">
+              <Button onClick={setIsOpen} className={s.button} color="filled">
                 Connect wallet
               </Button>
             </div>

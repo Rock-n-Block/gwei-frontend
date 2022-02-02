@@ -14,6 +14,7 @@ const User = types
     },
     disconnect: () => {
       self.address = null;
+      self.balance = null;
     },
   }));
 export default User;

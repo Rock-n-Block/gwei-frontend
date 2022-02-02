@@ -21,3 +21,4 @@ export { UserIcon } from './UserIcon';
 export { GoLinkIcon } from './GoLinkIcon';
 export { QuestionMarkIcon } from './QuestionMarkIcon';
 export { InfoIcon } from './InfoIcon';
+export { SuccessIcon } from './SuccessIcon';

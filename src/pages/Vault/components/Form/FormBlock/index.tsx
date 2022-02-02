@@ -1,11 +1,13 @@
 import { FC, memo, useMemo } from 'react';
 
+import { useMst } from 'store';
+
 import cn from 'classnames';
 import { Plate } from 'containers';
 
 import { Button, Input } from 'components';
 
-import { useGetTokensInfo } from '../../../../../hooks';
+import { useGetTokensInfo } from 'hooks';
 
 import s from './FormBlock.module.scss';
 
@@ -17,6 +19,8 @@ type TabT = 'Deposit' | 'Withdraw';
 
 const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
   const tokensInfo = useGetTokensInfo();
+  const { modal } = useMst();
+  const { setIsOpen } = modal;
   const showFirstBlock = useMemo(
     () => (
       <Plate className={s.block}>
@@ -30,7 +34,7 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
             <div className={s.block__group}>
               <label className={cn(s.block__group_label, 'text-descr')}>{tokensInfo.symbol1}</label>
               <Input className={s.input} placeholder="0.00" type="number" onChange={() => ''} />
-              <Button className={s.button} color="filled">
+              <Button onClick={setIsOpen} className={s.button} color="filled">
                 Connect wallet
               </Button>
             </div>
@@ -69,7 +73,7 @@ const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
         )}
       </Plate>
     ),
-    [currentTab, tokensInfo],
+    [currentTab, tokensInfo, setIsOpen],
   );
 
   return (

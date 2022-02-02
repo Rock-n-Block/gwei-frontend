@@ -1,4 +1,5 @@
 import { FC, memo, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import cn from 'classnames';
 import { Plate } from 'containers';
@@ -10,13 +11,12 @@ import { useGetTokensInfo } from '../../../../../hooks';
 import s from './FormBlock.module.scss';
 
 interface FormBlockProps {
-  currentTab: TabT;
+  currentTab: 'Deposit' | 'Withdraw';
 }
 
-type TabT = 'Deposit' | 'Withdraw';
-
 const FormBlock: FC<FormBlockProps> = ({ currentTab }) => {
-  const tokensInfo = useGetTokensInfo();
+  const { id } = useParams();
+  const tokensInfo = useGetTokensInfo(id || '');
   const showFirstBlock = useMemo(
     () => (
       <Plate className={s.block}>

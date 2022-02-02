@@ -1,5 +1,13 @@
 export default [
-  { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
+  {
+    inputs: [
+      { internalType: 'string', name: 'name', type: 'string' },
+      { internalType: 'string', name: 'symbol', type: 'string' },
+      { internalType: 'uint256', name: '_initialAmount', type: 'uint256' },
+    ],
+    stateMutability: 'payable',
+    type: 'constructor',
+  },
   {
     anonymous: false,
     inputs: [
@@ -8,15 +16,6 @@ export default [
       { indexed: false, internalType: 'uint256', name: 'value', type: 'uint256' },
     ],
     name: 'Approval',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
-      { indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
-    ],
-    name: 'OwnershipTransferred',
     type: 'event',
   },
   {
@@ -102,20 +101,6 @@ export default [
   },
   {
     inputs: [],
-    name: 'owner',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
     name: 'symbol',
     outputs: [{ internalType: 'string', name: '', type: 'string' }],
     stateMutability: 'view',
@@ -146,13 +131,6 @@ export default [
     ],
     name: 'transferFrom',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },

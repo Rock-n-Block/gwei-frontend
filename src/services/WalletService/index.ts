@@ -66,6 +66,11 @@ export class WalletService {
     return this.connectWallet.currentWeb3();
   }
 
+  public async getEthBalance(address: string): Promise<string> {
+    const balance = await this.Web3().eth.getBalance(address);
+    return new BigNumber(balance).div(10 ** 18).toString(10);
+  }
+
   public getTokenBalance(address: string, abi?: AbiItem[]): Promise<string> {
     const contract = this.connectWallet.getContract({
       address,
@@ -155,39 +160,6 @@ export class WalletService {
       ...transactionConfig,
       from: this.walletAddress,
     });
-  }
-
-  async getTotalSupply(tokenAddress: string, abi: Array<any>) {
-    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    const totalSupply = await contract.methods.totalSupply().call();
-
-    return this.weiToEth(tokenAddress, totalSupply);
-  }
-
-  async getMaxTotalSupply(tokenAddress: string, abi: Array<any>) {
-    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    const maxTotalSupply = await contract.methods.maxTotalSupply().call();
-
-    return this.weiToEth(tokenAddress, maxTotalSupply);
-  }
-
-  async getTokenSymbol(tokenAddress: string, abi: Array<any>) {
-    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    return contract.methods.symbol().call();
-  }
-
-  async getFirstTokenBalance(tokenAddress: string, abi: Array<any>) {
-    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    const balance = await contract.methods.getBalance0().call();
-
-    return this.weiToEth(tokenAddress, balance);
-  }
-
-  async getSecondTokenBalance(tokenAddress: string, abi: Array<any>) {
-    const contract = this.connectWallet.getContract({ address: tokenAddress, abi });
-    const balance = await contract.methods.getBalance1().call();
-
-    return this.weiToEth(tokenAddress, balance);
   }
 
   async checkTokenAllowance({

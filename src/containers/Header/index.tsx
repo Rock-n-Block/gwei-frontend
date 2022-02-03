@@ -1,9 +1,10 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
 
+import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 
 import { Button } from 'components';
@@ -21,8 +22,9 @@ import s from './Header.module.scss';
 
 const Header: FC = observer(() => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [balance, setBalance] = useState('');
   const isBackground = useBackground();
-  const { disconnect } = useWalletConnectorContext();
+  const { disconnect, walletService } = useWalletConnectorContext();
   const { modals, user } = useMst();
 
   const openModal = () => {
@@ -46,12 +48,20 @@ const Header: FC = observer(() => {
           <UserIcon />
         </div>
         <div className={s.user__info}>
-          <div className={s.user__info_balance}>0 ETH</div>
-          <div>{shortAddress(user.address)}</div>
+          <div className={s.user__info_balance} title={balance}>
+            {new BigNumber(balance).toFixed(5, 1)} ETH
+          </div>
+          <div title={user.address}>{shortAddress(user.address)}</div>
         </div>
       </div>
     );
   };
+
+  useEffect(() => {
+    if (user.address) {
+      walletService.getEthBalance(user.address).then((res) => setBalance(res));
+    }
+  }, [user.address, walletService]);
 
   return (
     <div className={cn(s.header, isBackground ? s.header_background : '')}>
@@ -66,7 +76,7 @@ const Header: FC = observer(() => {
       <nav className={s.header__nav}>
         <a href="#calc">Calculator</a>
         <a href="#finance">Why GWEI</a>
-        <a href="http://docs.gwei.fi/">Docs</a>
+        <a href="https://docs.gwei.fi/">Docs</a>
       </nav>
       <div className={cn(s.header__nav_mobile, isBurgerOpen ? s.open_mobile : '')}>
         <Link onClick={handleBurger} to="/" className={s.header__nav_mobile_logo}>
@@ -79,7 +89,7 @@ const Header: FC = observer(() => {
           <a href="#finance" onClick={handleBurger}>
             Why GWEI
           </a>
-          <a onClick={handleBurger} href="http://docs.gwei.fi/" target="_blank" rel="noreferrer">
+          <a onClick={handleBurger} href="https://docs.gwei.fi/" target="_blank" rel="noreferrer">
             Docs
           </a>
         </nav>

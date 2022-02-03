@@ -5,6 +5,7 @@ import { useDebounce } from 'hooks';
 import s from './Input.module.scss';
 
 interface IInputProps {
+  disabled?: boolean;
   type?: 'text' | 'number';
   className?: string;
   value?: string;
@@ -24,6 +25,7 @@ interface IInputProps {
 
 const Input: React.FC<IInputProps> = (props) => {
   const {
+    disabled,
     type = 'text',
     className,
     value,
@@ -73,6 +75,7 @@ const Input: React.FC<IInputProps> = (props) => {
     <div className={`${s.input} ${error || errorInner ? s.invalid : ''}`} style={style}>
       <div className={s.input_wrapper}>
         <input
+          disabled={disabled}
           required={required}
           value={inputValue}
           placeholder={placeholder}

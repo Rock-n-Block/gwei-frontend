@@ -3,25 +3,17 @@ import { FC, memo, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { Plate } from 'containers';
+import { useVaultContext } from 'contexts';
 
-import { VaultAbi } from 'config/abi';
 import { getSpacedNumbers } from 'utils';
 
-import { useGetMaxTotalSupply, useGetTotalSupply } from 'hooks';
+import { Loader } from '../../../../components';
 
 import s from './GeneralCard.module.scss';
 
-interface GeneralCardProps {
-  address: string;
-  symbol0: string;
-  symbol1: string;
-  balance0: string;
-  balance1: string;
-}
-
-const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0, balance1 }) => {
-  const maxTotalSupply = useGetMaxTotalSupply(address, VaultAbi);
-  const totalSupply = useGetTotalSupply(address, VaultAbi);
+const GeneralCard: FC = () => {
+  const { vaultData } = useVaultContext();
+  const { totalSupply, maxTotalSupply, token0, token1, reserve0, reserve1 } = vaultData;
 
   const capacity = useMemo(() => {
     return totalSupply && maxTotalSupply
@@ -35,11 +27,17 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0
   return (
     <Plate className={s.general_card}>
       <div className={cn('text-subtitle', s.general_card__title)}>General</div>
-
       <div className={s.general_card__details}>
         <div className={s.general_card__details_item}>
-          <div className="text-descr">TVL {getSpacedNumbers(maxTotalSupply)}</div>
-          <div>{capacity}%</div>
+          <div className="text-descr">
+            TVL{' '}
+            {maxTotalSupply ? (
+              getSpacedNumbers(maxTotalSupply)
+            ) : (
+              <Loader width={100} height={20} viewBox="0 0 100 20" />
+            )}
+          </div>
+          <div>{capacity} %</div>
         </div>
       </div>
       <div className={s.general_card__details_tlv}>
@@ -47,14 +45,30 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0
       </div>
 
       <div className={s.general_card__block}>
-        <div className="text-descr">{`${symbol0}/${symbol1}`}</div>
+        <div className="text-descr">
+          {token0?.symbol ? (
+            `${token0.symbol}/${token0.symbol}`
+          ) : (
+            <Loader width={100} height={20} viewBox="0 0 100 20" />
+          )}
+        </div>
         <div className={s.general_card__details}>
           <div className={s.general_card__details_item}>
             <div className="text-descr">
-              {symbol0}: {getSpacedNumbers(balance0)}
+              {token0?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
+              {reserve0 ? (
+                getSpacedNumbers(reserve0)
+              ) : (
+                <Loader width={100} height={20} viewBox="0 0 100 20" />
+              )}
             </div>
             <div>
-              {symbol1}: {getSpacedNumbers(balance1)}
+              {token1?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
+              {reserve0 ? (
+                getSpacedNumbers(reserve1)
+              ) : (
+                <Loader width={100} height={20} viewBox="0 0 100 20" />
+              )}
             </div>
           </div>
         </div>
@@ -72,8 +86,17 @@ const GeneralCard: FC<GeneralCardProps> = ({ address, symbol0, symbol1, balance0
             <div />
           </div>
         </div>
-        {new BigNumber(balance0).div(new BigNumber(Math.min(+balance0, +balance1))).toFixed(0, 1)} :{' '}
-        {new BigNumber(balance1).div(new BigNumber(Math.min(+balance0, +balance1))).toFixed(0, 1)}
+        {reserve0 && reserve1 ? (
+          new BigNumber(reserve0).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0, 1)
+        ) : (
+          <Loader width={20} height={20} viewBox="0 0 20 20" />
+        )}{' '}
+        :{' '}
+        {reserve0 && reserve1 ? (
+          new BigNumber(reserve1).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0, 1)
+        ) : (
+          <Loader width={20} height={20} viewBox="0 0 20 20" />
+        )}
       </div>
     </Plate>
   );

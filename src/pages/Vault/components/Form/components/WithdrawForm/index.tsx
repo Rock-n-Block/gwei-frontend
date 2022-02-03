@@ -1,12 +1,11 @@
 import { FC, memo } from 'react';
 
 import cn from 'classnames';
+import { Plate } from 'containers';
 
-import { Button, Input } from '../../../../../../components';
+import { Button, Input } from 'components';
 
-import { TokensInfoI } from '../../../../../../types';
-
-import { Plate } from '../../../../../../containers';
+import { TokensInfoI } from 'types';
 
 import s from '../../Form.module.scss';
 

@@ -7,7 +7,7 @@ import { Plate } from 'containers';
 
 import { Button, Input } from 'components';
 
-import { TokensInfoI } from '../../../../../../types';
+import { TokensInfoI } from 'types';
 
 import s from '../../Form.module.scss';
 

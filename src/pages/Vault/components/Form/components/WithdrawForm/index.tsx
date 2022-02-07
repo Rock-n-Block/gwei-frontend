@@ -37,6 +37,34 @@ const WithdrawForm: FC = () => {
     modals.wallet.open();
   };
 
+  const handleInput = (input: 'shares' | 'first' | 'second', str: string) => {
+    if (!Number.isNaN(+str) && +str >= 0) {
+      if (input === 'shares') {
+        setSharesInput(str);
+        const shareOfTotal = new BigNumber(str).div(totalSupply).toString(10);
+        setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
+        setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
+      } else if (input === 'first') {
+        setFirstInput(str);
+        const shareOfReserve = new BigNumber(str).div(reserve0).toString(10);
+        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
+        setSecondInput(new BigNumber(reserve1).times(shareOfReserve).toString(10));
+      } else {
+        setSecondInput(str);
+        const shareOfReserve = new BigNumber(str).div(reserve1).toString(10);
+        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
+        setFirstInput(new BigNumber(reserve0).times(shareOfReserve).toString(10));
+      }
+    }
+  };
+
+  const setMax = () => {
+    setSharesInput(balance);
+    const shareOfTotal = new BigNumber(balance).div(totalSupply).toString(10);
+    setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
+    setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
+  };
+
   const handleApprove = async () => {
     if (id && user.address) {
       try {
@@ -88,27 +116,6 @@ const WithdrawForm: FC = () => {
     }
   };
 
-  const handleInput = (input: 'shares' | 'first' | 'second', str: string) => {
-    if (!Number.isNaN(+str) && +str >= 0) {
-      if (input === 'shares') {
-        setSharesInput(str);
-        const shareOfTotal = new BigNumber(str).div(totalSupply).toString(10);
-        setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
-        setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
-      } else if (input === 'first') {
-        setFirstInput(str);
-        const shareOfReserve = new BigNumber(str).div(reserve0).toString(10);
-        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
-        setSecondInput(new BigNumber(reserve1).times(shareOfReserve).toString(10));
-      } else {
-        setSecondInput(str);
-        const shareOfReserve = new BigNumber(str).div(reserve1).toString(10);
-        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
-        setFirstInput(new BigNumber(reserve0).times(shareOfReserve).toString(10));
-      }
-    }
-  };
-
   const validateInput = useCallback(() => {
     if (+sharesInput > +balance) {
       setSharesInputError("Value can't be greater then balance");
@@ -144,7 +151,7 @@ const WithdrawForm: FC = () => {
         <div>
           <label className={cn(s.label, 'text-descr')}>
             <div>Vault shares</div>
-            <div className={s.label__notification}>
+            <div className={s.label__notification} onClick={setMax}>
               Balance: {balance || <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
             </div>
           </label>
@@ -207,7 +214,7 @@ const WithdrawForm: FC = () => {
             onClick={handleWithdraw}
             color="filled"
           >
-            Withdraw
+            {isLoading ? 'In progress...' : 'Withdraw'}
           </Button>
         )}
       </div>

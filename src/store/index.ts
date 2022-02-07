@@ -25,6 +25,9 @@ export const rootStore = RootModel.create({
     wallet: {
       isOpen: false,
     },
+    mint: {
+      isOpen: false,
+    },
   },
 });
 

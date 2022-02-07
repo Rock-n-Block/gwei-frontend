@@ -51,12 +51,6 @@ const Connect: FC = observer(({ children }) => {
           try {
             const { address }: any = await provider.current.getAccount();
             log('getAccount address:', address);
-            provider.current.setAccountAddress(address);
-            rootStore.user.setAddress(address);
-            localStorage.gwei_logged = true;
-            const balance = await provider.current.getTokenBalance(params.MockToken1[type].address);
-            log('balance: ', balance);
-            rootStore.user.setBalance(balance);
             // eslint-disable-next-line array-callback-return
             names.map((name) => {
               provider.current.connectWallet
@@ -67,6 +61,12 @@ const Connect: FC = observer(({ children }) => {
                 })
                 .then((status) => log(`is contract ${name} added?:`, status));
             });
+            provider.current.setAccountAddress(address);
+            rootStore.user.setAddress(address);
+            localStorage.gwei_logged = true;
+            const balance = await provider.current.Web3().eth.getBalance(address);
+            log('balance: ', balance);
+            rootStore.user.setBalance(balance);
 
             const eventSubs = provider.current.connectWallet.eventSubscriber().subscribe(
               (res: any) => {

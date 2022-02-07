@@ -17,7 +17,7 @@ import { clog } from 'utils/logger';
 import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
 
 import { useWalletConnectorContext } from 'services';
-import { TokenInfo, VaultData } from 'types';
+import { PoolInfo, TokenInfo, VaultData } from 'types';
 
 import s from './Vault.module.scss';
 
@@ -85,7 +85,7 @@ const Vault: FC = observer(() => {
           balance,
           reserve0,
           reserve1,
-          currentPool: currentPool.pool,
+          currentPool,
           token0,
           token1,
         });
@@ -149,7 +149,7 @@ const Vault: FC = observer(() => {
             </div>
             <GeneralCard />
             <StateCard
-              poolAddress={vaultData.currentPool}
+              currentPool={vaultData.currentPool ?? ({} as PoolInfo)}
               symbol0={vaultData.token0?.symbol}
               symbol1={vaultData.token1?.symbol}
             />

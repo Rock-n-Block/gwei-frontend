@@ -1,20 +1,57 @@
-import { FC, memo } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 
+import BigNumber from 'bignumber.js';
 import { Plate } from 'containers';
+import { AbiItem } from 'web3-utils';
 
 import { Loader } from 'components';
 import { GoLinkIcon } from 'components/Icons';
 import { chains } from 'config';
+import { PoolAbi } from 'config/abi';
+import { clog } from 'utils/logger';
+
+import { useWalletConnectorContext } from 'services';
+import { PoolInfo } from 'types';
 
 import s from './StateCard.module.scss';
 
 interface StateCardProps {
-  poolAddress: string;
+  currentPool: PoolInfo;
   symbol0: string;
   symbol1: string;
 }
 
-const StateCard: FC<StateCardProps> = ({ poolAddress, symbol0, symbol1 }) => {
+const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
+  const [price, setPrice] = useState('');
+  const { walletService } = useWalletConnectorContext();
+  const { baseUpper, baseLower, protocolFee, pool } = currentPool;
+
+  const log = (...content: unknown[]) => clog('pages/Vault/StateCard [debug]:', content);
+  log('currentPool', currentPool);
+
+  const lowerRange = currentPool?.baseLower ? 1.0001 ** +baseLower : 0;
+  const upperRange = currentPool?.baseUpper ? 1.0001 ** +baseUpper : 0;
+
+  const getPrice = useCallback(async () => {
+    if (pool) {
+      const contract = walletService.connectWallet.getContract({
+        address: pool,
+        abi: PoolAbi as AbiItem[],
+      });
+      const slot = await contract.methods.slot0().call();
+      log('slot:', slot);
+      const parsedPrice = new BigNumber(slot.sqrtPriceX96)
+        .div(2 ** 96)
+        .pow(2)
+        .toString(10);
+      setPrice(parsedPrice);
+    }
+  }, [pool, walletService.connectWallet]);
+
+  useEffect(() => {
+    getPrice();
+  }, [getPrice]);
+
   return (
     <Plate className={s.card}>
       <div className={s.card__title}>
@@ -22,7 +59,7 @@ const StateCard: FC<StateCardProps> = ({ poolAddress, symbol0, symbol1 }) => {
         <div className={s.card__title_icon}>
           <a
             target="_blank"
-            href={`${chains.Ethereum.explorer}address/${poolAddress}`}
+            href={`${chains.Ethereum.explorer}address/${pool || ''}`}
             rel="noreferrer"
           >
             <GoLinkIcon />
@@ -38,15 +75,31 @@ const StateCard: FC<StateCardProps> = ({ poolAddress, symbol0, symbol1 }) => {
               <Loader width={100} height={20} viewBox="0 0 100 20" />
             )}
           </div>
-          <div>$3,650.25</div>
+          <div title={price}>
+            {price ? (
+              new BigNumber(price).toFixed(4, 1)
+            ) : (
+              <Loader width={200} height={20} viewBox="0 0 200 20" />
+            )}
+          </div>
         </div>
         <div className={s.card__info_item}>
           <div className="text-descr">Range of Open Position</div>
-          <div>$3,000.000 - $5,000.000</div>
+          <div>
+            {lowerRange && upperRange ? (
+              `${lowerRange} - ${upperRange}`
+            ) : (
+              <Loader width={200} height={20} viewBox="0 0 200 20" />
+            )}
+          </div>
         </div>
         <div className={s.card__info_item}>
           <div className="text-descr">Pool Fee</div>
-          <div>0.3%</div>
+          {currentPool?.protocolFee ? (
+            <div>{new BigNumber(protocolFee).div(1000).toString(10)} %</div>
+          ) : (
+            <Loader width={50} height={20} viewBox="0 0 50 20" />
+          )}
         </div>
       </div>
     </Plate>

@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { useMst } from 'store';
 
 import classnames from 'classnames';
 import { AbiItem } from 'web3-utils';
@@ -22,50 +21,47 @@ const { params, type } = contracts;
 const Liquidity: FC = observer(() => {
   const [vaultInfo, setVaultInfo] = useState({} as VaultInfo);
   const { walletService } = useWalletConnectorContext();
-  const { user } = useMst();
 
   const log = (...content: unknown[]) => {
     clog('pages/Liquidity[debug]:', content);
   };
 
   const getVaultInfo = useCallback(async () => {
-    if (user.address) {
-      try {
-        const { address } = params.Vault[type];
-        const contract = await walletService.connectWallet.getContract({
-          address,
-          abi: VaultAbi as AbiItem[],
-        });
-        const totalSupply = await walletService.weiToEth(
-          address,
-          await contract.methods.totalSupply().call(),
-        );
-        const maxTotalSupply = await walletService.weiToEth(
-          address,
-          await contract.methods.maxTotalSupply().call(),
-        );
-        const token0 = walletService.connectWallet.getContract({
-          address: await contract.methods.token0().call(),
-          abi: erc20Abi as AbiItem[],
-        });
-        const token1 = walletService.connectWallet.getContract({
-          address: await contract.methods.token0().call(),
-          abi: erc20Abi as AbiItem[],
-        });
-        const name = `${await token0.methods.symbol().call()}/${await token1.methods
-          .symbol()
-          .call()}`;
-        setVaultInfo({
-          name,
-          address,
-          totalSupply,
-          maxTotalSupply,
-        });
-      } catch (e: unknown) {
-        log('getVaultInfo', e);
-      }
+    try {
+      const { address } = params.Vault[type];
+      const contract = await walletService.connectWallet.getContract({
+        address,
+        abi: VaultAbi as AbiItem[],
+      });
+      const totalSupply = await walletService.weiToEth(
+        address,
+        await contract.methods.totalSupply().call(),
+      );
+      const maxTotalSupply = await walletService.weiToEth(
+        address,
+        await contract.methods.maxTotalSupply().call(),
+      );
+      const token0 = walletService.connectWallet.getContract({
+        address: await contract.methods.token0().call(),
+        abi: erc20Abi as AbiItem[],
+      });
+      const token1 = walletService.connectWallet.getContract({
+        address: await contract.methods.token0().call(),
+        abi: erc20Abi as AbiItem[],
+      });
+      const name = `${await token0.methods.symbol().call()}/${await token1.methods
+        .symbol()
+        .call()}`;
+      setVaultInfo({
+        name,
+        address,
+        totalSupply,
+        maxTotalSupply,
+      });
+    } catch (e: unknown) {
+      log('getVaultInfo', e);
     }
-  }, [user.address, walletService]);
+  }, [walletService]);
 
   useEffect(() => {
     getVaultInfo();

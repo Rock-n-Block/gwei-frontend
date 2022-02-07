@@ -56,6 +56,20 @@ const DepositForm: FC = observer(() => {
     }
   };
 
+  const setMax = (query: 'first' | 'second') => {
+    if (query === 'first') {
+      setFirstInput(token0.balance);
+      if (+reserve0 && +reserve1) {
+        setSecondInput(new BigNumber(token0.balance).times(reserve1).div(reserve0).toString(10));
+      }
+    } else {
+      setSecondInput(token1.balance);
+      if (+reserve0 && +reserve1) {
+        setFirstInput(new BigNumber(token1.balance).times(reserve0).div(reserve1).toString(10));
+      }
+    }
+  };
+
   const handleApprove = async (contractType: 'token' | 'vault', query: 'first' | 'second') => {
     try {
       setLoading(true);
@@ -81,6 +95,7 @@ const DepositForm: FC = observer(() => {
 
   const handleDeposit = async () => {
     try {
+      setLoading(true);
       await walletService.deposit({
         vaultAddress: id || '',
         address0: token0?.address,
@@ -143,9 +158,11 @@ const DepositForm: FC = observer(() => {
 
   const checkMintedNFT = useCallback(async () => {
     if (user.address) {
-      const contract = walletService.connectWallet.Contract('InvitationNFT');
-      const isMinted = await contract.methods.minted(user.address).call();
-      setMintedNFT(isMinted);
+      const ownersToIds = await walletService.connectWallet
+        .Contract('InvitationNFT')
+        .methods.ownersToIds(user.address)
+        .call();
+      setMintedNFT(!!ownersToIds);
     }
   }, [user.address, walletService.connectWallet]);
 
@@ -169,7 +186,7 @@ const DepositForm: FC = observer(() => {
       <div className={s.block__group}>
         <label className={cn(s.label, 'text-descr')}>
           <div>{token0?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
-          <div className={s.label__notification}>
+          <div className={s.label__notification} onClick={() => setMax('first')}>
             Balance {token0?.balance || <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
           </div>
         </label>
@@ -185,7 +202,7 @@ const DepositForm: FC = observer(() => {
       <div className={s.block__group}>
         <label className={cn(s.label, 'text-descr')}>
           <div>{token1?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
-          <div className={s.label__notification}>
+          <div className={s.label__notification} onClick={() => setMax('second')}>
             Balance {token1?.balance || <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
           </div>
         </label>

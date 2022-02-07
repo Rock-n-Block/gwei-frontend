@@ -19,7 +19,7 @@ const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
   const { address, name, totalSupply, maxTotalSupply } = vaultInfo;
   const capacity =
     maxTotalSupply && totalSupply
-      ? new BigNumber(maxTotalSupply).minus(totalSupply).div(maxTotalSupply).toFixed(3, 1)
+      ? new BigNumber(totalSupply).div(maxTotalSupply).times(100).toString(10)
       : 0;
 
   return (
@@ -48,7 +48,12 @@ const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>Capacity used</div>
           {capacity ? (
-            <div className={classnames(s.card__descr, s.card__meta_value)}>{capacity} %</div>
+            <div
+              className={classnames(s.card__descr, s.card__meta_value)}
+              title={new BigNumber(capacity).toString(10)}
+            >
+              {new BigNumber(capacity).toFixed(3, 1)} %
+            </div>
           ) : (
             <Loader width={100} height={20} viewBox="0 0 100 20" />
           )}

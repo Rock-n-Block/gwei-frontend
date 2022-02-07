@@ -86,16 +86,18 @@ const GeneralCard: FC = () => {
             <div />
           </div>
         </div>
-        {reserve0 && reserve1 ? (
-          new BigNumber(reserve0).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0, 1)
+        {+reserve0 && +reserve1 ? (
+          <div>
+            {new BigNumber(reserve0)
+              .div(new BigNumber(Math.min(+reserve0, +reserve1)))
+              .toFixed(0, 1)}{' '}
+            :{' '}
+            {new BigNumber(reserve1)
+              .div(new BigNumber(Math.min(+reserve0, +reserve1)))
+              .toFixed(0, 1)}
+          </div>
         ) : (
-          <Loader width={20} height={20} viewBox="0 0 20 20" />
-        )}{' '}
-        :{' '}
-        {reserve0 && reserve1 ? (
-          new BigNumber(reserve1).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0, 1)
-        ) : (
-          <Loader width={20} height={20} viewBox="0 0 20 20" />
+          ''
         )}
       </div>
     </Plate>

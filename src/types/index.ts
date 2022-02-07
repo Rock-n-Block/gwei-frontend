@@ -9,6 +9,13 @@ export interface TokenInfo {
   balance: string;
 }
 
+export interface PoolInfo {
+  pool: string;
+  baseLower: string;
+  baseUpper: string;
+  protocolFee: string;
+}
+
 export interface VaultData {
   totalSupply: string;
   maxTotalSupply: string;
@@ -17,7 +24,7 @@ export interface VaultData {
   token1: TokenInfo;
   reserve0: string;
   reserve1: string;
-  currentPool: string;
+  currentPool: PoolInfo;
 }
 
 export interface VaultInfo {
@@ -25,4 +32,9 @@ export interface VaultInfo {
   address: string;
   totalSupply: string;
   maxTotalSupply: string;
+}
+
+export interface PoolData {
+  fee: string;
+  tick: string;
 }

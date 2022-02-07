@@ -126,7 +126,7 @@ export const contracts: IContracts = {
         abi: VaultAbi,
       },
       testnet: {
-        address: '0x1138a60211eAD0996E8c0F6c925ee9E61368Ac86',
+        address: '0x1E92aCbfDF41D9c37C53009aE1098BE5ED20513b',
         abi: VaultAbi,
       },
     },
@@ -136,7 +136,7 @@ export const contracts: IContracts = {
         abi: InvitationNFTAbi,
       },
       testnet: {
-        address: '0x658dcfDDe53986819a6e18D714F8f4294C2DBE3A',
+        address: '0x73D867a5A085D05de3d10d7D0B30809932071B31',
         abi: InvitationNFTAbi,
       },
     },

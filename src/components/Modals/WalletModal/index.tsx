@@ -1,8 +1,8 @@
 import { FC, memo } from 'react';
 import Modal from 'react-modal';
 
-import { useMst } from '../../../store';
 import { observer } from 'mobx-react-lite';
+import { useMst } from 'store';
 
 import cn from 'classnames';
 
@@ -49,7 +49,6 @@ const WalletModal: FC = observer(() => {
       closeTimeoutMS={350}
       className={s.modal_wallet}
       overlayClassName="overlay"
-      contentLabel="Example Modals"
       ariaHideApp={false}
     >
       <div onClick={closeModal} className={s.modal_wallet__close}>

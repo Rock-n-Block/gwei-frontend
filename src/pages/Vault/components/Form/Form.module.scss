@@ -95,9 +95,14 @@
   @include flex(row, center, space-between, nowrap);
 
   &__notification {
-    background: linear-gradient(#ef328d, #ec0909);
-    background-clip: text;
     opacity: 0.8;
-    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: linear-gradient(#ef328d, #ec0909);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 }

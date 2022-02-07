@@ -1,5 +1,6 @@
 import { FC, memo } from 'react';
 
+import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { Plate } from 'containers';
 import { useVaultContext } from 'contexts';
@@ -10,7 +11,7 @@ import s from '../../Form.module.scss';
 
 const YourLiquidity: FC = () => {
   const { vaultData } = useVaultContext();
-  const { balance, token0, token1, reserve0, reserve1 } = vaultData;
+  const { balance, totalSupply, token0, token1, reserve0, reserve1 } = vaultData;
 
   return (
     <Plate className={s.block}>
@@ -22,7 +23,11 @@ const YourLiquidity: FC = () => {
             </label>
             <Input
               className={s.input}
-              value={reserve0 || '0'}
+              value={
+                reserve0
+                  ? new BigNumber(reserve0).times(balance).div(totalSupply).toString(10)
+                  : '0'
+              }
               type="number"
               disabled
               onChange={() => {}}
@@ -34,7 +39,11 @@ const YourLiquidity: FC = () => {
             </label>
             <Input
               className={s.input}
-              value={reserve1 || '0'}
+              value={
+                reserve1
+                  ? new BigNumber(reserve1).times(balance).div(totalSupply).toString(10)
+                  : '0'
+              }
               type="number"
               disabled
               onChange={() => {}}

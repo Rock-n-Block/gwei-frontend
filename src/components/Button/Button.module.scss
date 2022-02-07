@@ -55,7 +55,6 @@ $border-default: gray;
 
     color: $color-white;
     background: $color-blue-gradient;
-    background: linear-gradient(100.26deg, #32cdef 18.91%, #0964ec 136.75%);
     border-radius: 12px;
     box-shadow: 0 4px 8px rgb(0 0 0 / 25%), 0 9px 37px rgb(13 105 236 / 53%), 0 1px 0 #0c4ba2;
 
@@ -73,8 +72,14 @@ $border-default: gray;
   }
 
   &.disabled {
+    opacity: 0.5;
+    box-shadow: none;
+    cursor: not-allowed;
+
     &:hover,
     &:focus {
+      background: $color-blue-gradient;
+      box-shadow: none;
     }
   }
 }

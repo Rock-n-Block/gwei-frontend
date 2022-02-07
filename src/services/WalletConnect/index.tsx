@@ -18,7 +18,7 @@ declare global {
 const log = (...content: unknown[]) => clog('services/WalletConnect[debug]:', ...content);
 const logErr = (...content: unknown[]) => clogError('services/WalletConnect[debug]:', ...content);
 
-const { type, params } = contracts;
+const { names, type, params } = contracts;
 
 const WalletConnectContext = createContext<{
   connect: (chainName: chainsEnum, providerName: WalletT) => Promise<void>;
@@ -57,6 +57,16 @@ const Connect: FC = observer(({ children }) => {
             const balance = await provider.current.getTokenBalance(params.MockToken1[type].address);
             log('balance: ', balance);
             rootStore.user.setBalance(balance);
+            // eslint-disable-next-line array-callback-return
+            names.map((name) => {
+              provider.current.connectWallet
+                .addContract({
+                  address: params[name][type].address,
+                  abi: params[name][type].abi,
+                  name,
+                })
+                .then((status) => log(`is contract ${name} added?:`, status));
+            });
 
             const eventSubs = provider.current.connectWallet.eventSubscriber().subscribe(
               (res: any) => {

@@ -2,8 +2,8 @@ import { types } from 'mobx-state-tree';
 
 const User = types
   .model({
-    address: types.maybeNull(types.string),
-    balance: types.maybeNull(types.string),
+    address: types.optional(types.string, ''),
+    balance: types.optional(types.string, '0'),
   })
   .actions((self) => ({
     setAddress: (address: string) => {
@@ -13,8 +13,8 @@ const User = types
       self.balance = balance;
     },
     disconnect: () => {
-      self.address = null;
-      self.balance = null;
+      self.address = '';
+      self.balance = '0';
     },
   }));
 export default User;

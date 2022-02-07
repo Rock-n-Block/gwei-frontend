@@ -31,8 +31,8 @@ const GeneralCard: FC = () => {
         <div className={s.general_card__details_item}>
           <div className="text-descr">
             TVL{' '}
-            {maxTotalSupply ? (
-              getSpacedNumbers(maxTotalSupply)
+            {totalSupply ? (
+              getSpacedNumbers(totalSupply)
             ) : (
               <Loader width={100} height={20} viewBox="0 0 100 20" />
             )}

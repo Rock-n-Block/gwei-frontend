@@ -5,7 +5,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 
 import { connectWallet as connectWalletConfig, contracts } from 'config';
-import { erc20Abi } from 'config/abi';
+import { erc20Abi, VaultAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
 import { chainsEnum, WalletT } from 'types';
@@ -104,7 +104,7 @@ export class WalletService {
     return this.connectWallet.getAccounts();
   }
 
-  static getMethodInterface(abi: Array<any>, methodName: string) {
+  static getMethodInterface(abi: Array<AbiItem>, methodName: string) {
     return abi.filter((m) => {
       return m.name === methodName;
     })[0];
@@ -163,33 +163,30 @@ export class WalletService {
   }
 
   async checkTokenAllowance({
-    contractName,
+    contractAddress,
+    contractAbi,
     approvedAddress,
     walletAddress,
     amount,
   }: {
-    contractName: string;
+    contractAddress: string;
+    contractAbi: AbiItem[];
     approvedAddress?: string;
     walletAddress?: string;
     amount?: string | number;
   }): Promise<boolean> {
     try {
       const contract = this.connectWallet.getContract({
-        address: contracts.params[contractName][contracts.type].address,
-        abi: contracts.params[contractName][contracts.type].abi,
+        address: contractAddress,
+        abi: contractAbi,
       });
       const walletAdr = walletAddress || this.walletAddress;
 
       let result = await contract.methods
-        .allowance(
-          walletAdr,
-          approvedAddress || contracts.params[contractName][contracts.type].address,
-        )
+        .allowance(walletAdr, approvedAddress || contractAddress)
         .call();
 
-      const tokenDecimals = await this.getTokenDecimals(
-        contracts.params[contractName][contracts.type].address,
-      );
+      const tokenDecimals = await this.getTokenDecimals(contractAddress);
 
       result =
         result === '0'
@@ -202,35 +199,64 @@ export class WalletService {
   }
 
   async approveToken({
-    contractName,
+    contractAddress,
+    contractAbi,
     amountToApprove,
     approvedAddress,
     walletAddress,
   }: {
-    contractName: string;
+    contractAddress: string;
+    contractAbi: AbiItem[];
     amountToApprove: string;
     approvedAddress?: string;
     walletAddress?: string;
   }) {
     try {
-      const approveMethod = WalletService.getMethodInterface(
-        contracts.params[contractName][contracts.type].abi,
-        'approve',
-      );
+      const approveMethod = WalletService.getMethodInterface(contractAbi, 'approve');
 
       const approveSignature = this.encodeFunctionCall(approveMethod, [
         approvedAddress || walletAddress || this.walletAddress,
-        amountToApprove,
+        await this.ethToWei(contractAddress, amountToApprove),
       ]);
 
       return this.sendTransaction({
         from: walletAddress || this.walletAddress,
-        to: contracts.params[contractName][contracts.type].address,
+        to: contractAddress,
         data: approveSignature,
       });
     } catch (error) {
       return error;
     }
+  }
+
+  public async deposit({
+    vaultAddress,
+    address0,
+    address1,
+    amount0,
+    amount1,
+    walletAddress,
+  }: {
+    vaultAddress: string;
+    address0: string;
+    address1: string;
+    amount0: string;
+    amount1: string;
+    walletAddress: string;
+  }): Promise<unknown> {
+    const amount0Desired = await this.ethToWei(address0, amount0);
+    const amount1Desired = await this.ethToWei(address1, amount1);
+    const amount0Min = new BigNumber(amount0Desired).div(10).times(8).toFixed(0, 1);
+    const amount1Min = new BigNumber(amount1Desired).div(10).times(8).toFixed(0, 1);
+    const contract = this.connectWallet.getContract({
+      address: vaultAddress,
+      abi: VaultAbi as AbiItem[],
+    });
+    return contract.methods
+      .deposit(amount0Desired, amount1Desired, amount0Min, amount1Min, walletAddress)
+      .send({
+        from: walletAddress,
+      });
   }
 
   public async weiToEth(tokenContract: string, amount: number | string): Promise<string> {
@@ -246,7 +272,7 @@ export class WalletService {
       return amount;
     }
     const tokenDecimals = await this.getTokenDecimals(tokenContract);
-    return new BigNumber(amount).multipliedBy(new BigNumber(10).pow(tokenDecimals)).toString(10);
+    return new BigNumber(amount).multipliedBy(new BigNumber(10).pow(tokenDecimals)).toFixed(0, 1);
   }
 
   static getAddress(contractName: string): string {

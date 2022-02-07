@@ -259,6 +259,28 @@ export class WalletService {
       });
   }
 
+  public async withdraw({
+    vaultAddress,
+    shares,
+    amount0Min,
+    amount1Min,
+    walletAddress,
+  }: {
+    vaultAddress: string;
+    shares: string;
+    amount0Min: string;
+    amount1Min: string;
+    walletAddress: string;
+  }): Promise<unknown> {
+    const contract = this.connectWallet.getContract({
+      address: vaultAddress,
+      abi: VaultAbi as AbiItem[],
+    });
+    return contract.methods
+      .withdraw(shares, amount0Min, amount1Min, walletAddress)
+      .send({ from: walletAddress });
+  }
+
   public async weiToEth(tokenContract: string, amount: number | string): Promise<string> {
     if (amount === '0') {
       return amount;

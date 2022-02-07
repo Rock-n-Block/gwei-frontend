@@ -1,19 +1,142 @@
-import { FC, memo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import { useMst } from 'store';
+
+import BigNumber from 'bignumber.js';
 import cn from 'classnames';
 import { Plate } from 'containers';
 import { useVaultContext } from 'contexts';
+import { AbiItem } from 'web3-utils';
 
 import { Button, Input, Loader } from 'components';
+import { VaultAbi } from 'config/abi';
+import { clog } from 'utils/logger';
+
+import { useWalletConnectorContext } from 'services';
 
 import s from '../../Form.module.scss';
 
 const WithdrawForm: FC = () => {
-  const [sharesInput, setSharesInput] = useState<string>('');
-  const [firstInput, setFirstInput] = useState<string>('');
-  const [secondInput, setSecondInput] = useState<string>('');
+  const [isLoading, setLoading] = useState(false);
+  const [isSharesApproved, setSharesApproved] = useState(false);
+  const [sharesInput, setSharesInput] = useState('');
+  const [sharesInputError, setSharesInputError] = useState('');
+  const [firstInput, setFirstInput] = useState('');
+  const [secondInput, setSecondInput] = useState('');
+
+  const { id } = useParams();
+  const { modals, user } = useMst();
+  const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
-  const { balance, token0, token1 } = vaultData;
+  const { balance, token0, token1, totalSupply, reserve0, reserve1 } = vaultData;
+
+  const log = (...content: unknown[]) => clog('pages/Vault/WithdrawForm [debug]:', content);
+
+  const openWalletConnectModal = () => {
+    modals.wallet.open();
+  };
+
+  const handleApprove = async () => {
+    if (id && user.address) {
+      try {
+        setLoading(true);
+        await walletService.approveToken({
+          contractAddress: id,
+          contractAbi: VaultAbi as AbiItem[],
+          amountToApprove: sharesInput,
+          walletAddress: user.address,
+        });
+        modals.info.setMsg('You have successfully approved amount of shares!', 'success');
+        setSharesApproved(true);
+        setLoading(false);
+      } catch (e) {
+        modals.info.setMsg('Something went wrong', 'error');
+        log('approve shares', e);
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (id && user.address) {
+      try {
+        setLoading(true);
+        const amount0Min = new BigNumber(await walletService.ethToWei(token0?.address, firstInput))
+          .div(10)
+          .times(8)
+          .toFixed(0, 1);
+        const amount1Min = new BigNumber(await walletService.ethToWei(token1?.address, secondInput))
+          .div(10)
+          .times(8)
+          .toFixed(0, 1);
+        await walletService.withdraw({
+          vaultAddress: id,
+          shares: await walletService.ethToWei(id, sharesInput),
+          amount0Min,
+          amount1Min,
+          walletAddress: user.address,
+        });
+        modals.info.setMsg('You have successfully withdrew amount of deposit', 'success');
+        setLoading(false);
+        setTimeout(() => window.location.reload(), 2500);
+      } catch (e) {
+        modals.info.setMsg('Something went wrong', 'error');
+        log('withdraw', e);
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleInput = (input: 'shares' | 'first' | 'second', str: string) => {
+    if (!Number.isNaN(+str) && +str >= 0) {
+      if (input === 'shares') {
+        setSharesInput(str);
+        const shareOfTotal = new BigNumber(str).div(totalSupply).toString(10);
+        setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
+        setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
+      } else if (input === 'first') {
+        setFirstInput(str);
+        const shareOfReserve = new BigNumber(str).div(reserve0).toString(10);
+        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
+        setSecondInput(new BigNumber(reserve1).times(shareOfReserve).toString(10));
+      } else {
+        setSecondInput(str);
+        const shareOfReserve = new BigNumber(str).div(reserve1).toString(10);
+        setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
+        setFirstInput(new BigNumber(reserve0).times(shareOfReserve).toString(10));
+      }
+    }
+  };
+
+  const validateInput = useCallback(() => {
+    if (+sharesInput > +balance) {
+      setSharesInputError("Value can't be greater then balance");
+    } else if (+sharesInput < 0) {
+      setSharesInputError("Value can't be lower then 0");
+    } else {
+      setSharesInputError('');
+    }
+  }, [balance, sharesInput]);
+
+  const checkApprove = useCallback(async () => {
+    if (id && user.address) {
+      const allowance = await walletService.checkTokenAllowance({
+        contractAddress: id,
+        contractAbi: VaultAbi as AbiItem[],
+        approvedAddress: user.address,
+        amount: sharesInput,
+      });
+      setSharesApproved(allowance);
+    }
+  }, [id, sharesInput, user.address, walletService]);
+
+  useEffect(() => {
+    if (sharesInput && balance) {
+      validateInput();
+      checkApprove();
+    }
+  }, [balance, checkApprove, sharesInput, validateInput]);
 
   return (
     <Plate className={s.block}>
@@ -29,8 +152,9 @@ const WithdrawForm: FC = () => {
             className={s.input}
             placeholder="0.00"
             value={sharesInput}
+            error={sharesInputError}
             type="number"
-            onChange={(str) => setSharesInput(str)}
+            onChange={(str) => handleInput('shares', str)}
           />
         </div>
       </div>
@@ -45,7 +169,7 @@ const WithdrawForm: FC = () => {
               placeholder="0.00"
               value={firstInput}
               type="number"
-              onChange={(str) => setFirstInput(str)}
+              onChange={(str) => handleInput('first', str)}
             />
           </div>
           <div>
@@ -57,13 +181,35 @@ const WithdrawForm: FC = () => {
               placeholder="0.00"
               value={secondInput}
               type="number"
-              onChange={(str) => setSecondInput(str)}
+              onChange={(str) => handleInput('second', str)}
             />
           </div>
         </div>
-        <Button className={s.button} color="filled">
-          Connect wallet
-        </Button>
+        {!user.address && (
+          <Button className={s.button} onClick={openWalletConnectModal} color="filled">
+            Connect wallet
+          </Button>
+        )}
+        {user.address && !isSharesApproved && (
+          <Button
+            className={s.button}
+            disabled={!+sharesInput || !!sharesInputError}
+            onClick={handleApprove}
+            color="filled"
+          >
+            {isLoading ? 'In progress...' : 'Approve'}
+          </Button>
+        )}
+        {user.address && isSharesApproved && (
+          <Button
+            className={s.button}
+            disabled={!+sharesInput || !!sharesInputError}
+            onClick={handleWithdraw}
+            color="filled"
+          >
+            Withdraw
+          </Button>
+        )}
       </div>
     </Plate>
   );

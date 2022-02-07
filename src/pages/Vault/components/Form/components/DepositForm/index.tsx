@@ -11,11 +11,10 @@ import { useVaultContext } from 'contexts';
 import { AbiItem } from 'web3-utils';
 
 import { Button, Input, Loader } from 'components';
+import { erc20Abi, VaultAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
 import { useWalletConnectorContext } from 'services';
-
-import { erc20Abi, VaultAbi } from '../../../../../../config/abi';
 
 import s from '../../Form.module.scss';
 
@@ -205,7 +204,7 @@ const DepositForm: FC = observer(() => {
         )}
         {user.address && !isFirstApproved && (
           <Button
-            disabled={!token0?.address || !+firstInput}
+            disabled={!token0?.address || !+firstInput || !!firstInputError}
             onClick={() => handleApprove('token', 'first')}
             className={s.button}
             color="filled"
@@ -219,7 +218,7 @@ const DepositForm: FC = observer(() => {
         )}
         {user.address && isFirstApproved && !isSecondApproved && (
           <Button
-            disabled={!token1?.address || !+secondInput}
+            disabled={!token1?.address || !+secondInput || !!secondInputError}
             onClick={() => handleApprove('token', 'second')}
             className={s.button}
             color="filled"

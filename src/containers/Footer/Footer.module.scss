@@ -18,6 +18,7 @@
   &__inner {
     @include flex(row, center, space-between, nowrap);
     margin: 0 auto;
+    padding: 0 1.3rem;
 
     max-width: 1230px;
 

@@ -76,7 +76,9 @@ const Header: FC = observer(() => {
       <nav className={s.header__nav}>
         <a href="#calc">Calculator</a>
         <a href="#finance">Why GWEI</a>
-        <a href="https://docs.gwei.fi/">Docs</a>
+        <a href="https://docs.gwei.fi/" target="_blank" rel="noreferrer">
+          Docs
+        </a>
       </nav>
       <div className={cn(s.header__nav_mobile, isBurgerOpen ? s.open_mobile : '')}>
         <Link onClick={handleBurger} to="/" className={s.header__nav_mobile_logo}>

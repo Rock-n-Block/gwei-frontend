@@ -1,5 +1,5 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useMst } from 'store';
 
@@ -26,6 +26,7 @@ const WithdrawForm: FC = () => {
   const [secondInput, setSecondInput] = useState('');
 
   const { id } = useParams();
+  const navigate = useNavigate();
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
@@ -41,17 +42,20 @@ const WithdrawForm: FC = () => {
     if (!Number.isNaN(+str) && +str >= 0) {
       if (input === 'shares') {
         setSharesInput(str);
-        const shareOfTotal = new BigNumber(str).div(totalSupply).toString(10);
+        const shareOfTotal =
+          +str && +totalSupply ? new BigNumber(str).div(totalSupply).toString(10) : '0';
         setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
         setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
       } else if (input === 'first') {
         setFirstInput(str);
-        const shareOfReserve = new BigNumber(str).div(reserve0).toString(10);
+        const shareOfReserve =
+          +str && +reserve0 ? new BigNumber(str).div(reserve0).toString(10) : '0';
         setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
         setSecondInput(new BigNumber(reserve1).times(shareOfReserve).toString(10));
       } else {
         setSecondInput(str);
-        const shareOfReserve = new BigNumber(str).div(reserve1).toString(10);
+        const shareOfReserve =
+          +str && +reserve1 ? new BigNumber(str).div(reserve1).toString(10) : '0';
         setSharesInput(new BigNumber(totalSupply).times(shareOfReserve).toString(10));
         setFirstInput(new BigNumber(reserve0).times(shareOfReserve).toString(10));
       }
@@ -60,7 +64,8 @@ const WithdrawForm: FC = () => {
 
   const setMax = () => {
     setSharesInput(balance);
-    const shareOfTotal = new BigNumber(balance).div(totalSupply).toString(10);
+    const shareOfTotal =
+      +balance && +totalSupply ? new BigNumber(balance).div(totalSupply).toString(10) : '0';
     setFirstInput(new BigNumber(reserve0).times(shareOfTotal).toString(10));
     setSecondInput(new BigNumber(reserve1).times(shareOfTotal).toString(10));
   };
@@ -107,7 +112,7 @@ const WithdrawForm: FC = () => {
         });
         modals.info.setMsg('You have successfully withdrew amount of deposit', 'success');
         setLoading(false);
-        setTimeout(() => window.location.reload(), 2500);
+        navigate('/');
       } catch (e) {
         modals.info.setMsg('Something went wrong', 'error');
         log('withdraw', e);
@@ -160,8 +165,7 @@ const WithdrawForm: FC = () => {
             placeholder="0.00"
             value={sharesInput}
             error={sharesInputError}
-            type="number"
-            onChange={(str) => handleInput('shares', str)}
+            onChange={(e) => handleInput('shares', e.target.value)}
           />
         </div>
       </div>
@@ -175,8 +179,7 @@ const WithdrawForm: FC = () => {
               className={s.input}
               placeholder="0.00"
               value={firstInput}
-              type="number"
-              onChange={(str) => handleInput('first', str)}
+              onChange={(e) => handleInput('first', e.target.value)}
             />
           </div>
           <div>
@@ -187,8 +190,7 @@ const WithdrawForm: FC = () => {
               className={s.input}
               placeholder="0.00"
               value={secondInput}
-              type="number"
-              onChange={(str) => handleInput('second', str)}
+              onChange={(e) => handleInput('second', e.target.value)}
             />
           </div>
         </div>

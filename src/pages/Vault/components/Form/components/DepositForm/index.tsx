@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
@@ -29,28 +29,31 @@ const DepositForm: FC = observer(() => {
   const [isSecondApproved, setSecondApproved] = useState(false);
 
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
   const { token0, token1, reserve0, reserve1 } = vaultData;
 
   const log = (...content: unknown[]) => clog('pages/Vault/Form/DepositForm [debug]:', content);
+  log('location pathname', location.pathname);
 
   const openWalletModal = () => {
     modals.wallet.open();
   };
 
   const handleInput = (str: string, query: 'first' | 'second') => {
-    if (!Number.isNaN(+str) && +str >= 0) {
+    if (!Number.isNaN(+str) && +str >= 0 && str[0] !== '-') {
       if (query === 'first') {
         setFirstInput(str);
         if (+reserve0 && +reserve1) {
-          setSecondInput(new BigNumber(str).times(reserve1).div(reserve0).toString(10));
+          setSecondInput(str ? new BigNumber(str).times(reserve1).div(reserve0).toString(10) : '');
         }
       } else {
         setSecondInput(str);
         if (+reserve0 && +reserve1) {
-          setFirstInput(new BigNumber(str).times(reserve0).div(reserve1).toString(10));
+          setFirstInput(str ? new BigNumber(str).times(reserve0).div(reserve1).toString(10) : '');
         }
       }
     }
@@ -106,7 +109,7 @@ const DepositForm: FC = observer(() => {
       });
       modals.info.setMsg('You have successfully deposited tokens to vault!', 'success');
       setLoading(false);
-      setTimeout(() => window.location.reload(), 2500);
+      navigate('/');
     } catch (e) {
       modals.info.setMsg('Something went wrong', 'error');
       log('handleDeposit', e);
@@ -195,8 +198,7 @@ const DepositForm: FC = observer(() => {
           placeholder="0.00"
           value={firstInput}
           error={firstInputError}
-          type="number"
-          onChange={(str) => handleInput(str, 'first')}
+          onChange={(e) => handleInput(e.target.value, 'first')}
         />
       </div>
       <div className={s.block__group}>
@@ -211,8 +213,7 @@ const DepositForm: FC = observer(() => {
           placeholder="0.00"
           value={secondInput}
           error={secondInputError}
-          type="number"
-          onChange={(str) => handleInput(str, 'second')}
+          onChange={(e) => handleInput(e.target.value, 'second')}
         />
         {!user.address && (
           <Button onClick={openWalletModal} className={s.button} color="filled">

@@ -61,7 +61,7 @@ const Footer: FC = () => {
           </a>
         </div>
         <div className={s.footer__inner_copyright}>
-          &copy; 2021 GWEI Finance. All rights reserved
+          &copy;2021 GWEI Finance. All rights reserved
         </div>
 
         <div className={s.footer__inner_links}>

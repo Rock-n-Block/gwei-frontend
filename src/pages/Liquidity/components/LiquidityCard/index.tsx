@@ -37,9 +37,9 @@ const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
       <div className={s.card__meta}>
         <div className={s.card__meta_block}>
           <div className={s.card__subtitle}>TVL</div>
-          {maxTotalSupply ? (
+          {totalSupply ? (
             <div className={classnames(s.card__descr, s.card__meta_value)}>
-              {getSpacedNumbers(maxTotalSupply)}
+              {getSpacedNumbers(totalSupply)}
             </div>
           ) : (
             <Loader width={100} height={20} viewBox="0 0 100 20" />

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 
 import s from './Input.module.scss';
 
@@ -7,7 +7,7 @@ interface IInputProps {
   type?: 'text' | 'number';
   className?: string;
   value?: string;
-  onChange: (str: string) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   error?: string;
   required?: boolean;
   subtitle?: string;
@@ -44,7 +44,7 @@ const Input: FC<IInputProps> = (props) => {
           value={value}
           placeholder={placeholder}
           className={className}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           type={type}
           style={styleInput}
         />

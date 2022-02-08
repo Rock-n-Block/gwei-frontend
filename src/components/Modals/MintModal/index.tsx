@@ -82,7 +82,7 @@ const MintModal: FC = observer(() => {
               placeholder="0x..."
               value={addressInput}
               error={addressInputError}
-              onChange={(str) => setAddressInput(str)}
+              onChange={(e) => setAddressInput(e.target.value)}
             />
           </div>
         </div>
@@ -93,7 +93,7 @@ const MintModal: FC = observer(() => {
               className={s.input}
               placeholder="Set your token URI"
               value={tokenUriInput}
-              onChange={(str) => setTokenUriInput(str)}
+              onChange={(e) => setTokenUriInput(e.target.value)}
             />
           </div>
         </div>

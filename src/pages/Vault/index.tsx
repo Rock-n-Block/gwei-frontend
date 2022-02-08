@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
@@ -26,7 +25,7 @@ const Vault: FC = observer(() => {
   const [vaultData, setVaultData] = useState<VaultData>({} as VaultData);
   const value = useMemo(() => ({ vaultData, setVaultData }), [vaultData]);
   const { user } = useMst();
-  const { id } = useParams<string>();
+  const id = '0x1E92aCbfDF41D9c37C53009aE1098BE5ED20513b';
   const { walletService } = useWalletConnectorContext();
 
   const log = (...content: unknown[]) => clog('pages/Vault[debug]:', content);

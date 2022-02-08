@@ -7,9 +7,7 @@ const RouteManager: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Liquidity />} key="Liquidity" />
-      <Route path="vault" element={<Vault />} key="Vaults">
-        <Route path=":id" element={<Vault />} key="Vault" />
-      </Route>
+      <Route path="vault" element={<Vault />} key="Vault" />
     </Routes>
   );
 };

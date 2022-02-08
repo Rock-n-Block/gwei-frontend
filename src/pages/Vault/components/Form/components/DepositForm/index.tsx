@@ -107,7 +107,7 @@ const DepositForm: FC = observer(() => {
         amount1: secondInput,
         walletAddress: user.address,
       });
-      modals.info.setMsg('You have successfully deposited tokens to vault!', 'success');
+      modals.info.setMsg('You have successfully deposited tokens to vault', 'success');
       setLoading(false);
       navigate('/');
     } catch (e) {

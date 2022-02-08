@@ -80,7 +80,7 @@ const WithdrawForm: FC = () => {
           amountToApprove: sharesInput,
           walletAddress: user.address,
         });
-        modals.info.setMsg('You have successfully approved amount of shares!', 'success');
+        modals.info.setMsg('You have successfully approved amount of shares', 'success');
         setSharesApproved(true);
         setLoading(false);
       } catch (e) {

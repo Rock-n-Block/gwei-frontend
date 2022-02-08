@@ -16,14 +16,14 @@ interface LiquidityCardProps {
 }
 
 const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
-  const { name, totalSupply, maxTotalSupply } = vaultInfo;
+  const { address, name, totalSupply, maxTotalSupply } = vaultInfo;
   const capacity =
     maxTotalSupply && totalSupply
       ? new BigNumber(totalSupply).div(maxTotalSupply).times(100).toString(10)
       : 0;
 
   return (
-    <Link to="/vault" className={s.card}>
+    <Link to={`/vault/${address}`} className={s.card}>
       <div className={s.card__bages}>
         <div className={s.card__bages_bage}>Active</div>
         <div className={s.card__bages_bage}>V1</div>

@@ -1,13 +1,17 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { routes } from 'router';
+import { Liquidity, Vault } from 'pages';
 
 const RouteManager: FC = () => {
-  const router = routes.map((route) => {
-    return <Route path={route.path} element={route.component} key={route.name} />;
-  });
-  return <Routes>{router}</Routes>;
+  return (
+    <Routes>
+      <Route path="/" element={<Liquidity />} key="Liquidity" />
+      <Route path="vault" element={<Vault />} key="Vaults">
+        <Route path=":id" element={<Vault />} key="Vault" />
+      </Route>
+    </Routes>
+  );
 };
 
 export default RouteManager;

@@ -6,6 +6,9 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
+  preview: {
+    port: 3001,
+  },
   plugins: [
     // legacy(),
     react(),

@@ -40,7 +40,7 @@ const Vault: FC = observer(() => {
       const symbol = await token.methods.symbol().call();
       const balance = await walletService.weiToEth(
         address,
-        await token.methods.balanceOf(user.address).call(),
+        user.address ? await token.methods.balanceOf(user.address).call() : '0',
       );
       return { address, symbol, balance };
     },
@@ -48,7 +48,7 @@ const Vault: FC = observer(() => {
   );
 
   const getVaultData = useCallback(async () => {
-    if (user.address && id) {
+    if (id) {
       try {
         const contract = walletService.connectWallet.getContract({
           address: id,
@@ -64,7 +64,7 @@ const Vault: FC = observer(() => {
         );
         const balance = await walletService.weiToEth(
           id,
-          await contract.methods.balanceOf(user.address).call(),
+          user.address ? await contract.methods.balanceOf(user.address).call() : '0',
         );
         const reserve0 = await walletService.weiToEth(
           id,

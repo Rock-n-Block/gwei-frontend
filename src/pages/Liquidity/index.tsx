@@ -79,7 +79,7 @@ const Liquidity: FC = observer(() => {
       </h2>
       <div className={s.liquidity__row}>
         {vaultsInfo.length && !isLoading ? vaultsInfo.map((vaultInfo) => (
-          <LiquidityCard vaultInfo={vaultInfo} />
+          <LiquidityCard vaultInfo={vaultInfo} key={vaultInfo.address} />
         )) : <LiquidityCard vaultInfo={{} as VaultInfo} />}
         <div className={classnames(s.liquidity__row_block, s.liquidity__row_block_soon)}>
           More vaults coming soon!

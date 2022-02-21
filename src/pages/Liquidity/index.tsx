@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import classnames from 'classnames';
 import { AbiItem } from 'web3-utils';
 
-import { contracts } from 'config';
+import { vaults } from 'config';
 import { erc20Abi, VaultAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
@@ -16,19 +16,18 @@ import { VaultInfo } from 'types';
 
 import s from './Liquidity.module.scss';
 
-const { params, type } = contracts;
-
 const Liquidity: FC = observer(() => {
-  const [vaultInfo, setVaultInfo] = useState({} as VaultInfo);
+  const [isLoading, setIsLoading] = useState(false);
+  const [vaultsInfo, setVaultsInfo] = useState<VaultInfo[]>([]);
   const { walletService } = useWalletConnectorContext();
 
   const log = (...content: unknown[]) => {
     clog('pages/Liquidity[debug]:', content);
   };
 
-  const getVaultInfo = useCallback(async () => {
+  const getVaultInfo = useCallback(async (address: string) => {
     try {
-      const { address } = params.Vault[type];
+      setIsLoading(true);
       const contract = await walletService.connectWallet.getContract({
         address,
         abi: VaultAbi as AbiItem[],
@@ -46,25 +45,31 @@ const Liquidity: FC = observer(() => {
         abi: erc20Abi as AbiItem[],
       });
       const token1 = walletService.connectWallet.getContract({
-        address: await contract.methods.token0().call(),
+        address: await contract.methods.token1().call(),
         abi: erc20Abi as AbiItem[],
       });
       const name = `${await token0.methods.symbol().call()}/${await token1.methods
         .symbol()
         .call()}`;
-      setVaultInfo({
+      setVaultsInfo((prev) => [
+        ...prev,
+        {
         name,
         address,
         totalSupply,
         maxTotalSupply,
-      });
+      }]);
+      setIsLoading(false);
     } catch (e: unknown) {
       log('getVaultInfo', e);
+      setIsLoading(false);
     }
   }, [walletService]);
 
   useEffect(() => {
-    getVaultInfo();
+    for (const vault of vaults) {
+      getVaultInfo(vault.address)
+    }
   }, [getVaultInfo]);
 
   return (
@@ -73,7 +78,9 @@ const Liquidity: FC = observer(() => {
         Liquidity Vaults <br /> for <span>Uniswap&nbsp;V3</span>
       </h2>
       <div className={s.liquidity__row}>
-        <LiquidityCard vaultInfo={vaultInfo} />
+        {vaultsInfo.length && !isLoading ? vaultsInfo.map((vaultInfo) => (
+          <LiquidityCard vaultInfo={vaultInfo} />
+        )) : <LiquidityCard vaultInfo={{} as VaultInfo} />}
         <div className={classnames(s.liquidity__row_block, s.liquidity__row_block_soon)}>
           More vaults coming soon!
         </div>

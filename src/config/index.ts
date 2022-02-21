@@ -66,6 +66,15 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
   };
 };
 
+export const vaults: Array<{ address : string}> = [
+  {
+    address: is_production ? '' : '0x1E92aCbfDF41D9c37C53009aE1098BE5ED20513b',
+  },
+  {
+    address: is_production ? '' : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
+  },
+];
+
 export const contracts: IContracts = {
   type: is_production ? 'mainnet' : 'testnet',
   names: ['MockToken1', 'MockToken2', 'Pool500', 'Pool3000', 'Pool10000', 'Vault', 'InvitationNFT'],
@@ -126,7 +135,7 @@ export const contracts: IContracts = {
         abi: VaultAbi,
       },
       testnet: {
-        address: '0x1E92aCbfDF41D9c37C53009aE1098BE5ED20513b',
+        address: '',
         abi: VaultAbi,
       },
     },

@@ -20,7 +20,7 @@ const GeneralCard: FC = () => {
       ? new BigNumber(totalSupply)
           .multipliedBy(100)
           .dividedBy(new BigNumber(maxTotalSupply))
-          .toString(10)
+          .toFixed(4, 1)
       : '0';
   }, [totalSupply, maxTotalSupply]);
 
@@ -32,7 +32,7 @@ const GeneralCard: FC = () => {
           <div className="text-descr">
             TVL{' '}
             {totalSupply ? (
-              getSpacedNumbers(totalSupply)
+              getSpacedNumbers(new BigNumber(totalSupply).toFixed(4, 1))
             ) : (
               <Loader width={100} height={20} viewBox="0 0 100 20" />
             )}
@@ -57,7 +57,7 @@ const GeneralCard: FC = () => {
             <div className="text-descr">
               {token0?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
               {reserve0 ? (
-                getSpacedNumbers(reserve0)
+                getSpacedNumbers(new BigNumber(reserve0).toFixed(4, 1))
               ) : (
                 <Loader width={100} height={20} viewBox="0 0 100 20" />
               )}
@@ -65,7 +65,7 @@ const GeneralCard: FC = () => {
             <div>
               {token1?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
               {reserve0 ? (
-                getSpacedNumbers(reserve1)
+                getSpacedNumbers(new BigNumber(reserve1).toFixed(4, 1))
               ) : (
                 <Loader width={100} height={20} viewBox="0 0 100 20" />
               )}

@@ -66,18 +66,18 @@ const Vault: FC = observer(() => {
           id,
           user.address ? await contract.methods.balanceOf(user.address).call() : '0',
         );
+        const address0 = await contract.methods.token0().call();
+        const address1 = await contract.methods.token1().call();
         const reserve0 = await walletService.weiToEth(
-          id,
+          address0,
           await contract.methods.getBalance0().call(),
         );
         const reserve1 = await walletService.weiToEth(
-          id,
+          address1,
           await contract.methods.getBalance1().call(),
         );
         const currentPool = await contract.methods.currentPool().call();
-        const address0 = await contract.methods.token0().call();
         const token0 = await getTokenInfo(address0);
-        const address1 = await contract.methods.token1().call();
         const token1 = await getTokenInfo(address1);
         setVaultData({
           totalSupply,

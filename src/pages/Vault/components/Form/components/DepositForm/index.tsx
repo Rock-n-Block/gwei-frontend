@@ -165,7 +165,7 @@ const DepositForm: FC = observer(() => {
         .Contract('InvitationNFT')
         .methods.ownersToIds(user.address)
         .call();
-      setMintedNFT(!!ownersToIds);
+      setMintedNFT(!!+ownersToIds);
     }
   }, [user.address, walletService.connectWallet]);
 
@@ -190,7 +190,9 @@ const DepositForm: FC = observer(() => {
         <label className={cn(s.label, 'text-descr')}>
           <div>{token0?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
           <div className={s.label__notification} onClick={() => setMax('first')}>
-            Balance {token0?.balance || <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
+            Balance {token0?.balance
+              ? new BigNumber(token0.balance).toFixed(4, 1)
+              : <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
           </div>
         </label>
         <Input
@@ -205,7 +207,9 @@ const DepositForm: FC = observer(() => {
         <label className={cn(s.label, 'text-descr')}>
           <div>{token1?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
           <div className={s.label__notification} onClick={() => setMax('second')}>
-            Balance {token1?.balance || <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
+            Balance {token1?.balance
+            ? new BigNumber(token1.balance).toFixed(4, 1)
+            : <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
           </div>
         </label>
         <Input

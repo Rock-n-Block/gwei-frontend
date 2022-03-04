@@ -68,9 +68,6 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
 
 export const vaults: Array<{ address : string}> = [
   {
-    address: is_production ? '' : '0x1E92aCbfDF41D9c37C53009aE1098BE5ED20513b',
-  },
-  {
     address: is_production ? '' : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
   },
 ];
@@ -145,7 +142,7 @@ export const contracts: IContracts = {
         abi: InvitationNFTAbi,
       },
       testnet: {
-        address: '0x73D867a5A085D05de3d10d7D0B30809932071B31',
+        address: '0xC29926D5e610fab184001636A9DEdE094Fa1e2c7',
         abi: InvitationNFTAbi,
       },
     },

@@ -25,6 +25,7 @@ export interface VaultData {
   reserve0: string;
   reserve1: string;
   currentPool: PoolInfo;
+  operationMode: number;
 }
 
 export interface VaultInfo {

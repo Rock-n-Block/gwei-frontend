@@ -77,6 +77,7 @@ const Vault: FC = observer(() => {
           await contract.methods.getBalance1().call(),
         );
         const currentPool = await contract.methods.currentPool().call();
+        const operationMode = +(await contract.methods.operationMode().call());
         const token0 = await getTokenInfo(address0);
         const token1 = await getTokenInfo(address1);
         setVaultData({
@@ -88,6 +89,7 @@ const Vault: FC = observer(() => {
           currentPool,
           token0,
           token1,
+          operationMode,
         });
       } catch (e: unknown) {
         log('getVaultData', e);

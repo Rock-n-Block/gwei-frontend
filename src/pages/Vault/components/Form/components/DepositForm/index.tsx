@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
@@ -29,19 +29,51 @@ const DepositForm: FC = observer(() => {
   const [isSecondApproved, setSecondApproved] = useState(false);
 
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
-  const { token0, token1, reserve0, reserve1 } = vaultData;
+  const { maxTotalSupply, totalSupply, token0, token1, reserve0, reserve1, operationMode } =
+    vaultData;
 
   const log = (...content: unknown[]) => clog('pages/Vault/Form/DepositForm [debug]:', content);
-  log('location pathname', location.pathname);
 
   const openWalletModal = () => {
     modals.wallet.open();
   };
+
+  const checkLessThenMaxTotalSupply = useCallback(() => {
+    if (id) {
+      const liquidity = Math.min(
+        +new BigNumber(firstInput).times(totalSupply).div(reserve0).toString(10),
+        +new BigNumber(secondInput).times(totalSupply).div(reserve1).toString(10),
+      );
+      if (operationMode === 1 && isMintedNFT) {
+        return true;
+      }
+      return +totalSupply + +liquidity <= +maxTotalSupply;
+    }
+    return true;
+  }, [
+    firstInput,
+    id,
+    isMintedNFT,
+    maxTotalSupply,
+    operationMode,
+    reserve0,
+    reserve1,
+    secondInput,
+    totalSupply,
+  ]);
+
+  const canUserDeposit = useCallback(() => {
+    if (operationMode === 0) return 'Vault closed';
+    const check = checkLessThenMaxTotalSupply();
+    if (!check) return 'Max total supply exceeded';
+    if (!isMintedNFT) return 'No Invitational NFT';
+    if (isLoading) return 'In progress...';
+    return 'Deposit';
+  }, [checkLessThenMaxTotalSupply, isLoading, isMintedNFT, operationMode]);
 
   const handleInput = (str: string, query: 'first' | 'second') => {
     if (!Number.isNaN(+str) && +str >= 0 && str[0] !== '-') {
@@ -141,7 +173,6 @@ const DepositForm: FC = observer(() => {
             walletAddress: user.address,
             amount: firstInput,
           });
-          log('allowance first:', allowance);
           setFirstApproved(allowance);
         } else if (query === 'second' && token1?.address && +secondInput > 0) {
           const allowance = await walletService.checkTokenAllowance({
@@ -151,7 +182,6 @@ const DepositForm: FC = observer(() => {
             walletAddress: user.address,
             amount: secondInput,
           });
-          log('allowance second:', allowance);
           setSecondApproved(allowance);
         }
       }
@@ -160,14 +190,14 @@ const DepositForm: FC = observer(() => {
   );
 
   const checkMintedNFT = useCallback(async () => {
-    if (user.address) {
+    if (user.address && id) {
       const ownersToIds = await walletService.connectWallet
         .Contract('InvitationNFT')
         .methods.ownersToIds(user.address)
         .call();
       setMintedNFT(!!+ownersToIds);
     }
-  }, [user.address, walletService.connectWallet]);
+  }, [id, user.address, walletService.connectWallet]);
 
   useEffect(() => {
     if (firstInput && token0?.balance) {
@@ -190,9 +220,13 @@ const DepositForm: FC = observer(() => {
         <label className={cn(s.label, 'text-descr')}>
           <div>{token0?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
           <div className={s.label__notification} onClick={() => setMax('first')}>
-            Balance {token0?.balance
-              ? new BigNumber(token0.balance).toFixed(4, 1)
-              : <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
+            Balance{' '}
+            {token0?.balance ? (
+              new BigNumber(token0.balance).toFixed(4, 1)
+            ) : (
+              <Loader width={50} height={20} viewBox="0 0 50 20" />
+            )}{' '}
+            (Max)
           </div>
         </label>
         <Input
@@ -207,9 +241,13 @@ const DepositForm: FC = observer(() => {
         <label className={cn(s.label, 'text-descr')}>
           <div>{token1?.symbol || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
           <div className={s.label__notification} onClick={() => setMax('second')}>
-            Balance {token1?.balance
-            ? new BigNumber(token1.balance).toFixed(4, 1)
-            : <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
+            Balance{' '}
+            {token1?.balance ? (
+              new BigNumber(token1.balance).toFixed(4, 1)
+            ) : (
+              <Loader width={50} height={20} viewBox="0 0 50 20" />
+            )}{' '}
+            (Max)
           </div>
         </label>
         <Input
@@ -255,14 +293,18 @@ const DepositForm: FC = observer(() => {
         {user.address && isFirstApproved && isSecondApproved && (
           <Button
             disabled={
-              !!firstInputError || !!secondInputError || !firstInput || !secondInput || !isMintedNFT
+              !!firstInputError ||
+              !!secondInputError ||
+              !firstInput ||
+              !secondInput ||
+              !isMintedNFT ||
+              operationMode === 0
             }
             onClick={handleDeposit}
             className={s.button}
             color="filled"
           >
-            {/* eslint-disable-next-line no-nested-ternary */}
-            {isLoading ? 'In progress...' : isMintedNFT ? 'Deposit' : 'No Invitational NFT'}
+            {canUserDeposit()}
           </Button>
         )}
       </div>

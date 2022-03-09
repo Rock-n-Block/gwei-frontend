@@ -70,22 +70,30 @@ const DepositForm: FC = observer(() => {
     if (operationMode === 0) return 'Vault closed';
     const check = checkLessThenMaxTotalSupply();
     if (!check) return 'Max total supply exceeded';
-    if (!isMintedNFT) return 'No Invitational NFT';
+    if (operationMode === 2 && !isMintedNFT) return 'No Invitational NFT';
     if (isLoading) return 'In progress...';
     return 'Deposit';
   }, [checkLessThenMaxTotalSupply, isLoading, isMintedNFT, operationMode]);
 
-  const handleInput = (str: string, query: 'first' | 'second') => {
+  const handleInput = async (str: string, query: 'first' | 'second') => {
     if (!Number.isNaN(+str) && +str >= 0 && str[0] !== '-') {
       if (query === 'first') {
         setFirstInput(str);
         if (+reserve0 && +reserve1) {
-          setSecondInput(str ? new BigNumber(str).times(reserve1).div(reserve0).toString(10) : '');
+          const value = await walletService.ethToWei(
+            token1.address,
+            new BigNumber(str).times(reserve1).div(reserve0).toString(10),
+          );
+          setSecondInput(str ? await walletService.weiToEth(token1.address, value) : '');
         }
       } else {
         setSecondInput(str);
         if (+reserve0 && +reserve1) {
-          setFirstInput(str ? new BigNumber(str).times(reserve0).div(reserve1).toString(10) : '');
+          const value = await walletService.ethToWei(
+            token0.address,
+            new BigNumber(str).times(reserve0).div(reserve1).toString(10),
+          );
+          setFirstInput(str ? await walletService.weiToEth(token0.address, value) : '');
         }
       }
     }
@@ -297,7 +305,7 @@ const DepositForm: FC = observer(() => {
               !!secondInputError ||
               !firstInput ||
               !secondInput ||
-              !isMintedNFT ||
+              (operationMode === 2 && !isMintedNFT) ||
               operationMode === 0
             }
             onClick={handleDeposit}

@@ -9,6 +9,9 @@ export const SHOW_LOGS = !is_production;
 
 const INFURA_KEY = '579f676938414709905652124fd1be95';
 
+export const MORALIS_APP_ID = 'IrSE8Cfvy8NbwfQg4MY4dS0skMa9wM6bbyQp6p9X';
+export const MORALIS_SERVER_URL = 'https://lzmhty23wiot.usemoralis.com:2053/server';
+
 export const chains: {
   [key: string]: {
     name: chainsEnum;
@@ -66,9 +69,11 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
   };
 };
 
-export const vaults: Array<{ address : string}> = [
+export const vaults: Array<{ address: string }> = [
   {
-    address: is_production ? '' : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
+    address: is_production
+      ? '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640'
+      : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
   },
 ];
 

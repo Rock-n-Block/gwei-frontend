@@ -16,7 +16,7 @@ interface LiquidityCardProps {
 }
 
 const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
-  const { address, name, totalSupply, maxTotalSupply } = vaultInfo;
+  const { address, name, totalSupply, maxTotalSupply, operationMode } = vaultInfo;
   const capacity =
     maxTotalSupply && totalSupply
       ? new BigNumber(totalSupply).div(maxTotalSupply).times(100).toFixed(4, 1)
@@ -25,7 +25,10 @@ const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
   return (
     <Link to={`/vault/${address}`} className={s.card}>
       <div className={s.card__bages}>
-        <div className={s.card__bages_bage}>Active</div>
+        <div className={s.card__bages_bage}>
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {+operationMode === 0 ? 'INACTIVE' : +operationMode === 1 ? 'ACTIVE' : 'INVITE ONLY'}
+        </div>
         <div className={s.card__bages_bage}>V1</div>
       </div>
       <div className={s.card__subtitle}>

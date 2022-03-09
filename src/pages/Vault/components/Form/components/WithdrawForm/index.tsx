@@ -157,9 +157,13 @@ const WithdrawForm: FC = () => {
           <label className={cn(s.label, 'text-descr')}>
             <div>Vault shares</div>
             <div className={s.label__notification} onClick={setMax}>
-              Balance: {balance
-              ? new BigNumber(balance).toFixed(4, 1)
-              : <Loader width={50} height={20} viewBox="0 0 50 20" />} (Max)
+              Balance:{' '}
+              {balance ? (
+                new BigNumber(balance).toFixed(4, 1)
+              ) : (
+                <Loader width={50} height={20} viewBox="0 0 50 20" />
+              )}{' '}
+              (Max)
             </div>
           </label>
           <Input

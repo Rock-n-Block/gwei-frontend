@@ -29,8 +29,8 @@ const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
   const log = (...content: unknown[]) => clog('pages/Vault/StateCard [debug]:', content);
   log('currentPool', currentPool);
 
-  const lowerRange = currentPool?.baseLower ? 1.0001 ** +baseLower : 0;
-  const upperRange = currentPool?.baseUpper ? 1.0001 ** +baseUpper : 0;
+  const lowerRange = new BigNumber(+baseLower ? 1.0001 ** +baseLower : 0).toFixed(4, 1);
+  const upperRange = new BigNumber(+baseUpper ? 1.0001 ** +baseUpper : 0).toFixed(4, 1);
 
   const getPrice = useCallback(async () => {
     if (pool) {

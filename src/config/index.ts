@@ -71,9 +71,12 @@ export const connectWallet = (chainName: chainsEnum): IConnectWallet => {
 
 export const vaults: Array<{ address: string }> = [
   {
+    address: is_production ? '' : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
+  },
+  {
     address: is_production
       ? '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640'
-      : '0xf38EB14Ec56897d741844E296Ced1860c79047A9',
+      : '0x7571a3F865376F9baE89fCb9e6B06B0fA63B9136',
   },
 ];
 

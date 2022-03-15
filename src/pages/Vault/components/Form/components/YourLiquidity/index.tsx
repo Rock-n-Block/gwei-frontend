@@ -27,11 +27,12 @@ const YourLiquidity: FC = () => {
     '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
   );
-  const usdPrice = +new BigNumber(reserve0)
-    .times(price0)
-    .plus(new BigNumber(reserve1).times(price1))
-    .div(totalSupply)
-    .toString(10);
+  const usdPrice =
+    +new BigNumber(reserve0)
+      .times(price0)
+      .plus(new BigNumber(reserve1).times(price1))
+      .div(totalSupply)
+      .toString(10) || 0;
   const { params, type } = contracts;
 
   const handleConnect = () => {

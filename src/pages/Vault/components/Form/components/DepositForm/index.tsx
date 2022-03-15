@@ -45,8 +45,8 @@ const DepositForm: FC = observer(() => {
   const checkLessThenMaxTotalSupply = useCallback(() => {
     if (id) {
       const liquidity = Math.min(
-        +new BigNumber(firstInput).times(totalSupply).div(reserve0).toString(10),
-        +new BigNumber(secondInput).times(totalSupply).div(reserve1).toString(10),
+        +new BigNumber(firstInput).times(totalSupply).div(reserve0).toString(10) || 0,
+        +new BigNumber(secondInput).times(totalSupply).div(reserve1).toString(10) || 0,
       );
       if (operationMode === 1 && isMintedNFT) {
         return true;

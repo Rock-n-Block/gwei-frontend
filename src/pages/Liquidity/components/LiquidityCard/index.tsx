@@ -26,8 +26,10 @@ const LiquidityCard: FC<LiquidityCardProps> = ({ vaultInfo }) => {
     <Link to={`/vault/${address}`} className={s.card}>
       <div className={s.card__bages}>
         <div className={s.card__bages_bage}>
-          {/* eslint-disable-next-line no-nested-ternary */}
-          {+operationMode === 0 ? 'INACTIVE' : +operationMode === 1 ? 'ACTIVE' : 'INVITE ONLY'}
+          {!operationMode && <Loader width={70} height={15} viewBox="0 0 70 15" />}
+          {+operationMode === 0 && 'INACTIVE'}
+          {+operationMode === 1 && 'ACTIVE'}
+          {+operationMode === 2 && 'INVITE ONLY'}
         </div>
         <div className={s.card__bages_bage}>V1</div>
       </div>

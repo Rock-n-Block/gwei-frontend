@@ -10,11 +10,11 @@ import { VaultContext } from 'contexts';
 import { AbiItem } from 'web3-utils';
 
 import { Loader } from 'components';
-import { InfoIcon, QuestionMarkIcon } from 'components/Icons';
+import { InfoIcon } from 'components/Icons';
 import { erc20Abi, VaultAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
-import { Form, GeneralCard, MissedOpportunities, StateCard } from './components';
+import { Form, GeneralCard, MissedOpportunities, StateCard, VaultHeader } from './components';
 
 import { useWalletConnectorContext } from 'services';
 import { PoolInfo, TokenInfo, VaultData } from 'types';
@@ -121,29 +121,11 @@ const Vault: FC = observer(() => {
         </h2>
         <div className={s.vault__row}>
           <Plate className={s.vault__row_details}>
-            <div className={s.vault__row_details_head}>
-              <div className="text-subtitle">
-                {vaultData.token0?.symbol ? (
-                  `${vaultData.token0.symbol}/${vaultData.token1.symbol}`
-                ) : (
-                  <Loader width={100} height={20} viewBox="0 0 100 20" />
-                )}{' '}
-                Vaults details
-              </div>
-              <div className={s.vault__row_details_invite}>
-                <div className={s.vault__row_details_invite_item}>Invite mode</div>
-                <div className={s.vault__row_details_invite_tooltip}>
-                  <QuestionMarkIcon />
-                  <div className={s.vault__row_details_invite_tooltip_info}>
-                    Believe it or not—we will never need to rebalance storage in its classic form.
-                    Due to hybrid rebalancing, we never reach the point where we need to reallocate
-                    50% of one asset to another. As for volatility—we’re going to use classic
-                    indicators such as Keltner Channels and/or Bollinger Bands, but the difference
-                    which we’ve already back-tested, works wonders!
-                  </div>
-                </div>
-              </div>
-            </div>
+            <VaultHeader
+              operationMode={vaultData.operationMode}
+              token0Symbol={vaultData.token0?.symbol}
+              token1Symbol={vaultData.token1?.symbol}
+            />
             <div className={cn('text-descr', s.vault__row_details_text)}>
               This vault automatically manages liquidity on Uniswap V3 for you. It concentrates its
               liquidity to earn higher yields and automatically adjusts its range orders as the

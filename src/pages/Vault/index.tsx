@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
 
+import BigNumber from 'bignumber.js/bignumber';
 import cn from 'classnames';
 import { Plate } from 'containers';
 import { VaultContext } from 'contexts';
@@ -16,6 +17,7 @@ import { clog } from 'utils/logger';
 
 import { Form, GeneralCard, MissedOpportunities, StateCard, VaultHeader } from './components';
 
+import { useFetchPrices } from 'hooks';
 import { useWalletConnectorContext } from 'services';
 import { PoolInfo, TokenInfo, VaultData } from 'types';
 
@@ -28,6 +30,10 @@ const Vault: FC = observer(() => {
   const { user } = useMst();
   const { id } = useParams();
   const { walletService } = useWalletConnectorContext();
+  const { price0, price1 } = useFetchPrices(
+    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+  );
 
   const log = (...content: unknown[]) => clog('pages/Vault[debug]:', content);
 
@@ -68,6 +74,9 @@ const Vault: FC = observer(() => {
         );
         const address0 = await contract.methods.token0().call();
         const address1 = await contract.methods.token1().call();
+        const totalAmounts = await contract.methods.getTotalAmounts().call();
+        const total0 = await walletService.weiToEth(address0, totalAmounts.total0);
+        const total1 = await walletService.weiToEth(address1, totalAmounts.total1);
         const reserve0 = await walletService.weiToEth(
           address0,
           await contract.methods.getBalance0().call(),
@@ -78,24 +87,43 @@ const Vault: FC = observer(() => {
         );
         const currentPool = await contract.methods.currentPool().call();
         const operationMode = +(await contract.methods.operationMode().call());
+        const txCount = await walletService.Web3().eth.getTransactionCount(id);
+        const { accruedProtocolFes0, accruedProtocolFes1 } = currentPool;
+        const feesUsd =
+          !+accruedProtocolFes0 && !+accruedProtocolFes1
+            ? '0'
+            : new BigNumber(await walletService.weiToEth(address0, accruedProtocolFes0))
+                .times(price0)
+                .plus(
+                  new BigNumber(await walletService.weiToEth(address1, accruedProtocolFes1)).times(
+                    price1,
+                  ),
+                )
+                .toString(10) || '0';
         const token0 = await getTokenInfo(address0);
         const token1 = await getTokenInfo(address1);
         setVaultData({
           totalSupply,
           maxTotalSupply,
           balance,
+          total0,
+          total1,
           reserve0,
           reserve1,
+          price0,
+          price1,
           currentPool,
           token0,
           token1,
           operationMode,
+          txCount,
+          feesUsd,
         });
       } catch (e: unknown) {
         log('getVaultData', e);
       }
     }
-  }, [getTokenInfo, id, user.address, walletService]);
+  }, [getTokenInfo, id, price0, price1, user.address, walletService]);
 
   useEffect(() => {
     log('render getLastBlock');

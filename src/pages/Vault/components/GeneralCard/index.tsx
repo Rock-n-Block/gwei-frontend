@@ -5,9 +5,8 @@ import cn from 'classnames';
 import { Plate } from 'containers';
 import { useVaultContext } from 'contexts';
 
+import { Loader } from 'components';
 import { getSpacedNumbers } from 'utils';
-
-import { Loader } from '../../../../components';
 
 import s from './GeneralCard.module.scss';
 
@@ -55,7 +54,7 @@ const GeneralCard: FC = () => {
         <div className={s.general_card__details}>
           <div className={s.general_card__details_item}>
             <div className="text-descr">
-              {token0?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
+              {token0?.symbol ?? <Loader width={100} height={20} viewBox="0 0 100 20" />}:{' '}
               {reserve0 ? (
                 getSpacedNumbers(new BigNumber(reserve0).toFixed(4, 1))
               ) : (
@@ -63,7 +62,7 @@ const GeneralCard: FC = () => {
               )}
             </div>
             <div>
-              {token1?.symbol ?? <Loader width={50} height={20} viewBox="0 0 100 20" />}:{' '}
+              {token1?.symbol ?? <Loader width={100} height={20} viewBox="0 0 100 20" />}:{' '}
               {reserve0 ? (
                 getSpacedNumbers(new BigNumber(reserve1).toFixed(4, 1))
               ) : (
@@ -88,16 +87,12 @@ const GeneralCard: FC = () => {
         </div>
         {+reserve0 && +reserve1 ? (
           <div>
-            {new BigNumber(reserve0)
-              .div(new BigNumber(Math.min(+reserve0, +reserve1)))
-              .toFixed(0, 1)}{' '}
+            {new BigNumber(reserve0).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0)}{' '}
             :{' '}
-            {new BigNumber(reserve1)
-              .div(new BigNumber(Math.min(+reserve0, +reserve1)))
-              .toFixed(0, 1)}
+            {new BigNumber(reserve1).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0)}
           </div>
         ) : (
-          ''
+          <Loader width={100} height={20} viewBox="0 0 100 20" />
         )}
       </div>
     </Plate>

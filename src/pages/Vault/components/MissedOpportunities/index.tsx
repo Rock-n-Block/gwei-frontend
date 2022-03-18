@@ -2,14 +2,20 @@ import { FC, memo } from 'react';
 
 import cn from 'classnames';
 import { Plate } from 'containers';
+import { useVaultContext } from 'contexts';
+
+import { Loader } from 'components';
 
 import s from './MissedOpportunities.module.scss';
 
 const MissedOpportunities: FC = () => {
+  const { vaultData } = useVaultContext();
+  const { txCount, feesUsd } = vaultData;
+
   return (
     <Plate className={s.card}>
       <div className={s.card__title}>
-        <div className="text-subtitle">Current state of Vault</div>
+        <div className="text-subtitle">Missed Opportunities</div>
       </div>
 
       <div className={cn('text-descr', s.card__text)}>
@@ -21,11 +27,13 @@ const MissedOpportunities: FC = () => {
       <div className={s.card__info}>
         <div className={s.card__info_item}>
           <div className="text-descr">TX</div>
-          <div>45</div>
+          <div>{txCount || <Loader width={50} height={20} viewBox="0 0 50 20" />}</div>
         </div>
         <div className={s.card__info_item}>
           <div className="text-descr">Fees</div>
-          <div>$2,000.000</div>
+          <div>
+            {feesUsd ? `$${feesUsd}` : <Loader width={100} height={20} viewBox="0 0 100 20" />}
+          </div>
         </div>
       </div>
     </Plate>

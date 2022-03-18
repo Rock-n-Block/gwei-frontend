@@ -10,7 +10,6 @@ import { useVaultContext } from 'contexts';
 import { Button, Input, Loader } from 'components';
 import { contracts } from 'config';
 
-import { useFetchPrices } from 'hooks';
 import { useWalletConnectorContext } from 'services';
 
 import s from '../../Form.module.scss';
@@ -22,18 +21,15 @@ const YourLiquidity: FC = () => {
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
-  const { balance, totalSupply, token0, token1, reserve0, reserve1 } = vaultData;
-  const { price0, price1 } = useFetchPrices(
-    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-  );
+  const { balance, totalSupply, token0, token1, reserve0, reserve1, price0, price1 } = vaultData;
+  const { params, type } = contracts;
+
   const usdPrice =
     +new BigNumber(reserve0)
       .times(price0)
       .plus(new BigNumber(reserve1).times(price1))
       .div(totalSupply)
       .toString(10) || 0;
-  const { params, type } = contracts;
 
   const handleConnect = () => {
     modals.wallet.open();

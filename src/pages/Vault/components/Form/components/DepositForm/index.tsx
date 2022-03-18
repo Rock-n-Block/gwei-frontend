@@ -33,8 +33,7 @@ const DepositForm: FC = observer(() => {
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
-  const { maxTotalSupply, totalSupply, token0, token1, reserve0, reserve1, operationMode } =
-    vaultData;
+  const { maxTotalSupply, totalSupply, token0, token1, total0, total1, operationMode } = vaultData;
 
   const log = (...content: unknown[]) => clog('pages/Vault/Form/DepositForm [debug]:', content);
 
@@ -45,8 +44,8 @@ const DepositForm: FC = observer(() => {
   const checkLessThenMaxTotalSupply = useCallback(() => {
     if (id) {
       const liquidity = Math.min(
-        +new BigNumber(firstInput).times(totalSupply).div(reserve0).toString(10) || 0,
-        +new BigNumber(secondInput).times(totalSupply).div(reserve1).toString(10) || 0,
+        +new BigNumber(firstInput).times(totalSupply).div(total0).toString(10) || 0,
+        +new BigNumber(secondInput).times(totalSupply).div(total1).toString(10) || 0,
       );
       if (operationMode === 1 && isMintedNFT) {
         return true;
@@ -60,8 +59,8 @@ const DepositForm: FC = observer(() => {
     isMintedNFT,
     maxTotalSupply,
     operationMode,
-    reserve0,
-    reserve1,
+    total0,
+    total1,
     secondInput,
     totalSupply,
   ]);
@@ -79,19 +78,19 @@ const DepositForm: FC = observer(() => {
     if (!Number.isNaN(+str) && +str >= 0 && str[0] !== '-') {
       if (query === 'first') {
         setFirstInput(str);
-        if (+reserve0 && +reserve1) {
+        if (+total0 && +total1) {
           const value = await walletService.ethToWei(
             token1.address,
-            new BigNumber(str).times(reserve1).div(reserve0).toString(10),
+            new BigNumber(str).times(total1).div(total0).toString(10),
           );
           setSecondInput(str ? await walletService.weiToEth(token1.address, value) : '');
         }
       } else {
         setSecondInput(str);
-        if (+reserve0 && +reserve1) {
+        if (+total0 && +total1) {
           const value = await walletService.ethToWei(
             token0.address,
-            new BigNumber(str).times(reserve0).div(reserve1).toString(10),
+            new BigNumber(str).times(total0).div(total1).toString(10),
           );
           setFirstInput(str ? await walletService.weiToEth(token0.address, value) : '');
         }
@@ -102,13 +101,13 @@ const DepositForm: FC = observer(() => {
   const setMax = (query: 'first' | 'second') => {
     if (query === 'first') {
       setFirstInput(token0.balance);
-      if (+reserve0 && +reserve1) {
-        setSecondInput(new BigNumber(token0.balance).times(reserve1).div(reserve0).toString(10));
+      if (+total0 && +total1) {
+        setSecondInput(new BigNumber(token0.balance).times(total1).div(total0).toString(10));
       }
     } else {
       setSecondInput(token1.balance);
-      if (+reserve0 && +reserve1) {
-        setFirstInput(new BigNumber(token1.balance).times(reserve0).div(reserve1).toString(10));
+      if (+total0 && +total1) {
+        setFirstInput(new BigNumber(token1.balance).times(total0).div(total1).toString(10));
       }
     }
   };

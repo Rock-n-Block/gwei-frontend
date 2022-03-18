@@ -7,7 +7,7 @@ import { AbiItem } from 'web3-utils';
 import { Loader } from 'components';
 import { GoLinkIcon } from 'components/Icons';
 import { chains } from 'config';
-import { PoolAbi } from 'config/abi';
+import { erc20Abi, PoolAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
 import { useWalletConnectorContext } from 'services';
@@ -39,11 +39,27 @@ const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
         abi: PoolAbi as AbiItem[],
       });
       const slot = await contract.methods.slot0().call();
+      const decimals0 = await walletService.connectWallet
+        .getContract({
+          address: await contract.methods.token0().call(),
+          abi: erc20Abi as AbiItem[],
+        })
+        .methods.decimals()
+        .call();
+      const decimals1 = await walletService.connectWallet
+        .getContract({
+          address: await contract.methods.token1().call(),
+          abi: erc20Abi as AbiItem[],
+        })
+        .methods.decimals()
+        .call();
+      const decimals = (+decimals0 + +decimals1) / 2;
       log('slot:', slot);
       const parsedPrice = new BigNumber(slot.sqrtPriceX96)
         .div(2 ** 96)
         .pow(2)
-        .toString(10);
+        .div(10 ** decimals)
+        .toFixed(decimals, 1);
       setPrice(parsedPrice);
     }
   }, [pool, walletService.connectWallet]);
@@ -76,11 +92,7 @@ const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
             )}
           </div>
           <div title={price}>
-            {price ? (
-              new BigNumber(price).toFixed(4, 1)
-            ) : (
-              <Loader width={200} height={20} viewBox="0 0 200 20" />
-            )}
+            {price || <Loader width={200} height={20} viewBox="0 0 200 20" />}
           </div>
         </div>
         <div className={s.card__info_item}>

@@ -22,10 +22,16 @@ export interface VaultData {
   balance: string;
   token0: TokenInfo;
   token1: TokenInfo;
+  total0: string;
+  total1: string;
   reserve0: string;
   reserve1: string;
+  price0: number;
+  price1: number;
   currentPool: PoolInfo;
   operationMode: number;
+  txCount: number;
+  feesUsd: string;
 }
 
 export interface VaultInfo {

@@ -1,5 +1,5 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { useMst } from 'store';
 
@@ -26,13 +26,10 @@ const WithdrawForm: FC = () => {
   const [secondInput, setSecondInput] = useState('');
 
   const { id } = useParams();
-  const navigate = useNavigate();
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
   const { balance, token0, token1, totalSupply, reserve0, reserve1 } = vaultData;
-
-  const log = (...content: unknown[]) => clog('pages/Vault/WithdrawForm [debug]:', content);
 
   const openWalletConnectModal = () => {
     modals.wallet.open();
@@ -85,7 +82,7 @@ const WithdrawForm: FC = () => {
         setLoading(false);
       } catch (e) {
         modals.info.setMsg('Something went wrong', 'error');
-        log('approve shares', e);
+        clog('approve shares', e);
         setLoading(false);
       }
     }
@@ -112,11 +109,16 @@ const WithdrawForm: FC = () => {
         });
         modals.info.setMsg('You have successfully withdrew amount of deposit', 'success');
         setLoading(false);
-        navigate('/');
+        setFirstInput('');
+        setSecondInput('');
+        setSharesInput('');
       } catch (e) {
         modals.info.setMsg('Something went wrong', 'error');
-        log('withdraw', e);
+        clog('withdraw', e);
         setLoading(false);
+        setFirstInput('');
+        setSecondInput('');
+        setSharesInput('');
       }
     }
   };

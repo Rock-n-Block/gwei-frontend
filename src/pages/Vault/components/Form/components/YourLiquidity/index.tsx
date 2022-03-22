@@ -85,7 +85,7 @@ const YourLiquidity: FC = () => {
               className={s.input}
               value={
                 +reserve0
-                  ? new BigNumber(reserve0).times(balance).div(totalSupply).toFixed(4, 1)
+                  ? new BigNumber(reserve0).times(balance).div(totalSupply).toString(10)
                   : '0'
               }
               type="number"
@@ -101,7 +101,7 @@ const YourLiquidity: FC = () => {
               className={s.input}
               value={
                 +reserve1
-                  ? new BigNumber(reserve1).times(balance).div(totalSupply).toFixed(4, 1)
+                  ? new BigNumber(reserve1).times(balance).div(totalSupply).toString(10)
                   : '0'
               }
               type="number"

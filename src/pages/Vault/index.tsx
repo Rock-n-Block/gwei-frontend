@@ -12,30 +12,29 @@ import { AbiItem } from 'web3-utils';
 
 import { Loader } from 'components';
 import { InfoIcon } from 'components/Icons';
+import { is_production } from 'config';
 import { erc20Abi, VaultAbi } from 'config/abi';
 import { clog } from 'utils/logger';
 
 import { Form, GeneralCard, MissedOpportunities, StateCard, VaultHeader } from './components';
 
-import { useFetchPrices } from 'hooks';
+import { useMoralisApi } from 'hooks';
 import { useWalletConnectorContext } from 'services';
 import { PoolInfo, TokenInfo, VaultData } from 'types';
 
 import s from './Vault.module.scss';
+// import { Subscription } from 'web3-core-subscriptions';
+// import { BlockHeader } from 'web3-eth';
 
 const Vault: FC = observer(() => {
+  // const [currentSubscription, setCurrentSubscription] = useState<Subscription<BlockHeader>>();
   const [lastBlock, setLastBlock] = useState<number>(0);
   const [vaultData, setVaultData] = useState<VaultData>({} as VaultData);
   const value = useMemo(() => ({ vaultData, setVaultData }), [vaultData]);
   const { user } = useMst();
   const { id } = useParams();
   const { walletService } = useWalletConnectorContext();
-  const { price0, price1 } = useFetchPrices(
-    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-  );
-
-  const log = (...content: unknown[]) => clog('pages/Vault[debug]:', content);
+  const { fetchPrice, fetchTransactions } = useMoralisApi();
 
   const getTokenInfo = useCallback(
     async (address: string): Promise<TokenInfo> => {
@@ -87,8 +86,14 @@ const Vault: FC = observer(() => {
         );
         const currentPool = await contract.methods.currentPool().call();
         const operationMode = +(await contract.methods.operationMode().call());
-        const txCount = await walletService.Web3().eth.getTransactionCount(id);
+        const txCount = await fetchTransactions(id).then((res) => res.total || 0);
         const { accruedProtocolFes0, accruedProtocolFes1 } = currentPool;
+        const price0 = await fetchPrice(
+          is_production ? address0 : '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+        ).then((res) => res.usdPrice);
+        const price1 = await fetchPrice(
+          is_production ? address1 : '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+        ).then((res) => res.usdPrice);
         const feesUsd =
           !+accruedProtocolFes0 && !+accruedProtocolFes1
             ? '0'
@@ -102,6 +107,7 @@ const Vault: FC = observer(() => {
                 .toString(10) || '0';
         const token0 = await getTokenInfo(address0);
         const token1 = await getTokenInfo(address1);
+
         setVaultData({
           totalSupply,
           maxTotalSupply,
@@ -120,22 +126,27 @@ const Vault: FC = observer(() => {
           feesUsd,
         });
       } catch (e: unknown) {
-        log('getVaultData', e);
+        clog('getVaultData', e);
       }
     }
-  }, [getTokenInfo, id, price0, price1, user.address, walletService]);
+  }, [fetchPrice, fetchTransactions, getTokenInfo, id, user.address, walletService]);
 
-  useEffect(() => {
-    log('render getLastBlock');
-    walletService
+  useEffect((): any => {
+    const subscription = walletService
       .Web3()
-      .eth.getBlock('latest')
-      .then((res: { number: number }) => setLastBlock(res.number));
-  }, [walletService]);
+      .eth.subscribe('newBlockHeaders')
+      .on('data', (data) => {
+        clog('on "data" data:', data);
+        setLastBlock(data.number);
+      })
+      .on('error', (err) => clog(err.message));
+
+    return () => subscription?.unsubscribe((err, success) => success && clog('Unsubscribed!'));
+  }, [walletService, id, user.address]);
 
   useEffect(() => {
     getVaultData();
-  }, [getVaultData]);
+  }, [getVaultData, lastBlock]);
 
   return (
     <VaultContext.Provider value={value}>

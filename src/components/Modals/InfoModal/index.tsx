@@ -32,7 +32,7 @@ const InfoModal: FC = observer(() => {
       </div>
       <div className={s.modal__inner}>
         {modals.info.status === 'success' ? <SuccessIcon /> : ''}
-        <div>{modals.info.msg}</div>
+        <div className={s.modal__title}>{modals.info.msg}</div>
         <Button onClick={closeModal} color="filled">
           {modals.info.status === 'success' ? 'GOT IT' : 'OK'}
         </Button>

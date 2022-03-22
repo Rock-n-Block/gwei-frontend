@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'store';
@@ -29,13 +29,10 @@ const DepositForm: FC = observer(() => {
   const [isSecondApproved, setSecondApproved] = useState(false);
 
   const { id } = useParams();
-  const navigate = useNavigate();
   const { modals, user } = useMst();
   const { walletService } = useWalletConnectorContext();
   const { vaultData } = useVaultContext();
   const { maxTotalSupply, totalSupply, token0, token1, total0, total1, operationMode } = vaultData;
-
-  const log = (...content: unknown[]) => clog('pages/Vault/Form/DepositForm [debug]:', content);
 
   const openWalletModal = () => {
     modals.wallet.open();
@@ -130,7 +127,7 @@ const DepositForm: FC = observer(() => {
       setLoading(false);
     } catch (e) {
       modals.info.setMsg('Something went wrong', 'error');
-      log('approveToken', e);
+      clog('approveToken', e);
       setLoading(false);
     }
   };
@@ -148,11 +145,14 @@ const DepositForm: FC = observer(() => {
       });
       modals.info.setMsg('You have successfully deposited tokens to vault', 'success');
       setLoading(false);
-      navigate('/');
+      setFirstInput('');
+      setSecondInput('');
     } catch (e) {
       modals.info.setMsg('Something went wrong', 'error');
-      log('handleDeposit', e);
+      clog('handleDeposit', e);
       setLoading(false);
+      setFirstInput('');
+      setSecondInput('');
     }
   };
 
@@ -313,6 +313,11 @@ const DepositForm: FC = observer(() => {
           >
             {canUserDeposit()}
           </Button>
+        )}
+        {operationMode === 2 && !isMintedNFT && (
+          <div className={s.red_alert}>
+            You don&apos;t have Invitational NFT for depositing to this vault
+          </div>
         )}
       </div>
     </Plate>

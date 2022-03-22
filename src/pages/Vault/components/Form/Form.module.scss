@@ -101,8 +101,14 @@
     &:hover,
     &:focus {
       background: linear-gradient(#ef328d, #ec0909);
-      background-clip: text;
+      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   }
+}
+
+.red_alert {
+  margin-top: 10px;
+  color: #ec0909;
+  text-align: center;
 }

@@ -46,7 +46,7 @@ const GeneralCard: FC = () => {
       <div className={s.general_card__block}>
         <div className="text-descr">
           {token0?.symbol ? (
-            `${token0.symbol}/${token0.symbol}`
+            `${token0.symbol}/${token1.symbol}`
           ) : (
             <Loader width={100} height={20} viewBox="0 0 100 20" />
           )}
@@ -85,15 +85,7 @@ const GeneralCard: FC = () => {
             <div />
           </div>
         </div>
-        {+reserve0 && +reserve1 ? (
-          <div>
-            {new BigNumber(reserve0).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0)}{' '}
-            :{' '}
-            {new BigNumber(reserve1).div(new BigNumber(Math.min(+reserve0, +reserve1))).toFixed(0)}
-          </div>
-        ) : (
-          <Loader width={100} height={20} viewBox="0 0 100 20" />
-        )}
+        1 : 10
       </div>
     </Plate>
   );

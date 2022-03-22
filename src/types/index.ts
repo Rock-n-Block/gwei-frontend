@@ -47,7 +47,7 @@ export interface PoolData {
   tick: string;
 }
 
-export interface FetchPriceOptions {
+export interface MoralisApiOptions {
   address: string;
   chain?:
     | 'eth'
@@ -66,8 +66,10 @@ export interface FetchPriceOptions {
     | '0x13881'
     | 'bsc'
     | '0x38'
-    | 'bsc testnet'
-    | undefined;
+    | 'bsc testnet';
+}
+
+export interface FetchPriceOptions extends MoralisApiOptions {
   providerUrl?: string | undefined;
   exchange?: string | undefined;
   to_block?: number | undefined;

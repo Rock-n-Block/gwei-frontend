@@ -26,9 +26,6 @@ const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
   const { walletService } = useWalletConnectorContext();
   const { baseUpper, baseLower, protocolFee, pool } = currentPool;
 
-  const log = (...content: unknown[]) => clog('pages/Vault/StateCard [debug]:', content);
-  log('currentPool', currentPool);
-
   const lowerRange = new BigNumber(+baseLower ? 1.0001 ** +baseLower : 0).toFixed(4, 1);
   const upperRange = new BigNumber(+baseUpper ? 1.0001 ** +baseUpper : 0).toFixed(4, 1);
 
@@ -54,7 +51,7 @@ const StateCard: FC<StateCardProps> = ({ currentPool, symbol0, symbol1 }) => {
         .methods.decimals()
         .call();
       const decimals = (+decimals0 + +decimals1) / 2;
-      log('slot:', slot);
+      clog('slot:', slot);
       const parsedPrice = new BigNumber(slot.sqrtPriceX96)
         .div(2 ** 96)
         .pow(2)

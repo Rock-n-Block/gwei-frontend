@@ -3,6 +3,7 @@ import { FC, memo, useState } from 'react';
 import { useMst } from 'store';
 
 import cn from 'classnames';
+import { useVaultContext } from 'contexts';
 
 import { DepositForm, WithdrawForm, YourLiquidity } from './components';
 
@@ -13,10 +14,12 @@ type TabT = 'Deposit' | 'Withdraw';
 const Form: FC = () => {
   const [currentTab, setCurrentTab] = useState<TabT>('Deposit');
   const { modals } = useMst();
+  const { vaultData } = useVaultContext();
+  const { operationMode } = vaultData;
 
   const tabHandler = (tab: TabT) => {
     setCurrentTab(tab);
-    if (tab === 'Withdraw') {
+    if (tab === 'Withdraw' && operationMode === 2) {
       modals.info.setMsg('Your Invitational NFT will be burned after withdraw', 'success');
     }
   };

@@ -220,7 +220,7 @@ const WithdrawForm: FC = () => {
         {user.address && isSharesApproved && (
           <Button
             className={s.button}
-            disabled={!+sharesInput || !!sharesInputError}
+            disabled={!+sharesInput || !!sharesInputError || isLoading}
             onClick={handleWithdraw}
             color="filled"
           >

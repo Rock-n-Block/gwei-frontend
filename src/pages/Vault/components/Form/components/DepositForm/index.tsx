@@ -305,7 +305,8 @@ const DepositForm: FC = observer(() => {
               !firstInput ||
               !secondInput ||
               (operationMode === 2 && !isMintedNFT) ||
-              operationMode === 0
+              operationMode === 0 ||
+              isLoading
             }
             onClick={handleDeposit}
             className={s.button}

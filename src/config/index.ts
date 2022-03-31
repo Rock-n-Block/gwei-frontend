@@ -76,7 +76,7 @@ export const vaults: Array<{ address: string }> = [
   {
     address: is_production
       ? '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640'
-      : '0xA0975640870f306B3d849AC042Decb46EFa01A44',
+      : '0xdB8A5D80b00ecD7ab56a367292543F58479Ce306',
   },
 ];
 

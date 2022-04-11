@@ -38,6 +38,7 @@ export default [
   {
     anonymous: false,
     inputs: [
+      { indexed: false, internalType: 'address', name: 'poolAddress', type: 'address' },
       { indexed: false, internalType: 'uint256', name: 'feesToVault0', type: 'uint256' },
       { indexed: false, internalType: 'uint256', name: 'feesToVault1', type: 'uint256' },
       { indexed: false, internalType: 'uint256', name: 'feesToProtocol0', type: 'uint256' },
@@ -61,6 +62,7 @@ export default [
   {
     anonymous: false,
     inputs: [
+      { indexed: false, internalType: 'address', name: 'poolAddress', type: 'address' },
       { indexed: false, internalType: 'int24', name: 'baseLower', type: 'int24' },
       { indexed: false, internalType: 'int24', name: 'baseUpper', type: 'int24' },
     ],
@@ -100,6 +102,7 @@ export default [
   {
     anonymous: false,
     inputs: [
+      { indexed: false, internalType: 'address', name: 'poolAddress', type: 'address' },
       { indexed: false, internalType: 'int24', name: 'tick', type: 'int24' },
       { indexed: false, internalType: 'uint256', name: 'totalAmount0', type: 'uint256' },
       { indexed: false, internalType: 'uint256', name: 'totalAmount1', type: 'uint256' },
